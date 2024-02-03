@@ -10,7 +10,27 @@ public class Player : MonoBehaviour
     {
         inventory = new Inventory();
         uiInventory.SetInventory(inventory);
+
+        ItemWorld.SpawnItemWorld(new Vector3(2, 2), new Item { itemType = Item.ItemType.Sword, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(4, 5), new Item { itemType = Item.ItemType.HealthPotion, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(3, 6), new Item { itemType = Item.ItemType.Coin, amount = 1 });
     }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
+        if(itemWorld != null)
+        {
+            // Touching Item
+            inventory.AddItem(itemWorld.GetItem());
+            itemWorld.DestroySelf();
+        }
+
+    }
+
+
+
+
     void Update()
     {
         
