@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using CodeMonkey.Utils;
 
 public class UI_Inventory : MonoBehaviour
 {
@@ -11,11 +12,18 @@ public class UI_Inventory : MonoBehaviour
     private Transform itemSlotContainer;
     private Transform itemSlotTemplate;
     public float itemSlotCellSize = 30f;
+    private Player player;
+
 
     private void Awake()
     {
         itemSlotContainer = transform.Find("itemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");
+    }
+
+    public void SetPlayer(Player player)
+    {
+        this.player = player;
     }
 
     public void SetInventory(Inventory inventory)
@@ -46,6 +54,21 @@ public class UI_Inventory : MonoBehaviour
         {
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
+
+            // Use and Drop Item with Left and Right Click
+            itemSlotRectTransform.GetComponentInChildren<Button_UI>().ClickFunc = () =>
+            {
+                // Use Item
+                // TODO
+            };
+            itemSlotRectTransform.GetComponentInChildren<Button_UI>().MouseRightClickFunc = () =>
+            {
+                // Drop Item
+                inventory.RemoveItem(item);
+                ItemWorld.DropItem(player.transform.position, item);
+            };
+
+
             itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize); 
             
             // Set Image

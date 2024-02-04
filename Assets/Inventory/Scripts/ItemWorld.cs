@@ -16,6 +16,13 @@ public class ItemWorld : MonoBehaviour
         return itemWorld;
     }
 
+    public static ItemWorld DropItem(Vector3 dropPosition, Item item)
+    {
+        Vector3 randomDir = GetRandomDir();
+        ItemWorld itemWorld = SpawnItemWorld(dropPosition + randomDir * 3f, item);
+        return itemWorld;
+    }
+
     private Item item;
     private SpriteRenderer spriteRenderer;
     private TextMeshPro textMeshPro;
@@ -50,5 +57,22 @@ public class ItemWorld : MonoBehaviour
     public void DestroySelf()
     {
         Destroy(gameObject);
+    }
+
+
+    public static Vector3 GetRandomDir()
+    {
+        // Generate a random angle in degrees
+        float randomAngle = UnityEngine.Random.Range(0f, 360f);
+
+        // Convert the angle to a 3D direction
+        float radianAngle = randomAngle * Mathf.Deg2Rad;
+        float x = Mathf.Cos(radianAngle);
+        float y = Mathf.Sin(radianAngle);
+
+        // Create a normalized vector representing the direction
+        Vector3 randomDirection = new Vector3(x, y, 0f).normalized;
+
+        return randomDirection;
     }
 }
