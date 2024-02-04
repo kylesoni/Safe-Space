@@ -13,7 +13,7 @@ public class Inventory
         AddItem(new Item { itemType = Item.ItemType.Sword, amount = 1 });
         AddItem(new Item { itemType = Item.ItemType.HealthPotion, amount = 1 });
         AddItem(new Item { itemType = Item.ItemType.Ore, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.Medkit, amount = 1 });
+        AddItem(new Item { itemType = Item.ItemType.Key, amount = 1 });
         Debug.Log(itemList.Count);
     }
 
