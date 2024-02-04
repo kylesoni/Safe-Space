@@ -6,14 +6,10 @@ public class Player : MonoBehaviour
     private Inventory inventory;
     [SerializeField] private UI_Inventory uiInventory;
 
-    private void Awake()
+    private void Start() // change from Awake to Start or have null reference error
     {
         inventory = new Inventory();
-        uiInventory.SetInventory(inventory);
-
-        /*ItemWorld.SpawnItemWorld(new Vector3(2, 2), new Item { itemType = Item.ItemType.Sword, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(4, 5), new Item { itemType = Item.ItemType.HealthPotion, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(3, 6), new Item { itemType = Item.ItemType.Coin, amount = 1 });*/
+        uiInventory.SetInventory(inventory);       
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -27,8 +23,6 @@ public class Player : MonoBehaviour
         }
 
     }
-
-
 
 
     void Update()

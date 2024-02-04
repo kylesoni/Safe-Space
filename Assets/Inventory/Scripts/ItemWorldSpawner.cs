@@ -6,7 +6,7 @@ public class ItemWorldSpawner : MonoBehaviour
 {
     public Item item;
 
-    private void Start() // Change from Awake and worked!
+    private void Awake() // try switch between Awake and Start
     {
         ItemWorld.SpawnItemWorld(transform.position, item);
         Destroy(gameObject);
