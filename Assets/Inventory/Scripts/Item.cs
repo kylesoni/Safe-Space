@@ -12,7 +12,7 @@ public class Item
         HealthPotion,
         Ore,
         Coin,
-        Medkit,
+        Key,
     }
 
     public ItemType itemType;
@@ -27,7 +27,7 @@ public class Item
                 case ItemType.HealthPotion:     return ItemAssets.Instance.healthPotionSprite;
                 case ItemType.Ore:              return ItemAssets.Instance.oreSprite;
                 case ItemType.Coin:             return ItemAssets.Instance.coinSprite;
-                case ItemType.Medkit:           return ItemAssets.Instance.medkitSprite;
+                case ItemType.Key:           return ItemAssets.Instance.keySprite;
 
         }
     }
