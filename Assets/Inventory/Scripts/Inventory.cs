@@ -10,11 +10,11 @@ public class Inventory
     public Inventory() { 
         itemList = new List<Item>();
 
+        // testing
         AddItem(new Item { itemType = Item.ItemType.Sword, amount = 1 });
         AddItem(new Item { itemType = Item.ItemType.HealthPotion, amount = 1 });
         AddItem(new Item { itemType = Item.ItemType.Ore, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.Key, amount = 1 });
-        Debug.Log(itemList.Count);
+        AddItem(new Item { itemType = Item.ItemType.Key, amount = 1 });        
     }
 
     public void AddItem(Item item)
