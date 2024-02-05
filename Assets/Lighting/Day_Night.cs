@@ -22,6 +22,10 @@ public class Day_Night : MonoBehaviour
     void Start()
     {
         ppv = gameObject.GetComponent<Volume>();
+        for (int i = 0; i < stars.Length; i++)
+        {
+            stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, 0);
+        }
     }
 
     // Update is called once per frame
@@ -64,12 +68,20 @@ public class Day_Night : MonoBehaviour
         if (hours >= 17 && hours < 22)
         {
             ppv.weight += (float)1 / 300;
+            for (int i = 0; i < stars.Length; i++)
+            {
+                stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, ppv.weight);
+            }
         }
 
 
         if (hours >= 4 && hours < 9)
         {
             ppv.weight -= (float)1 / 300;
+            for (int i = 0; i < stars.Length; i++)
+            {
+                stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, ppv.weight);
+            }
         }
     }
 }
