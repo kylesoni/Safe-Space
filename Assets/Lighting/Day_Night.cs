@@ -26,6 +26,11 @@ public class Day_Night : MonoBehaviour
         {
             stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, 0);
         }
+        for (int i = 0; i < lights.Length; i++)
+        {
+            lights[i].SetActive(false);
+        }
+        activateLights = false;
     }
 
     // Update is called once per frame
@@ -72,6 +77,14 @@ public class Day_Night : MonoBehaviour
             {
                 stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, ppv.weight);
             }
+            if (activateLights == false && hours >= 20)
+            {
+                for (int i = 0; i < lights.Length; i++)
+                {
+                    lights[i].SetActive(true);
+                }
+                activateLights = true;
+            }
         }
 
 
@@ -81,6 +94,14 @@ public class Day_Night : MonoBehaviour
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, ppv.weight);
+            }
+            if (activateLights == true && hours >= 8)
+            {
+                for (int i = 0; i < lights.Length; i++)
+                {
+                    lights[i].SetActive(false);
+                }
+                activateLights = false;
             }
         }
     }
