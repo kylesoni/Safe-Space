@@ -18,8 +18,8 @@ public class ItemWorld : MonoBehaviour
 
     public static ItemWorld DropItem(Vector3 dropPosition, Item item)
     {
-        Vector3 randomDir = GetRandomDir();
-        ItemWorld itemWorld = SpawnItemWorld(dropPosition + randomDir * 3f, item);
+        Vector3 randomDir = GetRandomDirUpperHalf();
+        ItemWorld itemWorld = SpawnItemWorld(dropPosition + randomDir * 2f, item);
         return itemWorld;
     }
 
@@ -60,10 +60,10 @@ public class ItemWorld : MonoBehaviour
     }
 
 
-    public static Vector3 GetRandomDir()
+    public static Vector3 GetRandomDirUpperHalf()
     {
-        // Generate a random angle in degrees
-        float randomAngle = UnityEngine.Random.Range(0f, 360f);
+        // Generate a random angle in degrees limited to the upper half (0 to 180 degrees)
+        float randomAngle = UnityEngine.Random.Range(0f, 180f);
 
         // Convert the angle to a 3D direction
         float radianAngle = randomAngle * Mathf.Deg2Rad;
@@ -75,4 +75,5 @@ public class ItemWorld : MonoBehaviour
 
         return randomDirection;
     }
+
 }
