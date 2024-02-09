@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using CodeMonkey.Utils;
+using static UnityEditor.Progress;
 
 public class UI_Inventory : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class UI_Inventory : MonoBehaviour
     private Transform itemSlotTemplate;
     public float itemSlotCellSize = 30f;
     private Player player;
+    private int uniqueItemCount;
 
 
     private void Awake()
@@ -31,7 +33,8 @@ public class UI_Inventory : MonoBehaviour
         this.inventory = inventory;
 
         inventory.OnItemListChanged += Inventory_OnItemListChanged;
-        RefreshInventoryItems();
+        // initialize the ui_inventory
+        RefreshInventoryItems(); 
     }
 
     private void Inventory_OnItemListChanged(object sender, EventArgs e)
@@ -44,13 +47,15 @@ public class UI_Inventory : MonoBehaviour
         foreach (Transform child in itemSlotContainer)
         {
             if (child == itemSlotTemplate) continue;
+            // Debug.Log("type" + child.GetType());
             Destroy(child.gameObject);
         }
 
         int x = 0;
         int y = 0;
+        uniqueItemCount = 0;
         // float itemSlotCellSize = 5f;
-        foreach(Item item in inventory.GetItemList())
+        foreach (Item item in inventory.GetItemList())
         {
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
@@ -63,10 +68,7 @@ public class UI_Inventory : MonoBehaviour
             };
             itemSlotRectTransform.GetComponentInChildren<Button_UI>().MouseRightClickFunc = () =>
             {
-                // Drop Item
-                Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount };
-                inventory.RemoveItem(item);
-                ItemWorld.DropItem(player.transform.position, duplicateItem);
+                DropItemFromSlot(item);
             };
 
 
@@ -88,6 +90,7 @@ public class UI_Inventory : MonoBehaviour
             }            
 
             x++;
+            uniqueItemCount++;
 
             /*if (x >= 4)
             {
@@ -95,6 +98,39 @@ public class UI_Inventory : MonoBehaviour
                 y--;
             }*/
 
+        }
+        Debug.Log("count " + uniqueItemCount);
+    }
+
+    private void DropItemFromSlot(Item item)
+    {       
+        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount };
+        inventory.RemoveItem(item);
+        ItemWorld.DropItem(player.transform.position, duplicateItem);
+    }
+
+    private void Update()
+    {
+        HandleInput();
+    }
+
+    private void HandleInput()
+    {
+        for (int i = 0; i <= uniqueItemCount; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                try
+                {
+                    DropItemFromSlot(inventory.GetItemList()[i]);
+                    Debug.Log("press " + (i + 1));
+                }
+                catch
+                {
+                    Debug.Log("key press out of range");
+                }
+
+            }
         }
     }
 }

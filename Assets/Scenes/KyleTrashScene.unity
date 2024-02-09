@@ -621,19 +621,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6820394431049974645, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_Size.x
-      value: 0.99695826
+      value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: -6820394431049974645, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_Size.y
-      value: 2.3546093
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: -6820394431049974645, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_Offset.x
-      value: 0.010132074
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6820394431049974645, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_Offset.y
-      value: -0.5876399
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6820394431049974645, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
@@ -81394,7 +81394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc61e62dae5b64a46990089ad16ec952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 14
   uiInventory: {fileID: 1276074247}
 --- !u!114 &1096568678
 MonoBehaviour:
