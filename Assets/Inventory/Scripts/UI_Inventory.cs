@@ -1,31 +1,31 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using CodeMonkey.Utils;
-using static UnityEditor.Progress;
+
 
 public class UI_Inventory : MonoBehaviour
-{
+{    
+
     private Inventory inventory;
     private Transform itemSlotContainer;
     private Transform itemSlotTemplate;
     public float itemSlotCellSize = 30f;
     private Player player;
-
-    public int slotCount = 3;
+    
     public Image slotImagePrefab;
     private Transform slots;
     public TextMeshProUGUI keyTextPrefab;
+    
+    public static int slotCount = 5;  // can modify the slot count here
 
 
     private void Awake()
     {
         itemSlotContainer = transform.Find("itemSlotContainer");
-        itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");
-        slots = transform.Find("slots");
+        itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");      
+        slots = transform.Find("slots");       
     }
 
     public void SetPlayer(Player player)
@@ -54,12 +54,10 @@ public class UI_Inventory : MonoBehaviour
             if (child == itemSlotTemplate) continue;
             Destroy(child.gameObject);
         }
-
-        int x = 0;
-        int y = 0;      
+   
         foreach (Item item in inventory.GetItemList())
         {
-            RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
+            RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();           
             itemSlotRectTransform.gameObject.SetActive(true);
 
             // Use and Drop Item with Left and Right Click
@@ -69,12 +67,13 @@ public class UI_Inventory : MonoBehaviour
                 // TODO
             };
             itemSlotRectTransform.GetComponentInChildren<Button_UI>().MouseRightClickFunc = () =>
-            {
+            {                
                 DropItemFromSlot(item);
             };
 
-
-            itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y); 
+            // Set position
+            int slotIndex = inventory.itemTypeToSlotIndex[item.itemType];
+            itemSlotRectTransform.anchoredPosition = new Vector2(slotIndex * itemSlotCellSize, 0); 
             
             // Set Image
             Image image = itemSlotRectTransform.Find("image").GetComponent<Image>();           
@@ -90,17 +89,17 @@ public class UI_Inventory : MonoBehaviour
             {
                 uiText.SetText("");
             }            
-
-            x++;           
+          
         }        
     }
 
     private void DropItemFromSlot(Item item)
-    {       
-        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount };
+    {
+        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount};
         inventory.RemoveItem(item);
-        ItemWorld.DropItem(player.transform.position, duplicateItem);
+        ItemWorld.DropItem(player.transform.position, duplicateItem);        
     }
+
 
     private void Update()
     {
@@ -114,13 +113,21 @@ public class UI_Inventory : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
                 try
-                {
-                    DropItemFromSlot(inventory.GetItemList()[i]);
-                    Debug.Log("press " + (i + 1));
+                {                    
+                    Item.ItemType itemType = inventory.slotIndexToItemType[i];
+                    foreach (Item item in inventory.GetItemList())  // TODO: improve efficiency
+                    { 
+                        if (item.itemType == itemType)
+                        {
+                            DropItemFromSlot(item);
+                            break;
+                        }
+                    }                        
+                    // Debug.Log("press " + (i + 1));
                 }
                 catch
                 {
-                    Debug.Log("empty slot");
+                    Debug.Log("Empty slot");
                 }
 
             }
@@ -149,6 +156,6 @@ public class UI_Inventory : MonoBehaviour
             TextMeshProUGUI keyText = slotImage.transform.Find("keyText").GetComponent<TextMeshProUGUI>();            
             keyText.SetText((i + 1).ToString());
         }
-
     }
+
 }
