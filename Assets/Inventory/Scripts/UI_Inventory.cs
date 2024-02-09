@@ -14,13 +14,18 @@ public class UI_Inventory : MonoBehaviour
     private Transform itemSlotTemplate;
     public float itemSlotCellSize = 30f;
     private Player player;
-    private int uniqueItemCount;
+
+    public int slotCount = 3;
+    public Image slotImagePrefab;
+    private Transform slots;
+    public TextMeshProUGUI keyTextPrefab;
 
 
     private void Awake()
     {
         itemSlotContainer = transform.Find("itemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");
+        slots = transform.Find("slots");
     }
 
     public void SetPlayer(Player player)
@@ -47,14 +52,11 @@ public class UI_Inventory : MonoBehaviour
         foreach (Transform child in itemSlotContainer)
         {
             if (child == itemSlotTemplate) continue;
-            // Debug.Log("type" + child.GetType());
             Destroy(child.gameObject);
         }
 
         int x = 0;
-        int y = 0;
-        uniqueItemCount = 0;
-        // float itemSlotCellSize = 5f;
+        int y = 0;      
         foreach (Item item in inventory.GetItemList())
         {
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
@@ -72,7 +74,7 @@ public class UI_Inventory : MonoBehaviour
             };
 
 
-            itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize); 
+            itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y); 
             
             // Set Image
             Image image = itemSlotRectTransform.Find("image").GetComponent<Image>();           
@@ -89,17 +91,8 @@ public class UI_Inventory : MonoBehaviour
                 uiText.SetText("");
             }            
 
-            x++;
-            uniqueItemCount++;
-
-            /*if (x >= 4)
-            {
-                x = 0;
-                y--;
-            }*/
-
-        }
-        Debug.Log("count " + uniqueItemCount);
+            x++;           
+        }        
     }
 
     private void DropItemFromSlot(Item item)
@@ -116,7 +109,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void HandleInput()
     {
-        for (int i = 0; i <= uniqueItemCount; i++)
+        for (int i = 0; i < slotCount; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
@@ -127,10 +120,35 @@ public class UI_Inventory : MonoBehaviour
                 }
                 catch
                 {
-                    Debug.Log("key press out of range");
+                    Debug.Log("empty slot");
                 }
 
             }
         }
+    }
+
+    private void Start()
+    {
+        // ! make sure position of slots and itemSlotContainer are the same         
+        SetSlots(slotCount);
+    }
+    private void SetSlots(int slotCount)
+    {
+        int x = 0;
+        int y = 0;
+        
+        for (int i = 0; i < slotCount; i++)
+        {
+            // set image sprite
+            Image slotImage = Instantiate(slotImagePrefab, slots);            
+            slotImage.rectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y);
+            slotImage.gameObject.SetActive(true);
+            x++;
+
+            // set the pressKey text
+            TextMeshProUGUI keyText = slotImage.transform.Find("keyText").GetComponent<TextMeshProUGUI>();            
+            keyText.SetText((i + 1).ToString());
+        }
+
     }
 }
