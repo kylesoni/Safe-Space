@@ -63,11 +63,12 @@ public class UI_Inventory : MonoBehaviour
             // Use and Drop Item with Left and Right Click
             itemSlotRectTransform.GetComponentInChildren<Button_UI>().ClickFunc = () =>
             {
-                // Use Item
+                // equip item
                 // TODO
             };
             itemSlotRectTransform.GetComponentInChildren<Button_UI>().MouseRightClickFunc = () =>
-            {                
+            {          
+                // drop item in slot when right click
                 DropItemFromSlot(item);
             };
 
@@ -108,6 +109,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void HandleInput()
     {
+        // equip items corresponding to the numbers
         for (int i = 0; i < slotCount; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
@@ -120,7 +122,7 @@ public class UI_Inventory : MonoBehaviour
                         if (item.itemType == itemType)
                         {
                             inventory.EquipItem(item);
-                            Debug.Log("Equipped item in slot " + i.ToString());
+                            Debug.Log("Equipped item in slot " + (i+1).ToString());
                             break;
                         }
                     }                        
@@ -133,6 +135,8 @@ public class UI_Inventory : MonoBehaviour
 
             }
         }
+
+        // drop equipped item when right click
         if (Input.GetMouseButtonDown(1))
         {
             if (inventory.EquippedItem != null)
@@ -144,6 +148,8 @@ public class UI_Inventory : MonoBehaviour
                 Debug.Log("No equipped item");
             }
         }
+
+        // use equipped item when left click
         if (Input.GetMouseButtonDown(0))
         {
             if (inventory.EquippedItem != null)
