@@ -119,7 +119,8 @@ public class UI_Inventory : MonoBehaviour
                     { 
                         if (item.itemType == itemType)
                         {
-                            DropItemFromSlot(item);
+                            inventory.EquipItem(item);
+                            Debug.Log("Equipped item in slot " + i.ToString());
                             break;
                         }
                     }                        
@@ -130,6 +131,28 @@ public class UI_Inventory : MonoBehaviour
                     Debug.Log("Empty slot");
                 }
 
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (inventory.EquippedItem != null)
+            {
+                DropItemFromSlot(inventory.EquippedItem);
+            }
+            else
+            {
+                Debug.Log("No equipped item");
+            }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (inventory.EquippedItem != null)
+            {
+                inventory.UseItem(inventory.EquippedItem);
+            }
+            else
+            {
+                Debug.Log("No equipped item");
             }
         }
     }

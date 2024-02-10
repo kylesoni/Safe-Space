@@ -15,6 +15,7 @@ public class Item
 
     public ItemType itemType;
     public int amount;
+    public bool isConsumable = true;
 
     public Sprite GetSprite()
     {
@@ -27,6 +28,29 @@ public class Item
                 case ItemType.Coin:             return ItemAssets.Instance.coinSprite;
                 case ItemType.Key:           return ItemAssets.Instance.keySprite;
 
+        }
+    }
+
+    public void UseItem()
+    {
+        switch(itemType)
+        {
+            default:
+            case ItemType.Sword: 
+                Debug.Log("Trying to use sword");
+                break;
+            case ItemType.HealthPotion:
+                Debug.Log("Trying to use potion");
+                break;
+            case ItemType.Ore:
+                Debug.Log("Trying to use ore");
+                break;
+            case ItemType.Coin:
+                Debug.Log("Trying to use coin");
+                break;
+            case ItemType.Key:
+                Debug.Log("Trying to use key");
+                break;
         }
     }
 }
