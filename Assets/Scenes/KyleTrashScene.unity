@@ -82983,6 +82983,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
+      propertyPath: m_Color.a
+      value: 0.11764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8496001917467190378, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
       propertyPath: m_Name
       value: slot

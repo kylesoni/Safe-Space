@@ -105,6 +105,7 @@ public class UI_Inventory : MonoBehaviour
     private void Update()
     {
         HandleInput();
+        UpdateEquippedItemSlotHighlight();
     }
 
     private void HandleInput()
@@ -122,7 +123,7 @@ public class UI_Inventory : MonoBehaviour
                         if (item.itemType == itemType)
                         {
                             inventory.EquipItem(item);
-                            Debug.Log("Equipped item in slot " + (i+1).ToString());
+                            Debug.Log("Equipped item in slot " + (i+1).ToString());                           
                             break;
                         }
                     }                        
@@ -178,13 +179,35 @@ public class UI_Inventory : MonoBehaviour
             // set image sprite
             Image slotImage = Instantiate(slotImagePrefab, slots);            
             slotImage.rectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y);
-            slotImage.gameObject.SetActive(true);
+            slotImage.gameObject.SetActive(true);        
             x++;
 
             // set the pressKey text
             TextMeshProUGUI keyText = slotImage.transform.Find("keyText").GetComponent<TextMeshProUGUI>();            
             keyText.SetText((i + 1).ToString());
         }
+    }
+
+    private void UpdateEquippedItemSlotHighlight()
+    {
+        Color defaultColor = new Color(0f, 0f, 0f, 150f / 255f);
+        Color highlightColor = new Color(255f, 0f, 0f, 30f / 255f);
+
+        // Reset color for all slots
+        for (int i = 0; i < slots.childCount; i++)
+        {
+            Image slotImage = slots.GetChild(i).GetComponent<Image>();
+            slotImage.color = defaultColor; 
+        }
+
+        // Change the color of the slot of equipped item
+        Item equippedItem = inventory.EquippedItem;
+        if (equippedItem != null)
+        {
+            int slotIndex = inventory.itemTypeToSlotIndex[equippedItem.itemType] + 1;
+            Image selectedSlotImage = slots.GetChild(slotIndex).GetComponent<Image>();
+            selectedSlotImage.color = highlightColor;
+        }    
     }
 
 }
