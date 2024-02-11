@@ -44,8 +44,6 @@ public class Inventory
                     break;
                 }
             }
-
-
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -95,7 +93,7 @@ public class Inventory
         {
             Debug.Print("No item found to equip");
         }
-        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+        // OnItemListChanged?.Invoke(this, EventArgs.Empty); // no need
     }
 
     public void UseItem(Item item)

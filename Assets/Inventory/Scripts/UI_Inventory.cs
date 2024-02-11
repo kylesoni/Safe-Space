@@ -104,11 +104,15 @@ public class UI_Inventory : MonoBehaviour
 
     private void Update()
     {
-        HandleInput();
+        NumberKeyEquip();
+        MouseScrollEquip();
+        RightClickDrop();
+        LeftClickUse();
         UpdateEquippedItemSlotHighlight();
+        
     }
 
-    private void HandleInput()
+    private void NumberKeyEquip()
     {
         // equip items corresponding to the numbers
         for (int i = 0; i < slotCount; i++)
@@ -123,7 +127,7 @@ public class UI_Inventory : MonoBehaviour
                         if (item.itemType == itemType)
                         {
                             inventory.EquipItem(item);
-                            Debug.Log("Equipped item in slot " + (i+1).ToString());                           
+                            Debug.Log("Equipped " + item.itemType.ToString());
                             break;
                         }
                     }                        
@@ -133,10 +137,12 @@ public class UI_Inventory : MonoBehaviour
                 {
                     Debug.Log("Empty slot");
                 }
-
             }
-        }
+        }              
+    }
 
+    private void RightClickDrop()
+    {
         // drop equipped item when right click
         if (Input.GetMouseButtonDown(1))
         {
@@ -149,7 +155,10 @@ public class UI_Inventory : MonoBehaviour
                 Debug.Log("No equipped item");
             }
         }
+    }
 
+    private void LeftClickUse()
+    {
         // use equipped item when left click
         if (Input.GetMouseButtonDown(0))
         {
@@ -161,6 +170,55 @@ public class UI_Inventory : MonoBehaviour
             {
                 Debug.Log("No equipped item");
             }
+        }
+    }
+
+    private void MouseScrollEquip()
+    {
+        // mouse scroll to equip item
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        
+        // scroll up
+        if (scrollInput > 0f)       ScrollEquippedItem(-1);
+        // scroll down
+        else if (scrollInput < 0f)  ScrollEquippedItem(1);        
+    }
+
+    private void ScrollEquippedItem(int direction)
+    {
+        int currentIndex = inventory.EquippedIndex;
+        int newIndex = currentIndex + direction;
+        var inventoryList = inventory.GetItemList();        
+
+        // Ensure the index is within valid bounds            
+        try
+        {
+            // if no equipped item, equip the first item in the slot
+            if (inventory.EquippedItem == null && inventoryList.Count > 0)
+            {
+                Item item = inventoryList[0];
+                inventory.EquippedItem = item;
+                inventory.EquippedIndex = 0;
+            }
+            else
+            {                
+                if (newIndex >= inventoryList.Count)
+                {
+                    newIndex = 0;
+                }
+                else if (newIndex < 0)
+                {
+                    newIndex = inventoryList.Count - 1;
+                }                
+                Item itemToEquip = inventoryList[newIndex];
+                inventory.EquippedItem = itemToEquip;
+                inventory.EquippedIndex = newIndex;
+                Debug.Log("Equipped " + itemToEquip.itemType.ToString());
+            }
+        }
+        catch
+        {
+            // Debug.Log("Scrolling Out of Range");
         }
     }
 
