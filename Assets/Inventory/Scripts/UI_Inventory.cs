@@ -96,7 +96,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void DropItemFromSlot(Item item)
     {
-        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount};
+        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.GetIsConsumable()};
         inventory.RemoveItem(item);
         ItemWorld.DropItem(player.transform.position, duplicateItem);        
     }

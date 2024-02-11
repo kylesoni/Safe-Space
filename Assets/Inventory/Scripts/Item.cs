@@ -15,7 +15,7 @@ public class Item
 
     public ItemType itemType;
     public int amount;
-    public bool isConsumable = true;
+    public bool isConsumable;
 
     public Sprite GetSprite()
     {
@@ -30,6 +30,16 @@ public class Item
 
         }
     }
+
+    public bool GetIsConsumable()
+    {
+        switch (itemType)
+        {
+            case ItemType.Sword:    return false;
+            default:                return true;
+        }
+    }
+
 
     public void UseItem()
     {
