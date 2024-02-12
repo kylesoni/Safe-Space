@@ -120,6 +120,13 @@ public class Inventory
         }
     }
 
+    public void ClearEquip()
+    {
+        EquippedItem = null;
+        EquippedIndex = -1;
+        player.SetEquipItemOnPlayer(null);
+    }
+
     public void UseItem(Item item)
     {
         Item itemInInventory = null;

@@ -123,6 +123,7 @@ public class UI_Inventory : MonoBehaviour
                 }                
                 else
                 {
+                    inventory.ClearEquip();
                     Debug.Log("Empty slot");
                 }
             }
