@@ -1,10 +1,11 @@
 using UnityEngine;
 using System;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [Serializable]
 public class Item
 {
-   public enum ItemType
+    public enum ItemType
     {
         Sword,
         HealthPotion,
@@ -18,7 +19,8 @@ public class Item
 
     public ItemType itemType;
     public int amount;
-    public bool isConsumable = true;
+    public bool isConsumable;
+    public bool isActive = false;
 
     public Sprite GetSprite()
     {
@@ -36,13 +38,23 @@ public class Item
         }
     }
 
+    public bool GetIsConsumable()
+    {
+        switch (itemType)
+        {
+            case ItemType.Sword:    return false;
+            default:                return true;
+        }
+    }
+
+
     public void UseItem()
     {
         switch(itemType)
         {
             default:
-            case ItemType.Sword: 
-                Debug.Log("Trying to use sword");
+            case ItemType.Sword:
+                isActive = true;
                 break;
             case ItemType.HealthPotion:
                 Debug.Log("Trying to use potion");
@@ -63,5 +75,10 @@ public class Item
                 Debug.Log("Trying to use stone");
                 break;
         }
+    }
+
+    public void TurnOff()
+    {
+        isActive = false;
     }
 }
