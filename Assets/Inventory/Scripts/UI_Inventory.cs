@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using CodeMonkey.Utils;
 using static UnityEditor.Progress;
-
+using UnityEditor.Experimental.GraphView;
 
 public class UI_Inventory : MonoBehaviour
 {    
@@ -110,7 +110,6 @@ public class UI_Inventory : MonoBehaviour
         RightClickDrop();
         LeftClickUse();
         UpdateEquippedItemSlotHighlight();
-        
     }
     
     private void NumberKeyEquip()

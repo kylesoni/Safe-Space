@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     // public float speed = 5f;  
-    private Inventory inventory;
+    public Inventory inventory;
     [SerializeField] private UI_Inventory uiInventory;
     [SerializeField] private Image equippedItemImage;
     private Transform playerTransform;
@@ -13,8 +13,9 @@ public class Player : MonoBehaviour
     {
         inventory = new Inventory(this);
         uiInventory.SetInventory(inventory);
-        uiInventory.SetPlayer(this);        
+        uiInventory.SetPlayer(this);
         playerTransform = transform;       
+    
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

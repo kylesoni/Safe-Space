@@ -46,7 +46,7 @@ public class player : MonoBehaviour
     /// <summary>
     /// Keeps track of the direction player sprite is facing
     /// </summary>
-    private bool facing_right;
+    public bool facing_right;
 
     /// <summary>
     /// Keeps track of if the player is on the ground
@@ -94,7 +94,7 @@ public class player : MonoBehaviour
             // If player is facing right, flip sprite on x-axis and move left
             if (facing_right)
             {
-                playerlook.flipX = true;
+                playerlook.flipX = false;
                 facing_right = false;
             }
 
@@ -105,7 +105,7 @@ public class player : MonoBehaviour
             // If player is facing left, flip sprite on x-axis and move right
             if (!facing_right)
             {
-                playerlook.flipX = false;
+                playerlook.flipX = true;
                 facing_right = true;
             }
 
