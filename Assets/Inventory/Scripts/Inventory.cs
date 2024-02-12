@@ -98,7 +98,6 @@ public class Inventory
         {
             Debug.Log("No item found to equip");
         }
-        // OnItemListChanged?.Invoke(this, EventArgs.Empty); // no need
     }
     public void EquipItem(Item.ItemType itemType)
     {
@@ -119,7 +118,6 @@ public class Inventory
         {
             Debug.Log("No item found to equip");
         }
-        // OnItemListChanged?.Invoke(this, EventArgs.Empty); // no need
     }
 
     public void UseItem(Item item)

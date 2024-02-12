@@ -18,6 +18,7 @@ public class UI_Inventory : MonoBehaviour
     public Image slotImagePrefab;
     private Transform slots;
     public TextMeshProUGUI keyTextPrefab;
+    public int selectedSlotIndex;
     
     public static int slotCount = 5;  // can modify the slot count here
 
@@ -66,12 +67,7 @@ public class UI_Inventory : MonoBehaviour
             {
                 // equip item
                 // TODO
-            };
-            itemSlotRectTransform.GetComponentInChildren<Button_UI>().MouseRightClickFunc = () =>
-            {          
-                // drop item in slot when right click
-                DropItemFromSlot(item);
-            };
+            };           
 
             // Set position
             int slotIndex = inventory.itemTypeToSlotIndex[item.itemType];
@@ -105,32 +101,32 @@ public class UI_Inventory : MonoBehaviour
 
     private void Update()
     {
-        NumberKeyEquip();
-        MouseScrollEquip();
+        NumberKeySelect();
+        MouseScrollSelect();
         FDrop();
         LeftClickUse();
-        UpdateEquippedItemSlotHighlight();
     }
     
-    private void NumberKeyEquip()
+    private void NumberKeySelect()
     {
         // equip items corresponding to the numbers
         for (int i = 0; i < slotCount; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
-                try
-                {                    
+                selectedSlotIndex = i;
+                SetItemSlotHighlight();
+                if (inventory.slotIndexToItemType.ContainsKey(i)){             
                     Item.ItemType itemType = inventory.slotIndexToItemType[i];                    
                     inventory.EquipItem(itemType);
                     Debug.Log("Equipped " + itemType.ToString());
-                }
-                catch
-                {                    
+                }                
+                else
+                {
                     Debug.Log("Empty slot");
                 }
             }
-        }              
+        }          
     }
 
     private void FDrop()
@@ -165,59 +161,45 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    private void MouseScrollEquip()
+    private void MouseScrollSelect()
     {
         // mouse scroll to equip item
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         
         // scroll up
-        if (scrollInput > 0f)       ScrollEquippedItem(-1);
+        if (scrollInput > 0f)       ScrollSelectSlot(-1);
         // scroll down
-        else if (scrollInput < 0f)  ScrollEquippedItem(1);        
+        else if (scrollInput < 0f)  ScrollSelectSlot(1);        
     }
 
     /// <summary>
-    /// Helper function used in MouseScrollEquip()
+    /// Helper function used in MouseScrollSelect()
     /// </summary>
     /// <param name="direction"></param>
-    private void ScrollEquippedItem(int direction)
-    {
-        int currentIndex = inventory.EquippedIndex;
-        int newIndex = currentIndex + direction;
-        var inventoryList = inventory.GetItemList();
-        Item itemToEquip;
-
-        // Ensure the index is within valid bounds            
-        try
+    private void ScrollSelectSlot(int direction)
+    {        
+        int newIndex = selectedSlotIndex + direction;
+        if (newIndex >= slotCount)
         {
-            // if no equipped item, equip the first item in the slot
-            if (inventory.EquippedItem == null && inventoryList.Count > 0)
-            {
-                itemToEquip = inventoryList[0];
-                inventory.EquippedItem = itemToEquip;
-                inventory.EquippedIndex = 0;
-                player.SetEquipItemOnPlayer(itemToEquip);
-            }
-            else
-            {                
-                if (newIndex >= inventoryList.Count)
-                {
-                    newIndex = 0;
-                }
-                else if (newIndex < 0)
-                {
-                    newIndex = inventoryList.Count - 1;
-                }                
-                itemToEquip = inventoryList[newIndex];
-                inventory.EquippedItem = itemToEquip;
-                inventory.EquippedIndex = newIndex;
-                player.SetEquipItemOnPlayer(itemToEquip);
-                Debug.Log("Equipped " + itemToEquip.itemType.ToString());
-            }
+            newIndex = 0;
         }
-        catch
+        else if (newIndex < 0)
         {
-            // Debug.Log("Scrolling Out of Range");
+            newIndex = slotCount - 1;
+        }
+
+        // select the new slot and equip item if not empty
+        selectedSlotIndex = newIndex;
+        SetItemSlotHighlight();
+        if (inventory.slotIndexToItemType.ContainsKey(selectedSlotIndex))
+        {
+            Item.ItemType itemType = inventory.slotIndexToItemType[selectedSlotIndex];
+            inventory.EquipItem(itemType);
+            Debug.Log("Equipped " + itemType.ToString());
+        }
+        else
+        {
+            Debug.Log("Empty slot");
         }
     }
 
@@ -245,7 +227,7 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    private void UpdateEquippedItemSlotHighlight()
+    private void SetItemSlotHighlight()
     {
         Color defaultColor = new Color(0f, 0f, 0f, 150f / 255f);
         Color highlightColor = new Color(255f, 0f, 0f, 30f / 255f);
@@ -257,14 +239,9 @@ public class UI_Inventory : MonoBehaviour
             slotImage.color = defaultColor; 
         }
 
-        // Change the color of the slot of equipped item
-        Item equippedItem = inventory.EquippedItem;
-        if (equippedItem != null)
-        {
-            int slotIndex = inventory.itemTypeToSlotIndex[equippedItem.itemType] + 1;
-            Image selectedSlotImage = slots.GetChild(slotIndex).GetComponent<Image>();
-            selectedSlotImage.color = highlightColor;
-        }    
+        // Update the color of selected slot       
+        Image selectedSlotImage = slots.GetChild(selectedSlotIndex + 1).GetComponent<Image>();
+        selectedSlotImage.color = highlightColor;
     }
 
 }

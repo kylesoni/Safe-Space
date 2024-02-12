@@ -23,8 +23,15 @@ public class Player : MonoBehaviour
         ItemWorld itemWorld = collision.gameObject.GetComponent<ItemWorld>();
         if(itemWorld != null)
         {
-            // Touching Item
-            inventory.AddItem(itemWorld.GetItem());
+            // Add item to inventory
+            Item item = itemWorld.GetItem();
+            inventory.AddItem(item);
+
+            // Equip item if it's put in the selected slot
+            if (inventory.itemTypeToSlotIndex[item.itemType] == uiInventory.selectedSlotIndex)
+            {
+                inventory.EquipItem(item);
+            }
             itemWorld.DestroySelf();
         }
     }
