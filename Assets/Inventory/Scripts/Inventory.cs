@@ -128,25 +128,25 @@ public class Inventory
         foreach (Item inventoryItem in itemList)
         {
             if (inventoryItem.itemType == item.itemType)
-            {
+            {                
+                if (inventoryItem.isConsumable)
+                {
+                    inventoryItem.amount -= 1;
+                }
                 itemInInventory = inventoryItem;
             }
         }
         itemInInventory.UseItem();
-        if (itemInInventory.isConsumable)
+        if (itemInInventory.amount <= 0)
         {
-            itemInInventory.amount -= 1;
-            if (itemInInventory.amount <= 0)
-            {
-                itemList.Remove(itemInInventory);
-                // remove corresponding slot index
-                int slotIndex = itemTypeToSlotIndex[item.itemType];
-                itemTypeToSlotIndex.Remove(item.itemType);
-                slotIndexToItemType.Remove(slotIndex);
-                EquippedItem = null;
-                EquippedIndex = -1;
-                player.SetEquipItemOnPlayer(EquippedItem);
-            }
+            itemList.Remove(itemInInventory);
+            // remove corresponding slot index
+            int slotIndex = itemTypeToSlotIndex[item.itemType];
+            itemTypeToSlotIndex.Remove(item.itemType);
+            slotIndexToItemType.Remove(slotIndex);
+            EquippedItem = null;
+            EquippedIndex = -1;
+            player.SetEquipItemOnPlayer(EquippedItem);
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }

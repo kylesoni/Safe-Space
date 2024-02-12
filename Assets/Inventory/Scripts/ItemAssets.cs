@@ -10,6 +10,19 @@ public class ItemAssets : MonoBehaviour
     }
     public Transform pfItemWorld;
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "blocc")
+        {
+            Rigidbody2D itemRB = pfItemWorld.GetComponent<Rigidbody2D>();
+            if (itemRB != null)
+            {
+                itemRB.velocity = Vector3.zero;
+                itemRB.gravityScale = 0f;
+            }
+        }
+    }
+
     public Sprite swordSprite;
     public Sprite healthPotionSprite;
     public Sprite oreSprite;
