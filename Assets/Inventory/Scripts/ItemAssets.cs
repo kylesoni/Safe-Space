@@ -28,5 +28,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite oreSprite;
     public Sprite coinSprite;
     public Sprite keySprite;
-
+    // Blocks
+    public Sprite dirtSprite;
+    public Sprite stoneSprite;
 }
