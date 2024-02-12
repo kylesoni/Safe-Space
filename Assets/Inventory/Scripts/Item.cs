@@ -11,6 +11,9 @@ public class Item
         Ore,
         Coin,
         Key,
+        // Blocks
+        Dirt,
+        Stone,
     }
 
     public ItemType itemType;
@@ -27,7 +30,9 @@ public class Item
                 case ItemType.Ore:              return ItemAssets.Instance.oreSprite;
                 case ItemType.Coin:             return ItemAssets.Instance.coinSprite;
                 case ItemType.Key:           return ItemAssets.Instance.keySprite;
-
+                // Blocks
+                case ItemType.Dirt:             return ItemAssets.Instance.dirtSprite;
+                case ItemType.Stone:            return ItemAssets.Instance.stoneSprite;
         }
     }
 
@@ -50,6 +55,12 @@ public class Item
                 break;
             case ItemType.Key:
                 Debug.Log("Trying to use key");
+                break;
+            case ItemType.Dirt:
+                Debug.Log("Trying to use dirt");
+                break;
+            case ItemType.Stone:
+                Debug.Log("Trying to use stone");
                 break;
         }
     }

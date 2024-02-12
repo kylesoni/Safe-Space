@@ -3,7 +3,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // public float speed = 5f;  
-    private Inventory inventory;
+    public Inventory inventory;
     [SerializeField] private UI_Inventory uiInventory;
 
     private void Start() // change from Awake to Start or have null reference error
