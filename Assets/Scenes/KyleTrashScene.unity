@@ -392,7 +392,7 @@ MonoBehaviour:
   item:
     itemType: 1
     amount: 1
-    isConsumable: 0
+    isConsumable: 1
 --- !u!212 &50113343 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7974406261506771316, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
@@ -80335,7 +80335,7 @@ MonoBehaviour:
   item:
     itemType: 1
     amount: 1
-    isConsumable: 0
+    isConsumable: 1
 --- !u!4 &690728470
 Transform:
   m_ObjectHideFlags: 0
@@ -80882,7 +80882,7 @@ MonoBehaviour:
   item:
     itemType: 2
     amount: 3
-    isConsumable: 0
+    isConsumable: 1
 --- !u!4 &1247208195
 Transform:
   m_ObjectHideFlags: 0
@@ -81235,7 +81235,7 @@ MonoBehaviour:
   item:
     itemType: 4
     amount: 1
-    isConsumable: 0
+    isConsumable: 1
 --- !u!4 &1597534223
 Transform:
   m_ObjectHideFlags: 0
@@ -81438,7 +81438,7 @@ MonoBehaviour:
   item:
     itemType: 3
     amount: 1
-    isConsumable: 0
+    isConsumable: 1
 --- !u!4 &1880426420
 Transform:
   m_ObjectHideFlags: 0
