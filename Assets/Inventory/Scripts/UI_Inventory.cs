@@ -107,7 +107,7 @@ public class UI_Inventory : MonoBehaviour
     {
         NumberKeyEquip();
         MouseScrollEquip();
-        RightClickDrop();
+        FDrop();
         LeftClickUse();
         UpdateEquippedItemSlotHighlight();
     }
@@ -133,10 +133,10 @@ public class UI_Inventory : MonoBehaviour
         }              
     }
 
-    private void RightClickDrop()
+    private void FDrop()
     {
         // drop equipped item when right click
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             if (inventory.EquippedItem != null)
             {
