@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using CodeMonkey.Utils;
+using static UnityEditor.Progress;
 
 
 public class UI_Inventory : MonoBehaviour
@@ -111,7 +112,7 @@ public class UI_Inventory : MonoBehaviour
         UpdateEquippedItemSlotHighlight();
         
     }
-
+    
     private void NumberKeyEquip()
     {
         // equip items corresponding to the numbers
@@ -121,20 +122,12 @@ public class UI_Inventory : MonoBehaviour
             {
                 try
                 {                    
-                    Item.ItemType itemType = inventory.slotIndexToItemType[i];
-                    foreach (Item item in inventory.GetItemList())  // TODO: improve efficiency
-                    { 
-                        if (item.itemType == itemType)
-                        {
-                            inventory.EquipItem(item);
-                            Debug.Log("Equipped " + item.itemType.ToString());
-                            break;
-                        }
-                    }                        
-                    // Debug.Log("press " + (i + 1));
+                    Item.ItemType itemType = inventory.slotIndexToItemType[i];                    
+                    inventory.EquipItem(itemType);
+                    Debug.Log("Equipped " + itemType.ToString());
                 }
                 catch
-                {
+                {                    
                     Debug.Log("Empty slot");
                 }
             }
@@ -184,11 +177,16 @@ public class UI_Inventory : MonoBehaviour
         else if (scrollInput < 0f)  ScrollEquippedItem(1);        
     }
 
+    /// <summary>
+    /// Helper function used in MouseScrollEquip()
+    /// </summary>
+    /// <param name="direction"></param>
     private void ScrollEquippedItem(int direction)
     {
         int currentIndex = inventory.EquippedIndex;
         int newIndex = currentIndex + direction;
-        var inventoryList = inventory.GetItemList();        
+        var inventoryList = inventory.GetItemList();
+        Item itemToEquip;
 
         // Ensure the index is within valid bounds            
         try
@@ -196,9 +194,10 @@ public class UI_Inventory : MonoBehaviour
             // if no equipped item, equip the first item in the slot
             if (inventory.EquippedItem == null && inventoryList.Count > 0)
             {
-                Item item = inventoryList[0];
-                inventory.EquippedItem = item;
+                itemToEquip = inventoryList[0];
+                inventory.EquippedItem = itemToEquip;
                 inventory.EquippedIndex = 0;
+                player.SetEquipItemOnPlayer(itemToEquip);
             }
             else
             {                
@@ -210,9 +209,10 @@ public class UI_Inventory : MonoBehaviour
                 {
                     newIndex = inventoryList.Count - 1;
                 }                
-                Item itemToEquip = inventoryList[newIndex];
+                itemToEquip = inventoryList[newIndex];
                 inventory.EquippedItem = itemToEquip;
                 inventory.EquippedIndex = newIndex;
+                player.SetEquipItemOnPlayer(itemToEquip);
                 Debug.Log("Equipped " + itemToEquip.itemType.ToString());
             }
         }

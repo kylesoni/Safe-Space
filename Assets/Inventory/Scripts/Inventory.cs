@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class Inventory
 {
@@ -13,11 +14,13 @@ public class Inventory
 
     public Item EquippedItem = null;
     public int EquippedIndex = -1;
-
-    public Inventory() { 
+    private Player player;
+    
+    public Inventory(Player player) { 
         itemList = new List<Item>();
         itemTypeToSlotIndex = new Dictionary<Item.ItemType, int>();
-        slotIndexToItemType = new Dictionary<int, Item.ItemType>();     
+        slotIndexToItemType = new Dictionary<int, Item.ItemType>();  
+        this.player = player;
     }
 
     public void AddItem(Item item)
@@ -65,6 +68,7 @@ public class Inventory
             {
                 EquippedItem = null;
                 EquippedIndex = -1;
+                player.SetEquipItemOnPlayer(EquippedItem);
             }
             itemList.Remove(itemInInventory);
             // remove corresponding slot index
@@ -85,13 +89,35 @@ public class Inventory
             {
                 itemInInventory = inventoryItem;
                 EquippedItem = itemInInventory;
-                EquippedIndex = i;
+                EquippedIndex = i;                
+                player.SetEquipItemOnPlayer(EquippedItem);
             }
             i++;
         }
         if (itemInInventory == null)
         {
-            Debug.Print("No item found to equip");
+            Debug.Log("No item found to equip");
+        }
+        // OnItemListChanged?.Invoke(this, EventArgs.Empty); // no need
+    }
+    public void EquipItem(Item.ItemType itemType)
+    {
+        Item itemInInventory = null;
+        int i = 1;
+        foreach (Item inventoryItem in itemList)
+        {
+            if (inventoryItem.itemType == itemType)
+            {
+                itemInInventory = inventoryItem;
+                EquippedItem = itemInInventory;
+                EquippedIndex = i;
+                player.SetEquipItemOnPlayer(EquippedItem);
+            }
+            i++;
+        }
+        if (itemInInventory == null)
+        {
+            Debug.Log("No item found to equip");
         }
         // OnItemListChanged?.Invoke(this, EventArgs.Empty); // no need
     }
@@ -119,6 +145,7 @@ public class Inventory
                 slotIndexToItemType.Remove(slotIndex);
                 EquippedItem = null;
                 EquippedIndex = -1;
+                player.SetEquipItemOnPlayer(EquippedItem);
             }
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
