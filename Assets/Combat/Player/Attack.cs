@@ -6,7 +6,7 @@ public class Attack : MonoBehaviour
 {
     [SerializeField] private Animator anim;
     [SerializeField] private float meleeSpeed;
-    [SerializeField] private float damage;
+    [SerializeField] private int damage;
     private Player player;
     private player player_move;
     private Inventory inventory;
@@ -24,7 +24,7 @@ public class Attack : MonoBehaviour
         
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         Item item = player.inventory.EquippedItem;
         if (item != null && item.itemType == Item.ItemType.Sword)
@@ -51,6 +51,15 @@ public class Attack : MonoBehaviour
                 timeUntilMelee -= Time.fixedDeltaTime;
                 item.TurnOff();
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<Enemy>())
+        {
+            other.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+            Debug.Log("Enemy Hit!");
         }
     }
 }

@@ -4,13 +4,19 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class player : MonoBehaviour
 {
     /// <summary>
     /// player health
     /// </summary>
-    public float health = 100;
+    public int health = 100;
+
+    /// <summary>
+    /// player max health
+    /// </summary>
+    public int maxHealth = 100;
 
     /// <summary>
     /// stamina of player
@@ -58,6 +64,8 @@ public class player : MonoBehaviour
     /// </summary>
     private bool onground;
 
+    public HealthBar healthbar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +73,8 @@ public class player : MonoBehaviour
         playerlook = GetComponent<SpriteRenderer>();
         facing_right = true;
         tag = "Player";
+        health = maxHealth;
+        healthbar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -157,8 +167,16 @@ public class player : MonoBehaviour
     /// </summary>
     private void Death()
     {
-        health = 0;
-        playerlook.enabled = false;
-        Destroy(gameObject);
+        //health = 0;
+        //playerlook.enabled = false;
+        //Destroy(gameObject);
+        SceneManager.LoadScene("KyleTrashScene");
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        healthbar.SetHealth(health);
+        Debug.Log("Took Damage!");
     }
 }
