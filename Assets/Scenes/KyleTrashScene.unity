@@ -546,6 +546,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 3.42
       objectReference: {fileID: 0}
+    - target: {fileID: 1858854106276747652, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
+      propertyPath: m_GravityScale
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2689164071101294727, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.75
@@ -605,6 +609,18 @@ PrefabInstance:
     - target: {fileID: 4002966221141597273, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_Name
       value: player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397025653773444794, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
+      propertyPath: speed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397025653773444794, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
+      propertyPath: maxspeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397025653773444794, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
+      propertyPath: jumpforce
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 7586992555195647307, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: map
@@ -81287,6 +81303,7 @@ MonoBehaviour:
   itemSlotCellSize: 70
   slotImagePrefab: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
   keyTextPrefab: {fileID: 1324503550}
+  selectedSlotIndex: 0
 --- !u!224 &1276074248
 RectTransform:
   m_ObjectHideFlags: 0

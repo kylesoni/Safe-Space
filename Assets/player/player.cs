@@ -28,6 +28,11 @@ public class player : MonoBehaviour
     public float jumpforce = 400f;
 
     /// <summary>
+    /// max speed of the player
+    /// </summary>
+    public float maxspeed = 100f;
+
+    /// <summary>
     /// inventory of player
     /// </summary>
     public UnityEngine.Object[] inventory = new UnityEngine.Object[0];
@@ -89,35 +94,46 @@ public class player : MonoBehaviour
 
         // Player can only move in one direction at a time
         // If neither of the move keys is being pressed, the player should be still
-        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) {
-
-            // If player is facing right, flip sprite on x-axis and move left
-            if (facing_right)
-            {
-                playerlook.flipX = false;
-                facing_right = false;
-            }
-
-            playerbody.AddForce(new Vector2(-speed * playerbody.mass, 0));
-
-        } else if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) {
-
-            // If player is facing left, flip sprite on x-axis and move right
-            if (!facing_right)
-            {
-                playerlook.flipX = true;
-                facing_right = true;
-            }
-
-            playerbody.AddForce(new Vector2(speed * playerbody.mass, 0));
-
-        } else
+        if (Math.Abs(playerbody.velocity.x) <= maxspeed)
         {
-            if (playerbody.velocity.x != 0)
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
             {
-                playerbody.velocity = new Vector2(0, playerbody.velocity.y);
+
+                // If player is facing right, flip sprite on x-axis and move left
+                if (facing_right)
+                {
+                    playerlook.flipX = false;
+                    facing_right = false;
+                }
+
+                playerbody.AddForce(new Vector2(-speed * playerbody.mass, 0));
+
             }
-            
+            else if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+            {
+
+                // If player is facing left, flip sprite on x-axis and move right
+                if (!facing_right)
+                {
+                    playerlook.flipX = true;
+                    facing_right = true;
+                }
+
+                playerbody.AddForce(new Vector2(speed * playerbody.mass, 0));
+
+            }
+            else
+            {
+                if (playerbody.velocity.x != 0)
+                {
+                    playerbody.velocity = new Vector2(0, playerbody.velocity.y);
+                }
+
+            }
+        }
+        else
+        {
+            playerbody.velocity = new Vector2(maxspeed * Math.Sign(playerbody.velocity.x), playerbody.velocity.y);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
