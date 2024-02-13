@@ -750,6 +750,10 @@ PrefabInstance:
       value: -0.01792724
       objectReference: {fileID: 0}
     - target: {fileID: 4397025653773444794, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 542220421}
+    - target: {fileID: 4397025653773444794, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: speed
       value: 10
       objectReference: {fileID: 0}
@@ -844,7 +848,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 400706216}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 81057ad20910fd7429fa33212a848038, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

@@ -70,6 +70,8 @@ public class player : MonoBehaviour
 
     public HealthBar healthbar;
 
+    [SerializeField] private Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -92,6 +94,15 @@ public class player : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && onground && playerbody.velocity.y <= 0.01)
         {
             timetojump = true;
+        }
+
+        if (Math.Abs(playerbody.velocity.x) > 0.01)
+        {
+            anim.SetBool("isRunning", true);
+        }
+        else
+        {
+            anim.SetBool("isRunning", false);
         }
 
         transform.rotation = Quaternion.identity;
