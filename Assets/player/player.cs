@@ -64,7 +64,7 @@ public class player : MonoBehaviour
     /// </summary>
     public bool onground;
 
-    public bool timetojump;
+    private bool timetojump;
 
     public float jumpFlexibility = 1;
 
@@ -94,15 +94,6 @@ public class player : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && onground && playerbody.velocity.y <= 0.01)
         {
             timetojump = true;
-        }
-
-        if (Math.Abs(playerbody.velocity.x) > 0.01)
-        {
-            anim.SetBool("isRunning", true);
-        }
-        else
-        {
-            anim.SetBool("isRunning", false);
         }
 
         transform.rotation = Quaternion.identity;
@@ -139,6 +130,7 @@ public class player : MonoBehaviour
             }
 
             playerbody.velocity = new Vector2(-speed * playerbody.mass, playerbody.velocity.y);
+            anim.SetBool("isRunning", true);
 
         }
         else if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
@@ -152,6 +144,7 @@ public class player : MonoBehaviour
             }
 
             playerbody.velocity = new Vector2(speed * playerbody.mass, playerbody.velocity.y);
+            anim.SetBool("isRunning", true);
 
         }
         else
@@ -160,6 +153,7 @@ public class player : MonoBehaviour
             {
                 playerbody.velocity = new Vector2(0, playerbody.velocity.y);
             }
+            anim.SetBool("isRunning", false);
 
         }
     }
@@ -169,10 +163,12 @@ public class player : MonoBehaviour
         {
             if (collision.contacts.Length > 0)
             {
-                ContactPoint2D contact = collision.contacts[0];
-                if (Vector3.Dot(contact.normal, Vector3.up) > 0.5)
+                foreach (ContactPoint2D contact in collision.contacts)
                 {
-                    onground = true;
+                    if (Vector3.Dot(contact.normal, Vector3.up) > 0.5)
+                    {
+                        onground = true;
+                    }
                 }
             }
         }

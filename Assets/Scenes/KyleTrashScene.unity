@@ -662,20 +662,24 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2276904017160478300, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
+      propertyPath: m_PointLightInnerAngle
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276904017160478300, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_PointLightInnerRadius
-      value: 5.3565583
+      value: 4.5242686
       objectReference: {fileID: 0}
     - target: {fileID: 2276904017160478300, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_PointLightOuterRadius
-      value: 8.515669
+      value: 8.951312
       objectReference: {fileID: 0}
     - target: {fileID: 2689164071101294727, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2689164071101294727, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2689164071101294727, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -740,6 +744,14 @@ PrefabInstance:
     - target: {fileID: 4002966221141597273, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_Name
       value: player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260807180432203059, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.017
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260807180432203059, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.154
       objectReference: {fileID: 0}
     - target: {fileID: 4260807180432203059, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
       propertyPath: m_LocalRotation.w
