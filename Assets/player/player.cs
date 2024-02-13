@@ -62,7 +62,11 @@ public class player : MonoBehaviour
     /// <summary>
     /// Keeps track of if the player is on the ground
     /// </summary>
-    private bool onground;
+    public bool onground;
+
+    public bool timetojump;
+
+    public float jumpFlexibility = 1;
 
     public HealthBar healthbar;
 
@@ -80,15 +84,27 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Move();
-
         // If player has less than or equal to 0 health, death occurs
         if (health <= 0) {
             Death();
         }
 
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && onground && playerbody.velocity.y <= 0.01)
+        {
+            timetojump = true;
+        }
+
         transform.rotation = Quaternion.identity;
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
+        if (timetojump)
+        {
+            Jump();
+            timetojump = false;
+        }
     }
 
     /// <summary>
@@ -98,58 +114,64 @@ public class player : MonoBehaviour
     {
 
         // If space bar is pressed make the player jump
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && onground && Math.Abs(playerbody.velocity.y) <= 0.01) {
-            Jump();
-        }
 
         // Player can only move in one direction at a time
         // If neither of the move keys is being pressed, the player should be still
-        if (Math.Abs(playerbody.velocity.x) <= maxspeed)
+        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
-            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+
+            // If player is facing right, flip sprite on x-axis and move left
+            if (facing_right)
             {
-
-                // If player is facing right, flip sprite on x-axis and move left
-                if (facing_right)
-                {
-                    playerlook.flipX = false;
-                    facing_right = false;
-                }
-
-                playerbody.AddForce(new Vector2(-speed * playerbody.mass, 0));
-
+                playerlook.flipX = true;
+                facing_right = false;
             }
-            else if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+
+            playerbody.velocity = new Vector2(-speed * playerbody.mass, playerbody.velocity.y);
+
+        }
+        else if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+        {
+
+            // If player is facing left, flip sprite on x-axis and move right
+            if (!facing_right)
             {
-
-                // If player is facing left, flip sprite on x-axis and move right
-                if (!facing_right)
-                {
-                    playerlook.flipX = true;
-                    facing_right = true;
-                }
-
-                playerbody.AddForce(new Vector2(speed * playerbody.mass, 0));
-
+                playerlook.flipX = false;
+                facing_right = true;
             }
-            else
-            {
-                if (playerbody.velocity.x != 0)
-                {
-                    playerbody.velocity = new Vector2(0, playerbody.velocity.y);
-                }
 
-            }
+            playerbody.velocity = new Vector2(speed * playerbody.mass, playerbody.velocity.y);
+
         }
         else
         {
-            playerbody.velocity = new Vector2(maxspeed * Math.Sign(playerbody.velocity.x), playerbody.velocity.y);
+            if (playerbody.velocity.x != 0)
+            {
+                playerbody.velocity = new Vector2(0, playerbody.velocity.y);
+            }
+
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.tag == "blocc") {
-            onground = true;
+        if (collision.collider.tag == "blocc")
+        {
+            if (collision.contacts.Length > 0)
+            {
+                ContactPoint2D contact = collision.contacts[0];
+                if (Vector3.Dot(contact.normal, Vector3.up) > 0.5)
+                {
+                    onground = true;
+                }
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "blocc")
+        {
+            onground = false;
         }
     }
 
