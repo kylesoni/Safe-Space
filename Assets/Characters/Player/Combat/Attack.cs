@@ -10,6 +10,7 @@ public class Attack : MonoBehaviour
     private Player player;
     private Movement player_move;
     private Inventory inventory;
+    private DamageableCharacter character;
     public float knockbackForce = 25f;
 
     float timeUntilMelee = 0;
@@ -18,6 +19,7 @@ public class Attack : MonoBehaviour
     {
         player = FindObjectOfType<Player>().GetComponent<Player>();
         player_move = FindObjectOfType<Player>().GetComponent<Movement>();
+        character = FindObjectOfType<Player>().GetComponent<DamageableCharacter>();
     }
 
     private void Update()

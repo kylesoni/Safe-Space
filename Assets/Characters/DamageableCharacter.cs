@@ -129,4 +129,17 @@ public class DamageableCharacter : MonoBehaviour
         }
         
     }
+
+    public void Heal(int heal)
+    {
+        health += heal;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+        if (isPlayer)
+        {
+            healthbar.SetHealth(health);
+        }
+    }
 }

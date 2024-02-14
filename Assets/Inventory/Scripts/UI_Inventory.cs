@@ -153,7 +153,16 @@ public class UI_Inventory : MonoBehaviour
         {
             if (inventory.EquippedItem != null)
             {
-                inventory.UseItem(inventory.EquippedItem);
+                switch (inventory.EquippedItem.itemType)
+                {
+                    default: 
+                        inventory.UseItem(inventory.EquippedItem);
+                        break;
+                    case Item.ItemType.HealthPotion:
+                        FindObjectOfType<Player>().GetComponent<DamageableCharacter>().Heal(100);
+                        inventory.UseItem(inventory.EquippedItem);
+                        break;
+                }
             }
             else
             {
