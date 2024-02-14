@@ -83284,9 +83284,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item:
-    itemType: 0
-    amount: 0
-    isConsumable: 0
+    itemType: 3
+    amount: 1
+    isConsumable: 1
     isActive: 0
 --- !u!4 &1880426420
 Transform:
