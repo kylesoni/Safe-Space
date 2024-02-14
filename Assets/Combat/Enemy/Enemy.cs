@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public int MaxHealth;
     public int Health;
     public int AttackSpeed;
     public int AttackDamage;
@@ -11,7 +12,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        MaxHealth = Health;
     }
 
     // Update is called once per frame

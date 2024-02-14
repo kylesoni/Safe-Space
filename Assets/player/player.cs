@@ -207,5 +207,6 @@ public class player : MonoBehaviour
         health -= damage;
         healthbar.SetHealth(health);
         Debug.Log("Took Damage!");
+        anim.SetTrigger("Hit");
     }
 }
