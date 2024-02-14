@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Slime : MonoBehaviour
 {
+    public int AttackSpeed;
+    public int AttackDamage;
+
     public float speed;
 
-    private Enemy enemy;
+    public float knockbackForce = 100f;
+
+    private DamageableCharacter enemy;
     private bool move = false;
     Animator anim;
     GameObject player;
@@ -16,9 +21,9 @@ public class Slime : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemy = GetComponent<Enemy>();
+        enemy = GetComponent<DamageableCharacter>();
         anim = GetComponent<Animator>();
-        player = FindObjectOfType<player>().gameObject;
+        player = FindObjectOfType<Movement>().gameObject;
         body = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
     }
@@ -26,7 +31,7 @@ public class Slime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemy.Health < enemy.MaxHealth)
+        if (enemy.health < enemy.maxHealth)
         {
             move = true;
             anim.SetBool("isMoving", true);
@@ -52,6 +57,16 @@ public class Slime : MonoBehaviour
         else
         {
             sprite.flipX = false;
+        }
+    }
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.GetComponent<Movement>())
+        {
+            Collider2D collider = other.collider;
+            Vector2 direction = new Vector2(collider.transform.position.x - transform.position.x, 0.1f).normalized;
+            Vector2 knockback = direction * knockbackForce;
+            other.gameObject.GetComponent<DamageableCharacter>().OnHit(AttackDamage, knockback);
         }
     }
 }

@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3760615872795595130}
   - component: {fileID: 8887637529750739551}
-  - component: {fileID: 6746830429332407641}
   - component: {fileID: 5284285550160984755}
   - component: {fileID: 1286843569206509119}
   - component: {fileID: 1989912680578113739}
   - component: {fileID: 8410611212242443192}
+  - component: {fileID: 722160540310223133}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 9104049018501681178}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.62, y: 0.44, z: 0}
+  m_LocalPosition: {x: -18.92, y: 0.38, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -89,22 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6746830429332407641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9104049018501681178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34e13b2638990354c89dfd29c3c470f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxHealth: 0
-  Health: 50
-  AttackSpeed: 50
-  AttackDamage: 25
 --- !u!61 &5284285550160984755
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -210,4 +194,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bcdba606624d3e468a7d3d1518990b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackSpeed: 0
+  AttackDamage: 25
   speed: 3
+  knockbackForce: 25
+--- !u!114 &722160540310223133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9104049018501681178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e1d1e79d56e9c3408fa7db0342b8a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 50
+  maxHealth: 50
+  stamina: 100
+  iFrames: 1
+  iTimer: 0
+  canTurnInvincible: 0
+  movementCooldown: 0.5
+  movementTimer: 0
+  healthbar: {fileID: 0}
+  isPlayer: 0

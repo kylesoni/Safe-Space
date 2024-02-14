@@ -6,23 +6,8 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class player : MonoBehaviour
+public class Movement : MonoBehaviour
 {
-    /// <summary>
-    /// player health
-    /// </summary>
-    public int health = 100;
-
-    /// <summary>
-    /// player max health
-    /// </summary>
-    public int maxHealth = 100;
-
-    /// <summary>
-    /// stamina of player
-    /// </summary>
-    public float stamina = 100f;
-
     /// <summary>
     /// speed of player
     /// </summary>
@@ -68,8 +53,6 @@ public class player : MonoBehaviour
 
     public float jumpFlexibility = 1;
 
-    public HealthBar healthbar;
-
     [SerializeField] private Animator anim;
 
     // Start is called before the first frame update
@@ -79,18 +62,12 @@ public class player : MonoBehaviour
         playerlook = GetComponent<SpriteRenderer>();
         facing_right = true;
         tag = "Player";
-        health = maxHealth;
-        healthbar.SetMaxHealth(maxHealth);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        // If player has less than or equal to 0 health, death occurs
-        if (health <= 0) {
-            Death();
-        }
-
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && onground && playerbody.velocity.y <= 0.01)
         {
             timetojump = true;
@@ -190,23 +167,5 @@ public class player : MonoBehaviour
         playerbody.AddForce(Vector2.up * jumpforce * playerbody.mass);
         onground = false;
     }
-
-    /// <summary>
-    /// Called when player dies
-    /// </summary>
-    private void Death()
-    {
-        //health = 0;
-        //playerlook.enabled = false;
-        //Destroy(gameObject);
-        SceneManager.LoadScene("KyleTrashScene");
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        healthbar.SetHealth(health);
-        Debug.Log("Took Damage!");
-        anim.SetTrigger("Hit");
-    }
+    
 }

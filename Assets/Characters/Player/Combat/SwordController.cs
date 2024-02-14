@@ -6,13 +6,13 @@ using UnityEngine.LowLevel;
 public class SwordController : MonoBehaviour
 {
     private SpriteRenderer sprite;
-    private player player;
+    private Movement player;
     public bool facing_right;
 
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
-        player = FindObjectOfType<Player>().GetComponent<player>();
+        player = FindObjectOfType<Player>().GetComponent<Movement>();
     }
 
     void Update()

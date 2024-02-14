@@ -8,15 +8,16 @@ public class Attack : MonoBehaviour
     [SerializeField] private float meleeSpeed;
     [SerializeField] private int damage;
     private Player player;
-    private player player_move;
+    private Movement player_move;
     private Inventory inventory;
+    public float knockbackForce = 25f;
 
     float timeUntilMelee = 0;
 
     void Start()
     {
         player = FindObjectOfType<Player>().GetComponent<Player>();
-        player_move = FindObjectOfType<Player>().GetComponent<player>();
+        player_move = FindObjectOfType<Player>().GetComponent<Movement>();
     }
 
     private void Update()
@@ -56,9 +57,12 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Enemy>())
+        if (other.gameObject.GetComponent<DamageableCharacter>())
         {
-            other.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+            Collider2D collider = other.GetComponent<Collider2D>();
+            Vector2 direction = new Vector2(collider.transform.position.x - transform.position.x, 0.1f).normalized;
+            Vector2 knockback = direction * knockbackForce;
+            other.gameObject.GetComponent<DamageableCharacter>().OnHit(damage, knockback);
             Debug.Log("Enemy Hit!");
         }
     }
