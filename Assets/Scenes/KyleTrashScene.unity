@@ -275,7 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item:
     itemType: 0
-    amount: 0
+    amount: 1
     isConsumable: 0
     isActive: 0
 --- !u!4 &11292129
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item:
     itemType: 1
-    amount: 0
+    amount: 1
     isConsumable: 0
     isActive: 0
 --- !u!212 &50113343 stripped
@@ -81512,8 +81512,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item:
     itemType: 1
-    amount: 0
-    isConsumable: 0
+    amount: 1
+    isConsumable: 1
     isActive: 0
 --- !u!4 &690728470
 Transform:
@@ -82296,8 +82296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item:
     itemType: 2
-    amount: 0
-    isConsumable: 0
+    amount: 1
+    isConsumable: 1
     isActive: 0
 --- !u!4 &1247208195
 Transform:
@@ -82710,8 +82710,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item:
     itemType: 4
-    amount: 0
-    isConsumable: 0
+    amount: 1
+    isConsumable: 1
     isActive: 0
 --- !u!4 &1597534223
 Transform:
