@@ -24,7 +24,7 @@ public class Attack : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
     private void FixedUpdate()
@@ -44,7 +44,7 @@ public class Attack : MonoBehaviour
                     {
                         anim.SetTrigger("LeftAttack");
                     }
-                    
+
                     timeUntilMelee = meleeSpeed;
                     item.TurnOff();
                 }
