@@ -20,7 +20,7 @@ public class UI_Inventory : MonoBehaviour
     public TextMeshProUGUI keyTextPrefab;
     public int selectedSlotIndex;
     
-    public static int slotCount = 5;  // can modify the slot count here
+    public static int slotCount = 10;  // can modify the slot count here
 
 
     private void Awake()
@@ -112,7 +112,7 @@ public class UI_Inventory : MonoBehaviour
         // equip items corresponding to the numbers
         for (int i = 0; i < slotCount; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            if ((i == 9 && Input.GetKeyDown(KeyCode.Alpha0)) || Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
                 selectedSlotIndex = i;
                 SetItemSlotHighlight();
@@ -232,8 +232,12 @@ public class UI_Inventory : MonoBehaviour
             x++;
 
             // set the pressKey text
-            TextMeshProUGUI keyText = slotImage.transform.Find("keyText").GetComponent<TextMeshProUGUI>();            
-            keyText.SetText((i + 1).ToString());
+            TextMeshProUGUI keyText = slotImage.transform.Find("keyText").GetComponent<TextMeshProUGUI>();
+            keyText.SetText((i + 1).ToString());            
+            if (i == 9)
+            {
+                keyText.SetText("0");
+            }
         }
     }
 
