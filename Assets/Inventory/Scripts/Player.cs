@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         ItemWorld itemWorld = collision.gameObject.GetComponent<ItemWorld>();
-        if(itemWorld != null)
+        if(itemWorld != null && inventory.GetItemList().Count < UI_Inventory.slotCount)
         {
             // Add item to inventory
             Item item = itemWorld.GetItem();
