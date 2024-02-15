@@ -66,7 +66,7 @@ public class UI_Inventory : MonoBehaviour
             itemSlotRectTransform.GetComponentInChildren<Button_UI>().ClickFunc = () =>
             {
                 // equip item
-                // TODO
+                Debug.Log("left click " + item);
             };           
 
             // Set position
@@ -209,6 +209,7 @@ public class UI_Inventory : MonoBehaviour
         }
         else
         {
+            inventory.ClearEquip();
             Debug.Log("Empty slot");
         }
     }
