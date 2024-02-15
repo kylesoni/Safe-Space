@@ -84,6 +84,7 @@ public class Movement : MonoBehaviour
             Jump();
             timetojump = false;
         }
+        anim.SetFloat("yVelocity", playerbody.velocity.y);
     }
 
     /// <summary>
@@ -145,6 +146,7 @@ public class Movement : MonoBehaviour
                     if (Vector3.Dot(contact.normal, Vector3.up) > 0.5)
                     {
                         onground = true;
+                        anim.SetBool("isJumping", false);
                     }
                 }
             }
@@ -156,6 +158,7 @@ public class Movement : MonoBehaviour
         if (collision.collider.tag == "blocc")
         {
             onground = false;
+            anim.SetBool("isJumping", true);
         }
     }
 
@@ -166,6 +169,7 @@ public class Movement : MonoBehaviour
     {
         playerbody.AddForce(Vector2.up * jumpforce * playerbody.mass);
         onground = false;
+        anim.SetBool("isJumping", true);
+        anim.SetTrigger("Jump");
     }
-    
 }

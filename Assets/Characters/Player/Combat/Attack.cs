@@ -12,6 +12,7 @@ public class Attack : MonoBehaviour
     private Inventory inventory;
     private DamageableCharacter character;
     public float knockbackForce = 25f;
+    [SerializeField] private GameObject sword;
 
     float timeUntilMelee = 0;
 
@@ -24,7 +25,14 @@ public class Attack : MonoBehaviour
 
     private void Update()
     {
-
+       if (sword.activeInHierarchy)
+       {
+           anim.SetBool("isAttacking", true);
+       }
+       else
+       {
+            anim.SetBool("isAttacking", false);
+        }
     }
 
     private void FixedUpdate()

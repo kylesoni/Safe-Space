@@ -81361,6 +81361,7 @@ MonoBehaviour:
   meleeSpeed: 1
   damage: 25
   knockbackForce: 25
+  sword: {fileID: 1843734889}
 --- !u!1001 &622506550
 PrefabInstance:
   m_ObjectHideFlags: 0
