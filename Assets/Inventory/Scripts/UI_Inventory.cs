@@ -2,9 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using CodeMonkey.Utils;
-using static UnityEditor.Progress;
-using UnityEditor.Experimental.GraphView;
 
 public class UI_Inventory : MonoBehaviour
 {    
@@ -18,9 +15,13 @@ public class UI_Inventory : MonoBehaviour
     public Image slotImagePrefab;
     private Transform slots;
     public TextMeshProUGUI keyTextPrefab;
-    public int selectedSlotIndex;
+    public int selectedSlotIndex = -1;
     
     public static int slotCount = 10;  // can modify the slot count here
+
+    private Item draggedItem = null;
+    private bool isMovingItemMode = false;
+
 
 
     private void Awake()
@@ -62,13 +63,6 @@ public class UI_Inventory : MonoBehaviour
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();           
             itemSlotRectTransform.gameObject.SetActive(true);
 
-            // Use and Drop Item with Left and Right Click
-            itemSlotRectTransform.GetComponentInChildren<Button_UI>().ClickFunc = () =>
-            {
-                // equip item
-                Debug.Log("left click " + item);
-            };           
-
             // Set position
             int slotIndex = inventory.itemTypeToSlotIndex[item.itemType];
             itemSlotRectTransform.anchoredPosition = new Vector2(slotIndex * itemSlotCellSize, 0); 
@@ -101,13 +95,21 @@ public class UI_Inventory : MonoBehaviour
 
     private void Update()
     {
-        NumberKeySelect();
-        MouseScrollSelect();
-        FDrop();
-        LeftClickUse();
+        if(Input.GetKeyDown(KeyCode.I)) {
+            ToggleMovingItemMode();
+        }
+
+        // Disable other actions in MovingItemMode
+        if (!isMovingItemMode)
+        {
+            NumberKeySelect();
+            MouseScrollSelect();
+            FDrop();
+            LeftClickUse();
+        }
+        
     }
-    
-    private void NumberKeySelect()
+        private void NumberKeySelect()
     {
         // equip items corresponding to the numbers
         for (int i = 0; i < slotCount; i++)
@@ -239,6 +241,11 @@ public class UI_Inventory : MonoBehaviour
             {
                 keyText.SetText("0");
             }
+
+            // Add OnClick function dynamically
+            int slotIndex = i; // ensure different value is assigned to different slots
+            Button buttonComponent = slotImage.GetComponent<Button>();
+            buttonComponent.onClick.AddListener(() => LeftClickMoveItem(slotIndex));
         }
     }
 
@@ -254,9 +261,126 @@ public class UI_Inventory : MonoBehaviour
             slotImage.color = defaultColor; 
         }
 
-        // Update the color of selected slot       
-        Image selectedSlotImage = slots.GetChild(selectedSlotIndex + 1).GetComponent<Image>();
-        selectedSlotImage.color = highlightColor;
+        // Update the color of selected slot
+        if (selectedSlotIndex != -1)
+        {
+            Image selectedSlotImage = slots.GetChild(selectedSlotIndex + 1).GetComponent<Image>();
+            selectedSlotImage.color = highlightColor;
+        }       
+        
     }
 
+    private void ToggleMovingItemMode()
+    {
+        isMovingItemMode = !isMovingItemMode;
+        
+        if (isMovingItemMode)
+        {
+            // remove the slot highlight when enter
+            selectedSlotIndex = -1;
+            SetItemSlotHighlight();
+        }
+        
+        if (!isMovingItemMode)
+        {
+            // handle exit without putting back dragged item
+            if (draggedItem != null)
+            {
+                inventory.AddItem(draggedItem);
+                draggedItem = null;
+            }
+
+            // select the first slot when exit
+            selectedSlotIndex = 0;
+            SetItemSlotHighlight();
+            if (inventory.slotIndexToItemType.ContainsKey(0))
+            {
+                inventory.EquipItem(inventory.slotIndexToItemType[0]);
+            }
+        }
+    }
+
+    // TODO: handle player doesn't left click again to finish moving
+    public void LeftClickMoveItem(int clickedSlotIndex)
+    {
+        if (!isMovingItemMode)
+        {
+            Debug.Log("Not in moving item Mode");
+            return;
+        }
+
+        /*if (!IsPointerOverItemSlot())
+        {
+            Debug.Log("Not over item slot");
+        }*/
+
+        Debug.Log("Slot " + clickedSlotIndex + " pressed");
+
+        // is dragging item
+        if (draggedItem != null)
+        {
+            // if new slot has item, remove it from inventory and start dragging it
+            if (inventory.slotIndexToItemType.ContainsKey(clickedSlotIndex))
+            {
+                Item.ItemType newItemType = inventory.slotIndexToItemType[clickedSlotIndex];
+                foreach (Item item in inventory.GetItemList())
+                {
+                    if (item.itemType == newItemType)
+                    {
+                        inventory.RemoveItem(item);
+                        // update the item image near the cursor
+                        inventory.AddItem(draggedItem, clickedSlotIndex);
+                        draggedItem = item;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // Add Item to the clickedSlotIndex slot
+                inventory.AddItem(draggedItem, clickedSlotIndex);
+                Debug.Log("Put " + draggedItem.itemType + " in new slot");
+                draggedItem = null; // debugging
+                // delete the item image near the cursor
+            }
+        }
+        else
+        {
+            // click on a slot that contains item
+            if (inventory.slotIndexToItemType.ContainsKey(clickedSlotIndex))
+            {
+                Item.ItemType clickedItemType = inventory.slotIndexToItemType[clickedSlotIndex];
+                foreach (Item item in inventory.GetItemList())
+                {
+                    if (item.itemType == clickedItemType)
+                    {
+                        draggedItem = item;
+                        inventory.RemoveItem(draggedItem);
+                        Debug.Log("Pick up " + draggedItem.itemType);
+                        break;
+                    }
+                }
+
+                // visually show the item image near the cursor
+            }
+        }
+    }
+
+    // don't work don't know why
+/*
+    private bool IsPointerOverItemSlot()
+    {
+        // Cast a ray from the mouse position
+        Vector2 rayPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(rayPosition, Vector2.zero, 0f, LayerMask.GetMask("UI")); // Ensure the LayerMask is correct
+
+        if (hit.collider != null && hit.collider.CompareTag("itemSlot"))
+        {
+            // The pointer is over an item slot
+            return true;
+        }
+
+        // The pointer is not over an item slot        
+        return false;
+    }*/
 }

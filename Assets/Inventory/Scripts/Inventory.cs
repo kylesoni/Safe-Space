@@ -23,7 +23,12 @@ public class Inventory
         this.player = player;
     }
 
-    public void AddItem(Item item)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="slotIndex"> optional value</param>
+    public void AddItem(Item item, int slotIndex =-1)
     {
         bool itemAlreadyInInventory = false;
         foreach (Item inventoryItem in itemList)
@@ -34,23 +39,41 @@ public class Inventory
                 itemAlreadyInInventory = true;
             }
         }
-        if (!itemAlreadyInInventory) {            
-            
+        if (!itemAlreadyInInventory)
+        {
             itemList.Add(item);
             // store corresponding slot index
-            for (int i = 0; i < UI_Inventory.slotCount; i++)
+            if (slotIndex != -1)
             {
-                if (!slotIndexToItemType.ContainsKey(i))
+                if (!slotIndexToItemType.ContainsKey(slotIndex))
                 {
-                    slotIndexToItemType[i] = item.itemType;
-                    itemTypeToSlotIndex[item.itemType] = i;
-                    break;
+                    slotIndexToItemType[slotIndex] = item.itemType;
+                    itemTypeToSlotIndex[item.itemType] = slotIndex;
+                }
+               else
+                {
+                    Debug.Log("Can't add to this slot. It contains another item.");
+                }
+            }
+            else { 
+                for (int i = 0; i < UI_Inventory.slotCount; i++)
+                {
+                    if (!slotIndexToItemType.ContainsKey(i))
+                    {
+                        slotIndexToItemType[i] = item.itemType;
+                        itemTypeToSlotIndex[item.itemType] = i;
+                        break;
+                    }
                 }
             }
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// Remove item from Inventory (can specify the amount to remove)
+    /// </summary>
+    /// <param name="item"></param>
     public void RemoveItem(Item item)
     {       
         Item itemInInventory = null;

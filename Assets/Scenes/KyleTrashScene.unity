@@ -82469,8 +82469,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 936584047}
   - {fileID: 1319715691}
+  - {fileID: 936584047}
   m_Father: {fileID: 1610918824}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -83658,33 +83658,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
-      propertyPath: m_Color.a
-      value: 0.11764706
-      objectReference: {fileID: 0}
-    - target: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3671338845016188795, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 3267550456864038623, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1276074247}
     - target: {fileID: 8496001917467190378, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
       propertyPath: m_Name
       value: slot
-      objectReference: {fileID: 0}
-    - target: {fileID: 8496001917467190378, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8825795902687444176, guid: cc7ecd0986c8a2748abed613ce2e42a8, type: 3}
-      propertyPath: m_text
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -83844,7 +83824,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063812109}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f30af9bc4566446458946dc7521f0c61, type: 3}
   m_Name: 
@@ -83870,10 +83850,10 @@ SceneRoots:
   - {fileID: 732284132}
   - {fileID: 1051491906}
   - {fileID: 1285841933}
-  - {fileID: 1610918824}
   - {fileID: 962965865}
-  - {fileID: 10699037}
+  - {fileID: 1610918824}
   - {fileID: 1479607119}
+  - {fileID: 10699037}
   - {fileID: 331822971}
   - {fileID: 622506550}
   - {fileID: 1508701851}
