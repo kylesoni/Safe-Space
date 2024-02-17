@@ -7,7 +7,7 @@ public class Attack : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private float meleeSpeed;
     [SerializeField] private int damage;
-    private Player player;
+    private PlayerInventory player;
     private Movement player_move;
     private Inventory inventory;
     private DamageableCharacter character;
@@ -18,9 +18,9 @@ public class Attack : MonoBehaviour
 
     void Start()
     {
-        player = FindObjectOfType<Player>().GetComponent<Player>();
-        player_move = FindObjectOfType<Player>().GetComponent<Movement>();
-        character = FindObjectOfType<Player>().GetComponent<DamageableCharacter>();
+        player = FindObjectOfType<PlayerInventory>().GetComponent<PlayerInventory>();
+        player_move = FindObjectOfType<PlayerInventory>().GetComponent<Movement>();
+        character = FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>();
     }
 
     private void Update()

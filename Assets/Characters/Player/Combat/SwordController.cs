@@ -12,7 +12,7 @@ public class SwordController : MonoBehaviour
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
-        player = FindObjectOfType<Player>().GetComponent<Movement>();
+        player = FindObjectOfType<PlayerInventory>().GetComponent<Movement>();
     }
 
     void Update()

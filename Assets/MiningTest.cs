@@ -8,7 +8,7 @@ public class TileMining : MonoBehaviour
     public Slider slider;
     public Tile placeTile;
 
-    private Player player;
+    private PlayerInventory player;
     private Inventory inventory;
 
     private Vector3Int currentlyMining;
@@ -19,7 +19,7 @@ public class TileMining : MonoBehaviour
         slider.gameObject.SetActive(false);
 
         // initialize inventory
-        player = FindObjectOfType<Player>().GetComponent<Player>();
+        player = FindObjectOfType<PlayerInventory>().GetComponent<PlayerInventory>();
         inventory = player.inventory;
     }
 

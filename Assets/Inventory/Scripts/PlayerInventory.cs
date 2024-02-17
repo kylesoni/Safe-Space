@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class PlayerInventory : MonoBehaviour
 {
     // public float speed = 5f;  
     public Inventory inventory;

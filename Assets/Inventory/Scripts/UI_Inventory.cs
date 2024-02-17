@@ -10,7 +10,7 @@ public class UI_Inventory : MonoBehaviour
     private Transform itemSlotContainer;
     private Transform itemSlotTemplate;
     public float itemSlotCellSize = 30f;
-    private Player player;
+    private PlayerInventory player;
     
     public Image slotImagePrefab;
     private Transform slots;
@@ -22,8 +22,6 @@ public class UI_Inventory : MonoBehaviour
     private Item draggedItem = null;
     private bool isMovingItemMode = false;
 
-
-
     private void Awake()
     {
         itemSlotContainer = transform.Find("itemSlotContainer");
@@ -31,7 +29,7 @@ public class UI_Inventory : MonoBehaviour
         slots = transform.Find("slots");       
     }
 
-    public void SetPlayer(Player player)
+    public void SetPlayer(PlayerInventory player)
     {
         this.player = player;
     }
@@ -161,7 +159,7 @@ public class UI_Inventory : MonoBehaviour
                         inventory.UseItem(inventory.EquippedItem);
                         break;
                     case Item.ItemType.HealthPotion:
-                        FindObjectOfType<Player>().GetComponent<DamageableCharacter>().Heal(100);
+                        FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>().Heal(100);
                         inventory.UseItem(inventory.EquippedItem);
                         break;
                 }

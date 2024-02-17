@@ -14,9 +14,9 @@ public class Inventory
 
     public Item EquippedItem = null;
     public int EquippedIndex = -1;
-    private Player player;
+    private PlayerInventory player;
     
-    public Inventory(Player player) { 
+    public Inventory(PlayerInventory player) { 
         itemList = new List<Item>();
         itemTypeToSlotIndex = new Dictionary<Item.ItemType, int>();
         slotIndexToItemType = new Dictionary<int, Item.ItemType>();  
