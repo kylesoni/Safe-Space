@@ -172,4 +172,5 @@ public class Movement : MonoBehaviour
         anim.SetBool("isJumping", true);
         anim.SetTrigger("Jump");
     }
+
 }

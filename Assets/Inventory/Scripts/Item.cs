@@ -58,7 +58,9 @@ public class Item
         }
     }
 
-
+    /// <summary>
+    /// Do we need this function?
+    /// </summary>
     public void UseItem()
     {
         switch(itemType)

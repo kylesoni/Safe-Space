@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class UI_Inventory : MonoBehaviour
 {    
@@ -20,7 +21,7 @@ public class UI_Inventory : MonoBehaviour
     public static int slotCount = 10;  // can modify the slot count here
 
     private Item draggedItem = null;
-    private bool isMovingItemMode = false;
+    private bool isInventoryMode = false;
 
     private void Awake()
     {
@@ -83,13 +84,14 @@ public class UI_Inventory : MonoBehaviour
         }        
     }
 
+/*
     private void DropItemFromSlot(Item item)
     {
         Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.SetIsConsumable()};
         inventory.RemoveItem(item);
         ItemWorld.DropItem(player.transform.position, duplicateItem);        
     }
-
+*/
 
     private void Update()
     {
@@ -98,14 +100,15 @@ public class UI_Inventory : MonoBehaviour
         }
 
         // Disable other actions in MovingItemMode
-        if (!isMovingItemMode)
+        if (!isInventoryMode)
         {
             NumberKeySelect();
-            MouseScrollSelect();
-            FDrop();
+            MouseScrollSelect();            
             LeftClickUse();
         }
-        
+
+        FDrop();
+
     }
         private void NumberKeySelect()
     {
@@ -133,15 +136,21 @@ public class UI_Inventory : MonoBehaviour
     private void FDrop()
     {
         // drop equipped item when right click
-        if (Input.GetKeyDown(KeyCode.F))
+        if (isInventoryMode && Input.GetKeyDown(KeyCode.F))
+        // if Input.GetMouseButtonDown(1)
         {
-            if (inventory.EquippedItem != null)
+            if (draggedItem != null)
             {
-                DropItemFromSlot(inventory.EquippedItem);
+                // DropItemFromSlot(draggedItem);
+                Item duplicateItem = new Item { itemType = draggedItem.itemType, amount = draggedItem.amount, isConsumable = draggedItem.SetIsConsumable() };
+                inventory.RemoveItem(draggedItem);
+                ItemWorld.DropItem(player.transform.position, duplicateItem);
+
+                draggedItem = null;
             }
             else
             {
-                Debug.Log("No equipped item");
+                Debug.Log("No item to drop");
             }
         }
     }
@@ -270,16 +279,16 @@ public class UI_Inventory : MonoBehaviour
 
     private void ToggleMovingItemMode()
     {
-        isMovingItemMode = !isMovingItemMode;
+        isInventoryMode = !isInventoryMode;
         
-        if (isMovingItemMode)
+        if (isInventoryMode)
         {
             // remove the slot highlight when enter
             selectedSlotIndex = -1;
             SetItemSlotHighlight();
         }
         
-        if (!isMovingItemMode)
+        if (!isInventoryMode)
         {
             // handle exit without putting back dragged item
             if (draggedItem != null)
@@ -300,7 +309,7 @@ public class UI_Inventory : MonoBehaviour
 
     public void LeftClickMoveItem(int clickedSlotIndex)
     {
-        if (!isMovingItemMode)
+        if (!isInventoryMode)
         {
             Debug.Log("Not in moving item Mode");
             return;
