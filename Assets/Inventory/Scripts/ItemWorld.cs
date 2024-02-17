@@ -29,6 +29,11 @@ public class ItemWorld : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         textMeshPro = transform.Find("Text").GetComponent<TextMeshPro>();
     }
+
+    /// <summary>
+    /// Set item attributes
+    /// </summary>
+    /// <param name="item"></param>
     public void SetItem(Item item)
     {
         this.item = item;
@@ -44,6 +49,9 @@ public class ItemWorld : MonoBehaviour
         {
             textMeshPro.SetText("");
         }
+
+        // Set isConsumable
+        item.isConsumable = item.SetIsConsumable();
     }
 
     public Item GetItem()

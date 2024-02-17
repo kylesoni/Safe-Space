@@ -8,12 +8,19 @@ public class TileMining : MonoBehaviour
     public Slider slider;
     public Tile placeTile;
 
+    private Player player;
+    private Inventory inventory;
+
     private Vector3Int currentlyMining;
 
     void Start()
     {
         // Hide the slider
         slider.gameObject.SetActive(false);
+
+        // initialize inventory
+        player = FindObjectOfType<Player>().GetComponent<Player>();
+        inventory = player.inventory;
     }
 
     void Update()
@@ -27,8 +34,9 @@ public class TileMining : MonoBehaviour
                 map.SetTile(cellPosition, placeTile);
         }
 
-        if (Input.GetMouseButton(0)) // Check for left mouse click
-        {
+        // Check for left mouse click when equip the pickaxe      
+        if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Pickaxe && Input.GetMouseButton(0))
+        { 
             Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPosition = map.WorldToCell(worldPoint);
 
@@ -62,6 +70,7 @@ public class TileMining : MonoBehaviour
             }
 
             //map.SetTile(cellPosition, null); // Remove the tile at the clicked position
+            
         } else
         {
             slider.value = 0;

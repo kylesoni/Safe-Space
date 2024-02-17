@@ -22,6 +22,7 @@ public class Item
         Stone,
     }
 
+    // attributes
     public ItemType itemType;
     public int amount;
     public bool isConsumable;
@@ -47,11 +48,12 @@ public class Item
         }
     }
 
-    public bool GetIsConsumable()
+    public bool SetIsConsumable()
     {
         switch (itemType)
         {
             case ItemType.Sword:    return false;
+            case ItemType.Pickaxe: return false;
             default:                return true;
         }
     }

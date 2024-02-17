@@ -87,7 +87,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void DropItemFromSlot(Item item)
     {
-        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.GetIsConsumable()};
+        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.SetIsConsumable()};
         inventory.RemoveItem(item);
         ItemWorld.DropItem(player.transform.position, duplicateItem);        
     }
@@ -300,7 +300,6 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    // TODO: handle player doesn't left click again to finish moving
     public void LeftClickMoveItem(int clickedSlotIndex)
     {
         if (!isMovingItemMode)
@@ -327,21 +326,24 @@ public class UI_Inventory : MonoBehaviour
                 {
                     if (item.itemType == newItemType)
                     {
+                        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.SetIsConsumable() };                     
                         inventory.RemoveItem(item);
-                        // update the item image near the cursor
+                        // Add current item to inventory
                         inventory.AddItem(draggedItem, clickedSlotIndex);
-                        draggedItem = item;
+                        // update draggedItem to new item
+                        draggedItem = duplicateItem;
+                        // TODO: update the item image near the cursor
                         break;
                     }
                 }
             }
             else
-            {
+            { 
                 // Add Item to the clickedSlotIndex slot
                 inventory.AddItem(draggedItem, clickedSlotIndex);
                 Debug.Log("Put " + draggedItem.itemType + " in new slot");
-                draggedItem = null; // debugging
-                // delete the item image near the cursor
+                draggedItem = null;
+                // TODO: delete the item image near the cursor
             }
         }
         else
@@ -354,14 +356,15 @@ public class UI_Inventory : MonoBehaviour
                 {
                     if (item.itemType == clickedItemType)
                     {
-                        draggedItem = item;
-                        inventory.RemoveItem(draggedItem);
+                        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.SetIsConsumable() };
+                        draggedItem = duplicateItem;                        
+                        inventory.RemoveItem(item);
                         Debug.Log("Pick up " + draggedItem.itemType);
                         break;
                     }
                 }
 
-                // visually show the item image near the cursor
+                // TODO: visually show the item image near the cursor
             }
         }
     }
