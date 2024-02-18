@@ -27,8 +27,9 @@ public class Item
     public int amount;
     public bool isConsumable;
     public bool isActive = false;
+    public string itemInfo;
 
-    public Sprite GetSprite()
+    public Sprite SetSprite()
     {
         switch(itemType)
         {
@@ -55,6 +56,26 @@ public class Item
             case ItemType.Sword:    return false;
             case ItemType.Pickaxe: return false;
             default:                return true;
+        }
+    }
+
+    public string SetItemInfo()
+    {
+        switch(itemType)
+        {          
+            case ItemType.Sword: return "Sword: Melee weapon for close combat";
+            case ItemType.Pickaxe: return "Pickaxe: Tool for mining and breaking blocks";
+            case ItemType.Torch: return "Torch: Portable light source";
+            case ItemType.HealthPotion: return "Health Potion: Restores player's health";
+            case ItemType.JumpPotion: return "Jump Potion: Enhances jumping abilities permanently.";
+            case ItemType.GuardianPotion: return "Guardian Potion: Grants temporary protection";
+            case ItemType.Bomb: return "Bomb: Explosive device for breaking blocks";
+            case ItemType.Key: return "Key: Unlocks doors or restricted areas";
+            // Blocks
+            case ItemType.Dirt: return "Dirt: Common surface terrain";
+            case ItemType.Stone: return "Stone: Durable building block and crafting resource";
+
+            default: return "no relevant item info";
         }
     }
 
@@ -87,5 +108,10 @@ public class Item
     public void TurnOff()
     {
         isActive = false;
+    }
+
+    public Item CreateDuplicateItem(Item item)
+    {
+        return new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.SetIsConsumable() , itemInfo = item.SetItemInfo()};
     }
 }

@@ -46,7 +46,7 @@ public class ItemWorld : MonoBehaviour
         this.item = item;
 
         // Set Sprite
-        spriteRenderer.sprite = item.GetSprite();
+        spriteRenderer.sprite = item.SetSprite();
 
         // Set Amount
         if (item.amount > 1)
@@ -59,6 +59,9 @@ public class ItemWorld : MonoBehaviour
 
         // Set isConsumable
         item.isConsumable = item.SetIsConsumable();
+
+        // Set itemInfo
+        item.itemInfo = item.SetItemInfo();
     }
 
     public Item GetItem()

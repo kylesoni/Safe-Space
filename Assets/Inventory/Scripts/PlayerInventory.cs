@@ -45,7 +45,7 @@ public class PlayerInventory : MonoBehaviour
         if(equippedItem!= null && inventory.EquippedItem != null && equippedItem.itemType != Item.ItemType.Sword)
         {
             // TODO: show number? need? should?
-            equippedItemImage.sprite = equippedItem.GetSprite();
+            equippedItemImage.sprite = equippedItem.SetSprite();
             Vector3 itemScreenPos = Camera.main.WorldToScreenPoint(playerTransform.position + playerTransform.right * 0.5f);
             equippedItemImage.rectTransform.position = itemScreenPos;
             equippedItemImage.gameObject.SetActive(true);            

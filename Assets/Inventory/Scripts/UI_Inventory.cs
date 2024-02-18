@@ -13,7 +13,7 @@ public class UI_Inventory : MonoBehaviour
     public float itemSlotCellSize = 30f;
     private PlayerInventory player;
     
-    public Image slotImagePrefab;
+    public Image slotPrefab;
     private Transform slots;
     public TextMeshProUGUI keyTextPrefab;
     public int selectedSlotIndex = -1;
@@ -68,7 +68,7 @@ public class UI_Inventory : MonoBehaviour
             
             // Set Image
             Image image = itemSlotRectTransform.Find("image").GetComponent<Image>();           
-            image.sprite = item.GetSprite();
+            image.sprite = item.SetSprite();
 
             // Set Amount Text
             TextMeshProUGUI uiText = itemSlotRectTransform.Find("text").GetComponent<TextMeshProUGUI>();
@@ -84,14 +84,14 @@ public class UI_Inventory : MonoBehaviour
         }        
     }
 
-/*
-    private void DropItemFromSlot(Item item)
-    {
-        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.SetIsConsumable()};
-        inventory.RemoveItem(item);
-        ItemWorld.DropItem(player.transform.position, duplicateItem);        
-    }
-*/
+    /*
+        private void DropItemFromSlot(Item item)
+        {
+            Item duplicateItem = item.CreateDuplicateItem(item);
+            inventory.RemoveItem(item);
+            ItemWorld.DropItem(player.transform.position, duplicateItem);        
+        }
+    */
 
     private void Update()
     {
@@ -142,7 +142,7 @@ public class UI_Inventory : MonoBehaviour
             if (draggedItem != null)
             {
                 // DropItemFromSlot(draggedItem);
-                Item duplicateItem = new Item { itemType = draggedItem.itemType, amount = draggedItem.amount, isConsumable = draggedItem.SetIsConsumable() };
+                Item duplicateItem = draggedItem.CreateDuplicateItem(draggedItem);
                 inventory.RemoveItem(draggedItem);
                 ItemWorld.DropItem(player.transform.position, duplicateItem);
 
@@ -235,14 +235,14 @@ public class UI_Inventory : MonoBehaviour
         
         for (int i = 0; i < slotCount; i++)
         {
-            // set image sprite
-            Image slotImage = Instantiate(slotImagePrefab, slots);            
-            slotImage.rectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y);
-            slotImage.gameObject.SetActive(true);        
+            // Set image sprite
+            Image slot = Instantiate(slotPrefab, slots);
+            slot.rectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y);
+            slot.gameObject.SetActive(true);        
             x++;
 
-            // set the pressKey text
-            TextMeshProUGUI keyText = slotImage.transform.Find("keyText").GetComponent<TextMeshProUGUI>();
+            // Set the pressKey text
+            TextMeshProUGUI keyText = slot.transform.Find("keyText").GetComponent<TextMeshProUGUI>();
             keyText.SetText((i + 1).ToString());            
             if (i == 9)
             {
@@ -251,8 +251,11 @@ public class UI_Inventory : MonoBehaviour
 
             // Add OnClick function dynamically
             int slotIndex = i; // ensure different value is assigned to different slots
-            Button buttonComponent = slotImage.GetComponent<Button>();
-            buttonComponent.onClick.AddListener(() => LeftClickMoveItem(slotIndex));
+            Button buttonComponent = slot.GetComponent<Button>();
+            buttonComponent.onClick.AddListener(() => LeftClickMoveItem(slotIndex));            
+
+            // Set the name of slot to contain the corresponding slotIndex
+            slot.gameObject.name = "slot_" + i.ToString();
         }
     }
 
@@ -333,7 +336,7 @@ public class UI_Inventory : MonoBehaviour
                 {
                     if (item.itemType == newItemType)
                     {
-                        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.SetIsConsumable() };                     
+                        Item duplicateItem = item.CreateDuplicateItem(item);
                         inventory.RemoveItem(item);
                         // Add current item to inventory
                         inventory.AddItem(draggedItem, clickedSlotIndex);
@@ -363,7 +366,7 @@ public class UI_Inventory : MonoBehaviour
                 {
                     if (item.itemType == clickedItemType)
                     {
-                        Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount, isConsumable = item.SetIsConsumable() };
+                        Item duplicateItem = item.CreateDuplicateItem(item);
                         draggedItem = duplicateItem;                        
                         inventory.RemoveItem(item);
                         Debug.Log("Pick up " + draggedItem.itemType);
@@ -377,20 +380,20 @@ public class UI_Inventory : MonoBehaviour
     }
 
     // don't work don't know why
-/*
-    private bool IsPointerOverItemSlot()
-    {
-        // Cast a ray from the mouse position
-        Vector2 rayPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(rayPosition, Vector2.zero, 0f, LayerMask.GetMask("UI")); // Ensure the LayerMask is correct
-
-        if (hit.collider != null && hit.collider.CompareTag("itemSlot"))
+    /*
+        private bool IsPointerOverItemSlot()
         {
-            // The pointer is over an item slot
-            return true;
-        }
+            // Cast a ray from the mouse position
+            Vector2 rayPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(rayPosition, Vector2.zero, 0f, LayerMask.GetMask("UI")); // Ensure the LayerMask is correct
 
-        // The pointer is not over an item slot        
-        return false;
-    }*/
+            if (hit.collider != null && hit.collider.CompareTag("itemSlot"))
+            {
+                // The pointer is over an item slot
+                return true;
+            }
+
+            // The pointer is not over an item slot        
+            return false;
+        }*/
 }
