@@ -77,7 +77,7 @@ public class Day_Night : MonoBehaviour
             {
                 stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, ppv.weight);
             }
-            if (activateLights == false && hours >= 20)
+            if (activateLights == false && hours >= 19)
             {
                 for (int i = 0; i < lights.Length; i++)
                 {
