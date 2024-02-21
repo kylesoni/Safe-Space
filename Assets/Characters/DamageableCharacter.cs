@@ -93,7 +93,7 @@ public class DamageableCharacter : MonoBehaviour
     {
         if (isPlayer)
         {
-            SceneManager.LoadScene("KyleTrashScene");
+            SceneManager.LoadScene("WorldPrototype");
         }
         else
         {
