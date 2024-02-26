@@ -91,7 +91,14 @@ public class DamageableCharacter : MonoBehaviour
             }
             else
             {
-                GetComponent<Slime>().enabled = true;
+                if (GetComponent<Slime>())
+                {
+                    GetComponent<Slime>().enabled = true;
+                }
+                if (GetComponent<Wisp>())
+                {
+                    GetComponent<Wisp>().enabled = true;
+                }
             }
         }
     }
@@ -125,7 +132,14 @@ public class DamageableCharacter : MonoBehaviour
             canMove = false;
             if (!isPlayer)
             {
-                GetComponent<Slime>().enabled = false;
+                if (GetComponent<Slime>())
+                {
+                    GetComponent<Slime>().enabled = false;
+                }
+                if (GetComponent<Wisp>())
+                {
+                    GetComponent<Wisp>().enabled = false;
+                }
             }
 
             if (canTurnInvincible)

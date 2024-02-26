@@ -60,8 +60,8 @@ public class EnemySpawner : MonoBehaviour
         float counter = 0;
         while (counter < 2)
         {
-            float actOffset = offset + 15f;
-            float hOffset = Random.Range(15f, actOffset) * Mathf.Sign(Random.Range(-1, 1));
+            float actOffset = offset + 20f;
+            float hOffset = Random.Range(20f, actOffset) * Mathf.Sign(Random.Range(-1, 1));
             float vOffset = Random.Range(0, offset) * Mathf.Sign(Random.Range(-1, 1));
             Vector3 spawnPoint = new Vector3(hOffset, vOffset, 0) + player.transform.position;
             Vector3Int cellPosition = map.WorldToCell(spawnPoint);
