@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Invincible : MonoBehaviour
 {
-    public bool isPotionInvincible;
+    public bool isPotionInvincible = false;
     private SpriteRenderer spriteRenderer;
     private float blinkDuration = 0.2f;
     private float colorChangeSpeed = 1.5f;
@@ -16,6 +16,7 @@ public class Invincible : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         countdownBox.SetActive(false);
+        isPotionInvincible = false;
     }
 
     public void PlayerInvincibleForSeconds(int second)
