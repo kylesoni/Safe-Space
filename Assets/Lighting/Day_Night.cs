@@ -15,8 +15,10 @@ public class Day_Night : MonoBehaviour
     public int days = 1;
 
     public bool activateLights;
-    public GameObject[] lights; 
+    public List<GameObject> lights = new List<GameObject>();
     public SpriteRenderer[] stars;
+
+    public bool isNight = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +28,9 @@ public class Day_Night : MonoBehaviour
         {
             stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, 0);
         }
-        for (int i = 0; i < lights.Length; i++)
+        foreach (GameObject light in lights)
         {
-            lights[i].SetActive(false);
+            light.SetActive(false);
         }
         activateLights = false;
     }
@@ -37,6 +39,8 @@ public class Day_Night : MonoBehaviour
     void FixedUpdate()
     {
         CalcTime();
+        CheckNight();
+        CheckLights();
     }
 
     public void CalcTime()
@@ -70,38 +74,66 @@ public class Day_Night : MonoBehaviour
     public void ControlPPV()
     {
         //ppv.weight = 0;
-        if (hours >= 17 && hours < 22)
+        if (hours >= 8 && hours < 13)
         {
             ppv.weight += (float)1 / 300;
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, ppv.weight);
             }
-            if (activateLights == false && hours >= 19)
+            if (activateLights == false && hours >= 9)
             {
-                for (int i = 0; i < lights.Length; i++)
-                {
-                    lights[i].SetActive(true);
-                }
                 activateLights = true;
             }
         }
 
 
-        if (hours >= 4 && hours < 9)
+        if (hours >= 19)
         {
             ppv.weight -= (float)1 / 300;
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, ppv.weight);
             }
-            if (activateLights == true && hours >= 8)
+            if (activateLights == true && hours >= 23)
             {
-                for (int i = 0; i < lights.Length; i++)
-                {
-                    lights[i].SetActive(false);
-                }
                 activateLights = false;
+            }
+        }
+    }
+
+    public void CheckNight()
+    {
+        if (hours >= 10)
+        {
+            isNight = true;
+        }
+        else
+        {
+            isNight = false;
+        }
+    }
+
+    public void CheckLights()
+    {
+        if (activateLights)
+        {
+            foreach (GameObject light in lights)
+            {
+                if (light != null)
+                {
+                    light.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            foreach (GameObject light in lights)
+            {
+                if (light != null)
+                {
+                    light.SetActive(false);
+                }
             }
         }
     }

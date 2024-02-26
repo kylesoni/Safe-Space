@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
@@ -8,7 +9,8 @@ using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject[] enemyPrefabs;
+    public GameObject[] dayEnemyPrefabs;
+    public GameObject[] nightEnemyPrefabs;
 
     public float offset;
 
@@ -46,12 +48,26 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        int enemyIndex = Random.Range(0, enemyPrefabs.Length);
-        Vector2 newSpawn = GetSpawnPoint();
-        var hitColliders = Physics.OverlapSphere(newSpawn, 1);
-        if (hitColliders.Length <= 0.1)
+        if (clock.isNight)
         {
-            GameObject.Instantiate(enemyPrefabs[enemyIndex], GetSpawnPoint(), Quaternion.identity);
+            int enemyIndex = Random.Range(0, nightEnemyPrefabs.Length);
+            Vector2 newSpawn = GetSpawnPoint();
+            var hitColliders = Physics.OverlapSphere(newSpawn, 1);
+            if (hitColliders.Length <= 0.1)
+            {
+                var wisp = GameObject.Instantiate(nightEnemyPrefabs[enemyIndex], GetSpawnPoint(), Quaternion.identity);
+                clock.lights.Add(wisp.transform.GetChild(0).gameObject);
+            }
+        }
+        else
+        {
+            int enemyIndex = Random.Range(0, dayEnemyPrefabs.Length);
+            Vector2 newSpawn = GetSpawnPoint();
+            var hitColliders = Physics.OverlapSphere(newSpawn, 1);
+            if (hitColliders.Length <= 0.1)
+            {
+                GameObject.Instantiate(dayEnemyPrefabs[enemyIndex], GetSpawnPoint(), Quaternion.identity);
+            }
         }
     }
 

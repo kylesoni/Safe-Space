@@ -134,6 +134,11 @@ public class Movement : MonoBehaviour
             anim.SetBool("isRunning", false);
 
         }
+
+        if (playerbody.velocity.y < -50)
+        {
+            playerbody.velocity = new Vector2(playerbody.velocity.x, -50);
+        }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
