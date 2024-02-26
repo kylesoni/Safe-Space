@@ -16,7 +16,7 @@ public class Movement : MonoBehaviour
     /// <summary>
     /// jump force of the player
     /// </summary>
-    public float jumpforce = 400f;
+    public float jumpforce = 1000f;
 
     /// <summary>
     /// max speed of the player

@@ -23,6 +23,9 @@ public class UI_Inventory : MonoBehaviour
     private Item draggedItem = null;
     private bool isInventoryMode = false;
 
+    private Movement Movement;
+    private DamageableCharacter DamageableCharacter;
+
     private void Awake()
     {
         itemSlotContainer = transform.Find("itemSlotContainer");
@@ -168,8 +171,18 @@ public class UI_Inventory : MonoBehaviour
                         inventory.UseItem(inventory.EquippedItem);
                         break;
                     case Item.ItemType.HealthPotion:
-                        FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>().Heal(100);
+                        DamageableCharacter.Heal(100);
                         inventory.UseItem(inventory.EquippedItem);
+                        break;
+                    case Item.ItemType.JumpPotion:
+                        Movement.jumpforce = 1500f;
+                        inventory.UseItem(inventory.EquippedItem);
+                        break;
+                    case Item.ItemType.GuardianPotion:
+                        if(!DamageableCharacter.isPotionInvincible){
+                            DamageableCharacter.PlayerInvincibleForSeconds(5f);
+                            inventory.UseItem(inventory.EquippedItem);
+                        }              
                         break;
                 }
             }
@@ -227,6 +240,11 @@ public class UI_Inventory : MonoBehaviour
     {
         // ! make sure position of slots and itemSlotContainer are the same         
         SetSlots(slotCount);
+
+        Movement = FindObjectOfType<PlayerInventory>().GetComponent<Movement>();
+        DamageableCharacter = FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>();
+
+
     }
     private void SetSlots(int slotCount)
     {

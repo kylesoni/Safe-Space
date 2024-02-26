@@ -85,22 +85,13 @@ public class Item
     public void UseItem()
     {
         switch(itemType)
-        {
-            default:
+        {            
             case ItemType.Sword:
+                Debug.Log("Trying to use " + itemType);
                 isActive = true;
                 break;
-            case ItemType.HealthPotion:
-                Debug.Log("Trying to use potion");           
-                break;
-            case ItemType.Key:
-                Debug.Log("Trying to use key");
-                break;
-            case ItemType.Dirt:
-                Debug.Log("Trying to use dirt");
-                break;
-            case ItemType.Stone:
-                Debug.Log("Trying to use stone");
+            default:
+                Debug.Log("Trying to use " + itemType);
                 break;
         }
     }

@@ -21,6 +21,7 @@ public class DamageableCharacter : MonoBehaviour
     /// </summary>
     public float stamina = 100f;
 
+ 
     public float iFrames = 1f;
     public float iTimer = 0f;
     public bool canTurnInvincible = true;
@@ -38,6 +39,11 @@ public class DamageableCharacter : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public bool isPotionInvincible;
+    private SpriteRenderer spriteRenderer;
+    public float blinkDuration = 0.2f;
+    public float colorChangeSpeed = 0.1f;
+
     void Start()
     {
         health = maxHealth;
@@ -48,6 +54,7 @@ public class DamageableCharacter : MonoBehaviour
             healthbar.SetMaxHealth(maxHealth);
             player_anim = GetComponent<Animator>();
         }
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -103,7 +110,7 @@ public class DamageableCharacter : MonoBehaviour
 
     public void OnHit(int damage, Vector2 knockback)
     {
-        if (!Invincible)
+        if (!Invincible && !isPotionInvincible)
         {
             health -= damage;
             if (isPlayer)
@@ -142,4 +149,60 @@ public class DamageableCharacter : MonoBehaviour
             healthbar.SetHealth(health);
         }
     }
+
+    private int i = 1;
+    public void PlayerInvincibleForSeconds(float second)
+    {
+        if (!Invincible)
+        {
+            StartCoroutine(InvincibilityCoroutine(second));
+            StartCoroutine(ColorChangingEffect(second));            
+        }
+    }
+
+    private IEnumerator InvincibilityCoroutine(float second)
+    {
+        isPotionInvincible = true;
+
+        for (i = 1; i <= second; i++)
+        {
+            Debug.Log("Invincible: " + i);
+            yield return new WaitForSeconds(1);
+        }
+
+        Debug.Log("not invincible");
+        isPotionInvincible = false;
+    }
+    IEnumerator ColorChangingEffect(float invincibilityDuration)
+    {
+        float timer = 0f;
+        Color startColor = spriteRenderer.color;
+
+        while (isPotionInvincible && timer < invincibilityDuration)
+        {
+            float hue = Mathf.PingPong(Time.time * colorChangeSpeed, 1f);
+            Color targetColor = Color.HSVToRGB(hue, 1f, 2f);
+
+            spriteRenderer.color = Color.Lerp(startColor, targetColor, timer / invincibilityDuration);
+
+            yield return null;
+            timer += Time.deltaTime;
+        }
+        spriteRenderer.color = startColor;
+    }
+
+        IEnumerator BlinkingEffect(float second)
+    {
+        float timer = 0f;
+
+        while (isPotionInvincible && timer < second)
+        {
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(blinkDuration);
+            timer += blinkDuration;
+        }
+        spriteRenderer.enabled = true;
+    }
+
+
 }
