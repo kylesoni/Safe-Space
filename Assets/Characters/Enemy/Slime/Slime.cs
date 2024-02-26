@@ -9,7 +9,11 @@ public class Slime : MonoBehaviour
 
     public float speed;
 
+    public float aggroRange = 10f;
+
     public float knockbackForce = 100f;
+
+    private float distanceToPlayer;
 
     private DamageableCharacter enemy;
     private bool move = false;
@@ -31,7 +35,8 @@ public class Slime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemy.health < enemy.maxHealth)
+        distanceToPlayer = Vector2.Distance(this.transform.position, player.transform.position);
+        if (distanceToPlayer < aggroRange || enemy.health < enemy.maxHealth)
         {
             move = true;
             anim.SetBool("isMoving", true);
