@@ -106,7 +106,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I)) {
+        if(Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape)) {
             ToggleMovingItemMode();
         }
 
