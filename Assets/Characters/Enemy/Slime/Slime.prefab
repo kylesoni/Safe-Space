@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1989912680578113739}
   - component: {fileID: 8410611212242443192}
   - component: {fileID: 722160540310223133}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 9104049018501681178}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.462, y: -2.532, z: 0}
+  m_LocalPosition: {x: 6.8516603, y: -2.410364, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -220,3 +220,6 @@ MonoBehaviour:
   movementTimer: 0
   healthbar: {fileID: 0}
   isPlayer: 0
+  isPotionInvincible: 0
+  blinkDuration: 0.2
+  colorChangeSpeed: 0.1
