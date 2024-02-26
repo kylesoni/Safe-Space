@@ -25,6 +25,7 @@ public class UI_Inventory : MonoBehaviour
 
     private Movement Movement;
     private DamageableCharacter DamageableCharacter;
+    private Invincible InvincibleAbility;
 
     private void Awake()
     {
@@ -179,10 +180,10 @@ public class UI_Inventory : MonoBehaviour
                         inventory.UseItem(inventory.EquippedItem);
                         break;
                     case Item.ItemType.GuardianPotion:
-                        if(!DamageableCharacter.isPotionInvincible){
-                            DamageableCharacter.PlayerInvincibleForSeconds(5f);
+                        if(!InvincibleAbility.isPotionInvincible){
+                            InvincibleAbility.PlayerInvincibleForSeconds(5);
                             inventory.UseItem(inventory.EquippedItem);
-                        }              
+                        }
                         break;
                 }
             }
@@ -243,7 +244,7 @@ public class UI_Inventory : MonoBehaviour
 
         Movement = FindObjectOfType<PlayerInventory>().GetComponent<Movement>();
         DamageableCharacter = FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>();
-
+        InvincibleAbility = FindObjectOfType<PlayerInventory>().GetComponent<Invincible>();
 
     }
     private void SetSlots(int slotCount)
