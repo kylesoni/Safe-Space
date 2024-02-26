@@ -14,6 +14,9 @@ public class TileMining : MonoBehaviour
     public Tile dirtTile; // Reference to the dirt tile
     public Tile grassTile; // Reference to the grass tile
 
+    public Tile placeStone;
+    public Tile placeDirt;
+
     private PlayerInventory player;
 
     private Vector3Int currentlyMining;
@@ -40,7 +43,17 @@ public class TileMining : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             if (map.GetTile(cellPosition) == null)
-                map.SetTile(cellPosition, placeTile);
+            {
+                if (player.inventory.EquippedItem != null && player.inventory.EquippedItem.itemType == Item.ItemType.Stone)
+                {
+                    player.inventory.RemoveItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
+                    map.SetTile(cellPosition, placeStone);
+                } else if (player.inventory.EquippedItem != null && player.inventory.EquippedItem.itemType == Item.ItemType.Dirt)
+                {
+                    player.inventory.RemoveItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
+                    map.SetTile(cellPosition, placeDirt);
+                }
+            }
         }
 
         // Check for left mouse click when equipped with the pickaxe      
