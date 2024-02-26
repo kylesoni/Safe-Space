@@ -25,11 +25,17 @@ public class TileMining : MonoBehaviour
 
     void Update()
     {
+        Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int cellPosition = map.WorldToCell(worldPoint);
+
+        print(Vector3.Distance(transform.position, worldPoint));
+        if (Vector3.Distance(transform.position, worldPoint) > 12)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(1))
         {
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPosition = map.WorldToCell(worldPoint);
-
             if (map.GetTile(cellPosition) == null)
                 map.SetTile(cellPosition, placeTile);
         }
@@ -37,9 +43,6 @@ public class TileMining : MonoBehaviour
         // Check for left mouse click when equip the pickaxe      
         if (player.inventory.EquippedItem != null && player.inventory.EquippedItem.itemType == Item.ItemType.Pickaxe && Input.GetMouseButton(0))
         { 
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPosition = map.WorldToCell(worldPoint);
-
             if (cellPosition != currentlyMining)
             {
                 currentlyMining = cellPosition;
