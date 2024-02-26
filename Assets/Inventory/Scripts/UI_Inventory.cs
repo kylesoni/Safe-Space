@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Progress;
 
 public class UI_Inventory : MonoBehaviour
 {    
@@ -16,18 +15,39 @@ public class UI_Inventory : MonoBehaviour
     public Image slotPrefab;
     private Transform slots;
     public TextMeshProUGUI keyTextPrefab;
+    [HideInInspector]
     public int selectedSlotIndex = -1;
     
     public static int slotCount = 10;  // can modify the slot count here
 
     private Item draggedItem = null;
     private bool isInventoryMode = false;
+    public Image dimmingOverlay;
+    public GameObject draggedItemUI;
+    public Image draggedItemImage;
+
+    private Movement Movement;
+    private DamageableCharacter DamageableCharacter;
+    private Invincible InvincibleAbility;
 
     private void Awake()
     {
         itemSlotContainer = transform.Find("itemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");      
         slots = transform.Find("slots");       
+    }
+
+    private void Start()
+    {
+        // ! make sure position of slots and itemSlotContainer are the same         
+        SetSlots(slotCount);
+
+        Movement = FindObjectOfType<PlayerInventory>().GetComponent<Movement>();
+        DamageableCharacter = FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>();
+        InvincibleAbility = FindObjectOfType<PlayerInventory>().GetComponent<Invincible>();
+
+        dimmingOverlay.gameObject.SetActive(false);
+        draggedItemUI.SetActive(false);
     }
 
     public void SetPlayer(PlayerInventory player)
@@ -84,18 +104,9 @@ public class UI_Inventory : MonoBehaviour
         }        
     }
 
-    /*
-        private void DropItemFromSlot(Item item)
-        {
-            Item duplicateItem = item.CreateDuplicateItem(item);
-            inventory.RemoveItem(item);
-            ItemWorld.DropItem(player.transform.position, duplicateItem);        
-        }
-    */
-
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I)) {
+        if(Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape)) {
             ToggleMovingItemMode();
         }
 
@@ -109,8 +120,18 @@ public class UI_Inventory : MonoBehaviour
 
         FDrop();
 
+        UpdateDraggedItemPosition();
     }
-        private void NumberKeySelect()
+
+    private void UpdateDraggedItemPosition()
+    {
+        if (isInventoryMode && draggedItem != null)
+        {
+            draggedItemUI.transform.position = Input.mousePosition;
+        }
+    }
+
+    private void NumberKeySelect()
     {
         // equip items corresponding to the numbers
         for (int i = 0; i < slotCount; i++)
@@ -140,13 +161,13 @@ public class UI_Inventory : MonoBehaviour
         // if Input.GetMouseButtonDown(1)
         {
             if (draggedItem != null)
-            {
-                // DropItemFromSlot(draggedItem);
+            {                
                 Item duplicateItem = draggedItem.CreateDuplicateItem(draggedItem);
                 inventory.RemoveItem(draggedItem);
                 ItemWorld.DropItem(player.transform.position, duplicateItem);
 
                 draggedItem = null;
+                draggedItemUI.SetActive(false);
             }
             else
             {
@@ -168,8 +189,18 @@ public class UI_Inventory : MonoBehaviour
                         inventory.UseItem(inventory.EquippedItem);
                         break;
                     case Item.ItemType.HealthPotion:
-                        FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>().Heal(100);
+                        DamageableCharacter.Heal(100);
                         inventory.UseItem(inventory.EquippedItem);
+                        break;
+                    case Item.ItemType.JumpPotion:
+                        Movement.jumpforce = 1500f;
+                        inventory.UseItem(inventory.EquippedItem);
+                        break;
+                    case Item.ItemType.GuardianPotion:
+                        if(!InvincibleAbility.isPotionInvincible){
+                            InvincibleAbility.PlayerInvincibleForSeconds(5);
+                            inventory.UseItem(inventory.EquippedItem);
+                        }
                         break;
                 }
             }
@@ -223,11 +254,6 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        // ! make sure position of slots and itemSlotContainer are the same         
-        SetSlots(slotCount);
-    }
     private void SetSlots(int slotCount)
     {
         int x = 0;
@@ -259,7 +285,7 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    private void SetItemSlotHighlight()
+    public void SetItemSlotHighlight()
     {
         Color defaultColor = new Color(0f, 0f, 0f, 150f / 255f);
         Color highlightColor = new Color(255f, 0f, 0f, 30f / 255f);
@@ -289,6 +315,8 @@ public class UI_Inventory : MonoBehaviour
             // remove the slot highlight when enter
             selectedSlotIndex = -1;
             SetItemSlotHighlight();
+
+            dimmingOverlay.gameObject.SetActive(true);
         }
         
         if (!isInventoryMode)
@@ -296,8 +324,8 @@ public class UI_Inventory : MonoBehaviour
             // handle exit without putting back dragged item
             if (draggedItem != null)
             {
-                inventory.AddItem(draggedItem);
-                draggedItem = null;
+                inventory.AddItem(draggedItem);               
+                draggedItem = null;                
             }
 
             // select the first slot when exit
@@ -307,6 +335,9 @@ public class UI_Inventory : MonoBehaviour
             {
                 inventory.EquipItem(inventory.slotIndexToItemType[0]);
             }
+
+            dimmingOverlay.gameObject.SetActive(false);
+            draggedItemUI.SetActive(false);
         }
     }
 
@@ -342,7 +373,7 @@ public class UI_Inventory : MonoBehaviour
                         inventory.AddItem(draggedItem, clickedSlotIndex);
                         // update draggedItem to new item
                         draggedItem = duplicateItem;
-                        // TODO: update the item image near the cursor
+                        draggedItemImage.sprite = draggedItem.SetSprite();
                         break;
                     }
                 }
@@ -353,7 +384,7 @@ public class UI_Inventory : MonoBehaviour
                 inventory.AddItem(draggedItem, clickedSlotIndex);
                 Debug.Log("Put " + draggedItem.itemType + " in new slot");
                 draggedItem = null;
-                // TODO: delete the item image near the cursor
+                draggedItemUI.SetActive(false);
             }
         }
         else
@@ -370,11 +401,11 @@ public class UI_Inventory : MonoBehaviour
                         draggedItem = duplicateItem;                        
                         inventory.RemoveItem(item);
                         Debug.Log("Pick up " + draggedItem.itemType);
+                        draggedItemUI.SetActive(true);
+                        draggedItemImage.sprite = draggedItem.SetSprite();
                         break;
                     }
                 }
-
-                // TODO: visually show the item image near the cursor
             }
         }
     }

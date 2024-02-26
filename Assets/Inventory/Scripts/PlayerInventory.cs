@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static Item;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class PlayerInventory : MonoBehaviour
             if (inventory.itemTypeToSlotIndex[item.itemType] == uiInventory.selectedSlotIndex)
             {
                 inventory.EquipItem(item);
+                uiInventory.SetItemSlotHighlight();
+                Debug.Log("Equipped " + item.itemType.ToString());
             }
             itemWorld.DestroySelf();
         }

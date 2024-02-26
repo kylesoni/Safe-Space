@@ -16,7 +16,7 @@ public class Movement : MonoBehaviour
     /// <summary>
     /// jump force of the player
     /// </summary>
-    public float jumpforce = 400f;
+    public float jumpforce = 1000f;
 
     /// <summary>
     /// max speed of the player
@@ -133,6 +133,11 @@ public class Movement : MonoBehaviour
             }
             anim.SetBool("isRunning", false);
 
+        }
+
+        if (playerbody.velocity.y < -50)
+        {
+            playerbody.velocity = new Vector2(playerbody.velocity.x, -50);
         }
     }
     private void OnCollisionStay2D(Collision2D collision)

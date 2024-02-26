@@ -70,7 +70,7 @@ public class Attack : MonoBehaviour
         if (other.gameObject.GetComponent<DamageableCharacter>())
         {
             Collider2D collider = other.GetComponent<Collider2D>();
-            Vector2 direction = new Vector2(collider.transform.position.x - transform.position.x, 0.1f).normalized;
+            Vector2 direction = new Vector2(collider.transform.position.x - transform.position.x, collider.transform.position.y - transform.position.y).normalized;
             Vector2 knockback = direction * knockbackForce;
             other.gameObject.GetComponent<DamageableCharacter>().OnHit(damage, knockback);
             Debug.Log("Enemy Hit!");

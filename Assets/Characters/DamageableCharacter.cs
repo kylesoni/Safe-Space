@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+
 
 public class DamageableCharacter : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class DamageableCharacter : MonoBehaviour
     /// </summary>
     public float stamina = 100f;
 
+ 
     public float iFrames = 1f;
     public float iTimer = 0f;
     public bool canTurnInvincible = true;
@@ -38,6 +41,9 @@ public class DamageableCharacter : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private Invincible InvincibleAbility;
+
+
     void Start()
     {
         health = maxHealth;
@@ -48,6 +54,7 @@ public class DamageableCharacter : MonoBehaviour
             healthbar.SetMaxHealth(maxHealth);
             player_anim = GetComponent<Animator>();
         }
+        InvincibleAbility = FindObjectOfType<PlayerInventory>().GetComponent<Invincible>();
     }
 
     // Update is called once per frame
@@ -84,7 +91,14 @@ public class DamageableCharacter : MonoBehaviour
             }
             else
             {
-                GetComponent<Slime>().enabled = true;
+                if (GetComponent<Slime>())
+                {
+                    GetComponent<Slime>().enabled = true;
+                }
+                if (GetComponent<Wisp>())
+                {
+                    GetComponent<Wisp>().enabled = true;
+                }
             }
         }
     }
@@ -103,7 +117,7 @@ public class DamageableCharacter : MonoBehaviour
 
     public void OnHit(int damage, Vector2 knockback)
     {
-        if (!Invincible)
+        if (!Invincible && !InvincibleAbility.isPotionInvincible)
         {
             health -= damage;
             if (isPlayer)
@@ -118,7 +132,14 @@ public class DamageableCharacter : MonoBehaviour
             canMove = false;
             if (!isPlayer)
             {
-                GetComponent<Slime>().enabled = false;
+                if (GetComponent<Slime>())
+                {
+                    GetComponent<Slime>().enabled = false;
+                }
+                if (GetComponent<Wisp>())
+                {
+                    GetComponent<Wisp>().enabled = false;
+                }
             }
 
             if (canTurnInvincible)
