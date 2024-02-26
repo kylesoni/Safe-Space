@@ -17,12 +17,12 @@ public class Crafting : MonoBehaviour
 
     private void Update()
     {
-        print(CanCraft(Item.ItemType.Sword));
+        //print(CanCraft(Item.ItemType.Sword));
 
-        if (CanCraft(Item.ItemType.Sword))
-        {
-            CraftItem(Item.ItemType.Sword);
-        }
+        //if (CanCraft(Item.ItemType.Sword))
+        //{
+        //    CraftItem(Item.ItemType.Sword);
+        //}
     }
 
     void InitializeCraftingRecipes()
