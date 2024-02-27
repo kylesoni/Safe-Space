@@ -36,4 +36,6 @@ public class ItemAssets : MonoBehaviour
     // Blocks
     public Sprite dirtSprite;
     public Sprite stoneSprite;
+    public Sprite ironSprite;
+    public Sprite goldSprite;
 }

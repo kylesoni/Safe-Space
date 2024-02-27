@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+// using UnityEngine.UIElements;
 
 public class UI_Inventory : MonoBehaviour
 {    
@@ -9,22 +13,26 @@ public class UI_Inventory : MonoBehaviour
     private Inventory inventory;
     private Transform itemSlotContainer;
     private Transform itemSlotTemplate;
-    public float itemSlotCellSize = 30f;
+    private int itemSlotCellSize = 70;
     private PlayerInventory player;
     
     public Image slotPrefab;
-    private Transform slots;
+    private Transform hotbarSlots;
     public TextMeshProUGUI keyTextPrefab;
     [HideInInspector]
     public int selectedSlotIndex = -1;
     
-    public static int slotCount = 10;  // can modify the slot count here
+    public static int slotCount = 30;  // total slot count: hotbar + inventory
+    public static int hotbarSlotCount = 10;
+    private int numSlotPerRow = 10;
+    public GameObject inventorySlots;
 
     private Item draggedItem = null;
-    private bool isInventoryMode = false;
+    public bool isInventoryMode = false;
     public Image dimmingOverlay;
     public GameObject draggedItemUI;
     public Image draggedItemImage;
+    private SortedList<int, RectTransform> itemRectTransforms = new SortedList<int, RectTransform>();
 
     private Movement Movement;
     private DamageableCharacter DamageableCharacter;
@@ -33,14 +41,15 @@ public class UI_Inventory : MonoBehaviour
     private void Awake()
     {
         itemSlotContainer = transform.Find("itemSlotContainer");
-        itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");      
-        slots = transform.Find("slots");       
+        itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");
+        hotbarSlots = transform.Find("hotbarSlots");       
     }
 
     private void Start()
     {
         // ! make sure position of slots and itemSlotContainer are the same         
-        SetSlots(slotCount);
+        SetHotbarSlots(hotbarSlotCount);
+        inventorySlots.SetActive(false);
 
         Movement = FindObjectOfType<PlayerInventory>().GetComponent<Movement>();
         DamageableCharacter = FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>();
@@ -71,6 +80,8 @@ public class UI_Inventory : MonoBehaviour
 
     private void RefreshInventoryItems()
     {
+        itemRectTransforms.Clear();
+
         foreach (Transform child in itemSlotContainer)
         {
             if (child == itemSlotTemplate) continue;
@@ -78,20 +89,23 @@ public class UI_Inventory : MonoBehaviour
         }
    
         foreach (Item item in inventory.GetItemList())
-        {
-            RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();           
-            itemSlotRectTransform.gameObject.SetActive(true);
+        {            
+            int slotIndex = inventory.itemTypeToSlotIndex[item.itemType];     
+            
+            RectTransform itemRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
+            itemRectTransform.gameObject.SetActive(true);
 
-            // Set position
-            int slotIndex = inventory.itemTypeToSlotIndex[item.itemType];
-            itemSlotRectTransform.anchoredPosition = new Vector2(slotIndex * itemSlotCellSize, 0); 
+            // Set Position
+            int xPosition = (slotIndex % numSlotPerRow) * itemSlotCellSize;
+            int yPosition = -(slotIndex / numSlotPerRow) * itemSlotCellSize;
+            itemRectTransform.anchoredPosition = new Vector2(xPosition, yPosition); 
             
             // Set Image
-            Image image = itemSlotRectTransform.Find("image").GetComponent<Image>();           
+            Image image = itemRectTransform.Find("image").GetComponent<Image>();           
             image.sprite = item.SetSprite();
 
             // Set Amount Text
-            TextMeshProUGUI uiText = itemSlotRectTransform.Find("text").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI uiText = itemRectTransform.Find("text").GetComponent<TextMeshProUGUI>();
             if(item.amount > 1)
             {
                 uiText.SetText(item.amount.ToString());
@@ -99,18 +113,55 @@ public class UI_Inventory : MonoBehaviour
             else
             {
                 uiText.SetText("");
-            }            
-          
-        }        
+            }
+
+            // Hide item with slot index >= 10 if not in inventoryMode
+            if (slotIndex >= hotbarSlotCount && !isInventoryMode)
+            {
+                itemRectTransform.gameObject.SetActive(false);
+                Debug.Log("Hide item " + item.itemType);
+            }
+
+            itemRectTransforms.Add(slotIndex, itemRectTransform);
+        }
+    }
+
+    private void DisplayInactiveItem()
+    {        
+        for (int i = itemRectTransforms.Count - 1; i >= 0; i--)
+        {
+            var kvp = itemRectTransforms.ElementAt(i);
+            int slotIndex = kvp.Key;
+            Debug.Log("slot index: " + slotIndex);
+            if (slotIndex < 10) // item with slot index < 10 should already be active
+            {                
+                break;
+            }
+            kvp.Value.gameObject.SetActive(true);         
+        }
+    }
+
+    private void HideInventoryItem()
+    {
+        for (int i = itemRectTransforms.Count - 1; i >= 0; i--)
+        {
+            var kvp = itemRectTransforms.ElementAt(i);
+            int slotIndex = kvp.Key;
+            if (slotIndex < 10)
+            {
+                break;
+            }
+            kvp.Value.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape)) {
-            ToggleMovingItemMode();
+            ToggleInventoryMode();
         }
 
-        // Disable other actions in MovingItemMode
+        // Disable other actions in InventoryMode
         if (!isInventoryMode)
         {
             NumberKeySelect();
@@ -134,7 +185,7 @@ public class UI_Inventory : MonoBehaviour
     private void NumberKeySelect()
     {
         // equip items corresponding to the numbers
-        for (int i = 0; i < slotCount; i++)
+        for (int i = 0; i < hotbarSlotCount; i++)
         {
             if ((i == 9 && Input.GetKeyDown(KeyCode.Alpha0)) || Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
@@ -228,14 +279,14 @@ public class UI_Inventory : MonoBehaviour
     /// <param name="direction"></param>
     private void ScrollSelectSlot(int direction)
     {        
-        int newIndex = selectedSlotIndex + direction;
-        if (newIndex >= slotCount)
+        int newIndex = selectedSlotIndex + direction;   
+        if (newIndex >= hotbarSlotCount)
         {
             newIndex = 0;
         }
         else if (newIndex < 0)
         {
-            newIndex = slotCount - 1;
+            newIndex = hotbarSlotCount - 1;
         }
 
         // select the new slot and equip item if not empty
@@ -254,15 +305,15 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    private void SetSlots(int slotCount)
+    private void SetHotbarSlots(int hotbarSlotCount)
     {
         int x = 0;
         int y = 0;
         
-        for (int i = 0; i < slotCount; i++)
+        for (int i = 0; i < hotbarSlotCount; i++)
         {
             // Set image sprite
-            Image slot = Instantiate(slotPrefab, slots);
+            Image slot = Instantiate(slotPrefab, hotbarSlots);
             slot.rectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y);
             slot.gameObject.SetActive(true);        
             x++;
@@ -291,22 +342,22 @@ public class UI_Inventory : MonoBehaviour
         Color highlightColor = new Color(255f, 0f, 0f, 30f / 255f);
 
         // Reset color for all slots
-        for (int i = 0; i < slots.childCount; i++)
+        for (int i = 0; i < hotbarSlots.childCount; i++) // bug? 
         {
-            Image slotImage = slots.GetChild(i).GetComponent<Image>();
+            Image slotImage = hotbarSlots.GetChild(i).GetComponent<Image>();
             slotImage.color = defaultColor; 
         }
 
         // Update the color of selected slot
         if (selectedSlotIndex != -1)
         {
-            Image selectedSlotImage = slots.GetChild(selectedSlotIndex + 1).GetComponent<Image>();
+            Image selectedSlotImage = hotbarSlots.GetChild(selectedSlotIndex + 1).GetComponent<Image>();
             selectedSlotImage.color = highlightColor;
         }       
         
     }
 
-    private void ToggleMovingItemMode()
+    private void ToggleInventoryMode()
     {
         isInventoryMode = !isInventoryMode;
         
@@ -317,6 +368,8 @@ public class UI_Inventory : MonoBehaviour
             SetItemSlotHighlight();
 
             dimmingOverlay.gameObject.SetActive(true);
+            inventorySlots.SetActive(true);
+            DisplayInactiveItem();
         }
         
         if (!isInventoryMode)
@@ -338,6 +391,8 @@ public class UI_Inventory : MonoBehaviour
 
             dimmingOverlay.gameObject.SetActive(false);
             draggedItemUI.SetActive(false);
+            inventorySlots.SetActive(false);
+            HideInventoryItem();
         }
     }
 
@@ -345,7 +400,7 @@ public class UI_Inventory : MonoBehaviour
     {
         if (!isInventoryMode)
         {
-            Debug.Log("Not in moving item Mode");
+            Debug.Log("Not in Inventory Mode");
             return;
         }
 

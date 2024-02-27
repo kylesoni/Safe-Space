@@ -5,8 +5,11 @@ using UnityEngine.UI;
 public class Tooltip : MonoBehaviour
 {
     public GameObject tooltipBox;
+    private RectTransform tooltipBoxRender;
     public TextMeshProUGUI tooltipText;
     public PlayerInventory player;    
+    public UI_Inventory ui_inventory;
+    
 
     private static Tooltip _instance; // Singleton pattern
     public static Tooltip Instance
@@ -28,7 +31,8 @@ public class Tooltip : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        gameObject.SetActive(false);        
+        gameObject.SetActive(false);
+        tooltipBoxRender = GetComponent<RectTransform>();
     }
 
     public void DisplayTooltip(int slotIndex)
@@ -39,8 +43,16 @@ public class Tooltip : MonoBehaviour
         }
 
         if (player.inventory.slotIndexToItemType.ContainsKey(slotIndex))
-        {
-            // tooltipBox.transform.position = Input.mousePosition;
+        {   
+            // Update tooltipBox position
+            if (ui_inventory.isInventoryMode)
+            {                
+                tooltipBoxRender.anchoredPosition = new Vector2(-90f, -190f);
+            } else if (!ui_inventory.isInventoryMode)
+            {
+                tooltipBoxRender.anchoredPosition = new Vector2(-90f, -50f);
+            }
+
             tooltipBox.SetActive(true);
 
             Item.ItemType itemType = player.inventory.slotIndexToItemType[slotIndex];

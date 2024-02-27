@@ -20,6 +20,9 @@ public class Item
         // Blocks
         Dirt,
         Stone,
+        Iron,
+        Gold,
+
     }
 
     // attributes
@@ -46,6 +49,8 @@ public class Item
                 // Blocks
                 case ItemType.Dirt:             return ItemAssets.Instance.dirtSprite;
                 case ItemType.Stone:            return ItemAssets.Instance.stoneSprite;
+                case ItemType.Iron:            return ItemAssets.Instance.ironSprite;
+                case ItemType.Gold:            return ItemAssets.Instance.goldSprite;
         }
     }
 
@@ -74,6 +79,8 @@ public class Item
             // Blocks
             case ItemType.Dirt: return "Dirt: Common surface terrain";
             case ItemType.Stone: return "Stone: Durable building block and crafting resource";
+            case ItemType.Iron: return "Iron: Durable building block and crafting resource";
+            case ItemType.Gold: return "Gold: Durable building block and crafting resource";
 
             default: return "no relevant item info";
         }
