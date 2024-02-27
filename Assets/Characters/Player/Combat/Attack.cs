@@ -44,7 +44,7 @@ public class Attack : MonoBehaviour
             {
                 if (item.isActive)
                 {
-                    if (player_move.facing_right)
+                    if (Input.mousePosition.x > Screen.width / 2)
                     {
                         anim.SetTrigger("RightAttack");
                     }
