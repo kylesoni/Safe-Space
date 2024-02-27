@@ -10,12 +10,13 @@ public class Item
         // Items
         Sword,
         Pickaxe,
-        Torch,
         HealthPotion,
         JumpPotion,
         GuardianPotion,
         Bomb,
-        Key,       
+        Key,    
+        Lantern,
+        Star,
         
         // Blocks
         Dirt,
@@ -40,17 +41,19 @@ public class Item
                 // Items
                 case ItemType.Sword:            return ItemAssets.Instance.swordSprite;
                 case ItemType.Pickaxe:          return ItemAssets.Instance.pickaxeSprite;
-                case ItemType.Torch:            return ItemAssets.Instance.torchSprite;
                 case ItemType.HealthPotion:     return ItemAssets.Instance.healthPotionSprite;                
                 case ItemType.JumpPotion:       return ItemAssets.Instance.jumpPotionSprite;
                 case ItemType.GuardianPotion:   return ItemAssets.Instance.guardianPotionSprite;
                 case ItemType.Bomb:             return ItemAssets.Instance.BombSprite;
                 case ItemType.Key:              return ItemAssets.Instance.keySprite;
-                // Blocks
+                case ItemType.Lantern:          return ItemAssets.Instance.lanternSprite;
+                case ItemType.Star:             return ItemAssets.Instance.starSprite;
+            // Blocks
                 case ItemType.Dirt:             return ItemAssets.Instance.dirtSprite;
                 case ItemType.Stone:            return ItemAssets.Instance.stoneSprite;
                 case ItemType.Iron:            return ItemAssets.Instance.ironSprite;
                 case ItemType.Gold:            return ItemAssets.Instance.goldSprite;
+               
         }
     }
 
@@ -60,6 +63,7 @@ public class Item
         {
             case ItemType.Sword:    return false;
             case ItemType.Pickaxe: return false;
+            case ItemType.Lantern: return false;
             default:                return true;
         }
     }
@@ -70,12 +74,13 @@ public class Item
         {          
             case ItemType.Sword: return "Sword: Melee weapon for close combat";
             case ItemType.Pickaxe: return "Pickaxe: Tool for mining and breaking blocks";
-            case ItemType.Torch: return "Torch: Portable light source";
             case ItemType.HealthPotion: return "Health Potion: Restores player's health";
             case ItemType.JumpPotion: return "Jump Potion: Enhances jumping abilities permanently.";
             case ItemType.GuardianPotion: return "Guardian Potion: Grants temporary protection";
             case ItemType.Bomb: return "Bomb: Explosive device for breaking blocks";
             case ItemType.Key: return "Key: Unlocks doors or restricted areas";
+            case ItemType.Lantern: return "Lantern: Portable light source";
+            case ItemType.Star: return "Star: place in the air to light up the surrounding";
             // Blocks
             case ItemType.Dirt: return "Dirt: Common surface terrain";
             case ItemType.Stone: return "Stone: Durable building block and crafting resource";

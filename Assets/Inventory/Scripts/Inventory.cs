@@ -120,6 +120,7 @@ public class Inventory
         if (itemInInventory == null)
         {
             Debug.Log("No item found to equip");
+            ClearEquip();
         }
     }
     public void EquipItem(Item.ItemType itemType)
@@ -140,6 +141,7 @@ public class Inventory
         if (itemInInventory == null)
         {
             Debug.Log("No item found to equip");
+            ClearEquip();
         }
     }
 

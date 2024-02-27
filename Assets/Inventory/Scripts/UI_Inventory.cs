@@ -38,6 +38,8 @@ public class UI_Inventory : MonoBehaviour
     private DamageableCharacter DamageableCharacter;
     private Invincible InvincibleAbility;
 
+    public Lantern lantern;
+
     private void Awake()
     {
         itemSlotContainer = transform.Find("itemSlotContainer");
@@ -252,6 +254,10 @@ public class UI_Inventory : MonoBehaviour
                             InvincibleAbility.PlayerInvincibleForSeconds(5);
                             inventory.UseItem(inventory.EquippedItem);
                         }
+                        break;
+                    case Item.ItemType.Lantern:
+                        lantern.TurnOn();
+                        inventory.UseItem(inventory.EquippedItem);
                         break;
                 }
             }

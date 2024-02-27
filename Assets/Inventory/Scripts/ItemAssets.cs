@@ -26,13 +26,14 @@ public class ItemAssets : MonoBehaviour
     // Items
     public Sprite swordSprite;
     public Sprite pickaxeSprite;
-    public Sprite torchSprite;
     public Sprite healthPotionSprite;
     public Sprite jumpPotionSprite;
     public Sprite guardianPotionSprite;   
     public Sprite BombSprite;
     public Sprite keySprite;
-    
+    public Sprite lanternSprite;
+    public Sprite starSprite;
+
     // Blocks
     public Sprite dirtSprite;
     public Sprite stoneSprite;
