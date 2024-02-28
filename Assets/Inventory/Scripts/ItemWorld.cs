@@ -9,7 +9,8 @@ public class ItemWorld : MonoBehaviour
 
     private static Movement playerMovement;
 
-    private void Start()
+    private void 
+        t()
     {
         playerMovement = FindObjectOfType<PlayerInventory>().GetComponent<Movement>();
     }

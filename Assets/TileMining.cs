@@ -32,18 +32,17 @@ public class TileMining : MonoBehaviour
         this.inventory = inventory;
     }
 
-    public void DetectTileatMousePosition()
+    public bool isMouseOverTile()
     {
         Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = map.WorldToCell(worldPoint);
-        if (map.GetTile(cellPosition) == null)
+        if (map.GetTile(cellPosition) == null && background.GetTile(cellPosition) == null)
         {
-            Debug.Log("No tile in map");
+            // Debug.Log("not over tile");
+            return false;
         }
-        else if (background.GetTile(cellPosition) == null)
-        {
-            Debug.Log("No tile in background");
-        }
+        // Debug.Log("over tile");
+        return true;
     }
 
     void Update()

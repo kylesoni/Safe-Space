@@ -183,8 +183,9 @@ GameObject:
   - component: {fileID: 8151611478350995650}
   - component: {fileID: 7041312410759721633}
   - component: {fileID: 3461507113499165970}
-  - component: {fileID: -2663137618148946690}
   - component: {fileID: 2453579980353020162}
+  - component: {fileID: -1682611183757282685}
+  - component: {fileID: 3811407977109661742}
   m_Layer: 0
   m_Name: star
   m_TagString: Untagged
@@ -201,12 +202,11 @@ Transform:
   m_GameObject: {fileID: 4380132673768866164}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.96, y: 1.08, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3117273707903832687}
-  - {fileID: 997578921177082430}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8151611478350995650
@@ -333,25 +333,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-2663137618148946690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4380132673768866164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7e531803a6d74f4d98a51a2348d1c7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item:
-    itemType: 8
-    amount: 0
-    isConsumable: 1
-    isActive: 0
-    itemInfo: 
-  playerPrefab: {fileID: 4002966221141597273, guid: 413695bb4cfd9144ca473f3776e68e4a, type: 3}
 --- !u!114 &2453579980353020162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,45 +345,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a158ff96e588945a1ba9a75283dbfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &4927493855022203106
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 997578921177082430}
-  - component: {fileID: 2002795785639627884}
-  m_Layer: 7
-  m_Name: starLight
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &997578921177082430
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4927493855022203106}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.01792724, w: 0.9998393}
-  m_LocalPosition: {x: -0.017, y: 0.154, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 366710374504113677}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2002795785639627884
+--- !u!114 &-1682611183757282685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4927493855022203106}
+  m_GameObject: {fileID: 4380132673768866164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e531803a6d74f4d98a51a2348d1c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3811407977109661742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4380132673768866164}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
@@ -411,8 +372,8 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.477
-  m_Color: {r: 1, g: 0.9331907, b: 0.64852834, a: 1}
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 0.9541392, b: 0.7572075, a: 1}
   m_Intensity: 3
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
@@ -435,7 +396,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 2
-  m_PointLightOuterRadius: 6
+  m_PointLightOuterRadius: 4
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

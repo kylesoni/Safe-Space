@@ -10,7 +10,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private Image equippedItemImage;
     private Transform playerTransform;
 
-    public Star star;
+    public StarSpawner starSpawner;
     public Lantern lantern;
     public Tooltip tooltip;
     public TileMining tileMining;
@@ -22,7 +22,7 @@ public class PlayerInventory : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
         playerTransform = transform;
-        star.SetInventory(inventory);
+        starSpawner.SetInventory(inventory);
         lantern.SetInventory(inventory);
         tooltip.SetInventory(inventory);
         tileMining.SetInventory(inventory); 
