@@ -6,18 +6,22 @@ using UnityEngine.Rendering.Universal;
 public class Lantern : MonoBehaviour
 {
     private Light2D spotlight;
-    private PlayerInventory player;
+    private Inventory inventory;
 
     void Start()
     {
         spotlight = GetComponent<Light2D>();
-        spotlight.enabled = false;
-        player = FindObjectOfType<PlayerInventory>().GetComponent<PlayerInventory>();
+        spotlight.enabled = false;        
+    }
+
+    public void SetInventory(Inventory inventory)
+    {
+        this.inventory = inventory;
     }
 
     private void Update()
     {
-        if(player.inventory.EquippedItem == null || player.inventory.EquippedItem.itemType != Item.ItemType.Lantern)
+        if(inventory.EquippedItem == null || inventory.EquippedItem.itemType != Item.ItemType.Lantern)
         {
             spotlight.enabled = false;
         }

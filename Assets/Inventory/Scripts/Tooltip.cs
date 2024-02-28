@@ -1,14 +1,13 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Tooltip : MonoBehaviour
 {
     public GameObject tooltipBox;
     private RectTransform tooltipBoxRender;
-    public TextMeshProUGUI tooltipText;
-    public PlayerInventory player;    
+    public TextMeshProUGUI tooltipText;   
     public UI_Inventory ui_inventory;
+    private Inventory inventory;
     
 
     private static Tooltip _instance; // Singleton pattern
@@ -35,14 +34,20 @@ public class Tooltip : MonoBehaviour
         tooltipBoxRender = GetComponent<RectTransform>();
     }
 
+
+    public void SetInventory(Inventory inventory)
+    {
+        this.inventory = inventory;
+    }
+
     public void DisplayTooltip(int slotIndex)
     {       
-        if (player.inventory == null)
+        if (inventory == null)
         {
             Debug.LogError("No inventory in tooltip");
         }
 
-        if (player.inventory.slotIndexToItemType.ContainsKey(slotIndex))
+        if (inventory.slotIndexToItemType.ContainsKey(slotIndex))
         {   
             // Update tooltipBox position
             if (ui_inventory.isInventoryMode)
@@ -55,8 +60,8 @@ public class Tooltip : MonoBehaviour
 
             tooltipBox.SetActive(true);
 
-            Item.ItemType itemType = player.inventory.slotIndexToItemType[slotIndex];
-            foreach (Item item in player.inventory.GetItemList())
+            Item.ItemType itemType = inventory.slotIndexToItemType[slotIndex];
+            foreach (Item item in inventory.GetItemList())
             {
                 if (item.itemType == itemType)
                 {

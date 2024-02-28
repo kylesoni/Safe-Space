@@ -9,12 +9,15 @@ public class ItemAssets : MonoBehaviour
         Instance = this;
     }
     public Transform pfItemWorld;
+    public Transform star;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "blocc")
         {
-            Rigidbody2D itemRB = pfItemWorld.GetComponent<Rigidbody2D>();
+            
+            Rigidbody2D itemRB = pfItemWorld.GetComponent<Rigidbody2D>(); // star stays on sky
+            // Rigidbody2D itemRB = collision.collider.GetComponent<Rigidbody2D>(); 
             if (itemRB != null)
             {
                 itemRB.velocity = Vector3.zero;

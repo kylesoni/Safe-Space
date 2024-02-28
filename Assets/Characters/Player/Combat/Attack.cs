@@ -7,21 +7,13 @@ public class Attack : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private float meleeSpeed;
     [SerializeField] private int damage;
-    private PlayerInventory player;
-    private Movement player_move;
+    
     private Inventory inventory;
-    private DamageableCharacter character;
+    
     public float knockbackForce = 25f;
     [SerializeField] private GameObject sword;
 
     float timeUntilMelee = 0;
-
-    void Start()
-    {
-        player = FindObjectOfType<PlayerInventory>().GetComponent<PlayerInventory>();
-        player_move = FindObjectOfType<PlayerInventory>().GetComponent<Movement>();
-        character = FindObjectOfType<PlayerInventory>().GetComponent<DamageableCharacter>();
-    }
 
     private void Update()
     {
@@ -34,10 +26,14 @@ public class Attack : MonoBehaviour
             anim.SetBool("isAttacking", false);
         }
     }
+    public void SetInventory(Inventory inventory)
+    {
+        this.inventory = inventory;
+    }
 
     private void FixedUpdate()
     {
-        Item item = player.inventory.EquippedItem;
+        Item item = inventory.EquippedItem;
         if (item != null && item.itemType == Item.ItemType.Sword)
         {
             if (timeUntilMelee <= 0f)

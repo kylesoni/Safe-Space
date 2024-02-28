@@ -39,6 +39,8 @@ public class UI_Inventory : MonoBehaviour
     private Invincible InvincibleAbility;
 
     public Lantern lantern;
+    public Star star;
+
 
     private void Awake()
     {
@@ -258,6 +260,10 @@ public class UI_Inventory : MonoBehaviour
                     case Item.ItemType.Lantern:
                         lantern.TurnOn();
                         inventory.UseItem(inventory.EquippedItem);
+                        break;
+                    case Item.ItemType.Star:
+                        star.PutStar();
+                        // handle inventory.UseItem(inventory.EquippedItem) in PutStar()
                         break;
                 }
             }

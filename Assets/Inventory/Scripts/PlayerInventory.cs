@@ -10,13 +10,23 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private Image equippedItemImage;
     private Transform playerTransform;
 
+    public Star star;
+    public Lantern lantern;
+    public Tooltip tooltip;
+    public TileMining tileMining;
+    public Attack attack;
+
     private void Start() // change from Awake to Start or have null reference error
     {
-        inventory = new Inventory(this);
-        uiInventory.SetInventory(inventory);
+        inventory = new Inventory(this);        
         uiInventory.SetPlayer(this);
-        playerTransform = transform;       
-    
+        uiInventory.SetInventory(inventory);
+        playerTransform = transform;
+        star.SetInventory(inventory);
+        lantern.SetInventory(inventory);
+        tooltip.SetInventory(inventory);
+        tileMining.SetInventory(inventory); 
+        attack.SetInventory(inventory);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
