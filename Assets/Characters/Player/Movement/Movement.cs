@@ -62,7 +62,7 @@ public class Movement : MonoBehaviour
         playerlook = GetComponent<SpriteRenderer>();
         facing_right = true;
         tag = "Player";
-        
+        playerbody.centerOfMass = new Vector2(0f, -0.25f);
     }
 
     // Update is called once per frame
