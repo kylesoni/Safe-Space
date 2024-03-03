@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
+using static Item;
+using static UnityEditor.Progress;
 
 public class Crafting : MonoBehaviour
 {
@@ -65,6 +68,9 @@ public class Crafting : MonoBehaviour
             }
 
             Item craftedItem = new Item { itemType = itemToCraft, amount = 1 };
+            // Set other item attributes
+            craftedItem.isConsumable = craftedItem.SetIsConsumable();
+            craftedItem.itemInfo = craftedItem.SetItemInfo();
             inventory.AddItem(craftedItem);
         }
         else

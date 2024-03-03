@@ -22,7 +22,7 @@ public class StarSpawner : MonoBehaviour
             // Check if mouse over game objects
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-            bool isOverGameObject = hit.collider != null;
+            bool isOverGameObject = hit.collider != null;           
 
             // check if mouse over tiles       
             bool isOverTile = tileMining.isMouseOverTile();
@@ -43,6 +43,6 @@ public class StarSpawner : MonoBehaviour
         else
         {
             Debug.Log("Star placement out of reach. Try a shorter distance");
-        }         
+        }
     }
 }

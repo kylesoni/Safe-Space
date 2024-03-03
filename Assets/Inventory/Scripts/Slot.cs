@@ -19,10 +19,12 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         Tooltip.Instance.DisplayTooltip(slotIndex);
+        UI_Inventory.SetIsMouseOverHotbar(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         Tooltip.Instance.HideTooltip();
+        UI_Inventory.SetIsMouseOverHotbar(false);
     }
 }

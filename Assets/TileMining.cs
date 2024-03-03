@@ -93,21 +93,25 @@ public class TileMining : MonoBehaviour
                 slider.value += Time.deltaTime;
                 if (slider.value >= slider.maxValue)
                 {
+                    Item newItem;
                     switch (tile)
-                    {
+                    {                        
                         case Tile _ when tile == stoneTile:
-                            inventory.AddItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
+                            newItem = new Item { itemType = Item.ItemType.Stone, amount = 1 };                            
                             break;
                         case Tile _ when tile == dirtTile:
-                            inventory.AddItem(new Item { itemType = Item.ItemType.Dirt, amount = 1 });
+                            newItem = new Item { itemType = Item.ItemType.Dirt, amount = 1 };                            
                             break;
                         case Tile _ when tile == grassTile:
-                            inventory.AddItem(new Item { itemType = Item.ItemType.Dirt, amount = 1 });
+                            newItem = new Item { itemType = Item.ItemType.Dirt, amount = 1 };                            
                             break;
                         default:
-                            inventory.AddItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
+                            newItem = new Item { itemType = Item.ItemType.Stone, amount = 1 };                                              
                             break;
                     }
+                    newItem.isConsumable = newItem.SetIsConsumable();
+                    newItem.itemInfo = newItem.SetItemInfo();
+                    inventory.AddItem(newItem);
 
                     // Remove the tile at the clicked position
                     map.SetTile(cellPosition, null);

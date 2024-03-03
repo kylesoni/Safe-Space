@@ -41,6 +41,8 @@ public class UI_Inventory : MonoBehaviour
     public Lantern lantern;
     public StarSpawner starSpawner;
 
+    private static bool isMouseOverHotbar = false;
+
 
     private void Awake()
     {
@@ -178,6 +180,11 @@ public class UI_Inventory : MonoBehaviour
         UpdateDraggedItemPosition();
     }
 
+    public static void SetIsMouseOverHotbar(bool isMouseOver)
+    {
+        isMouseOverHotbar = isMouseOver;
+    }
+
     private void UpdateDraggedItemPosition()
     {
         if (isInventoryMode && draggedItem != null)
@@ -209,6 +216,26 @@ public class UI_Inventory : MonoBehaviour
         }          
     }
 
+    public void LeftClickSelect(int slotIndex)
+    {
+        if (!isInventoryMode)
+        {
+            selectedSlotIndex = slotIndex; 
+            SetItemSlotHighlight();
+            if (inventory.slotIndexToItemType.ContainsKey(selectedSlotIndex))
+            {
+                Item.ItemType itemType = inventory.slotIndexToItemType[selectedSlotIndex];
+                inventory.EquipItem(itemType);
+                Debug.Log("Equipped " + itemType.ToString());
+            }
+            else
+            {
+                inventory.ClearEquip();
+                Debug.Log("Empty slot");
+            }
+        }
+    }
+
     private void FDrop()
     {
         // drop equipped item when right click
@@ -233,8 +260,8 @@ public class UI_Inventory : MonoBehaviour
 
     private void LeftClickUse()
     {
-        // use equipped item when left click
-        if (Input.GetMouseButtonDown(0))
+        // use equipped item when left click and mouse not over hotbar
+        if (Input.GetMouseButtonDown(0) && !isMouseOverHotbar)
         {
             if (inventory.EquippedItem != null)
             {
@@ -341,7 +368,8 @@ public class UI_Inventory : MonoBehaviour
             // Add OnClick function dynamically
             int slotIndex = i; // ensure different value is assigned to different slots
             Button buttonComponent = slot.GetComponent<Button>();
-            buttonComponent.onClick.AddListener(() => LeftClickMoveItem(slotIndex));            
+            buttonComponent.onClick.AddListener(() => LeftClickMoveItem(slotIndex));   
+            buttonComponent.onClick.AddListener(() => LeftClickSelect(slotIndex));               
 
             // Set the name of slot to contain the corresponding slotIndex
             slot.gameObject.name = "slot_" + i.ToString();
@@ -410,88 +438,62 @@ public class UI_Inventory : MonoBehaviour
 
     public void LeftClickMoveItem(int clickedSlotIndex)
     {
-        if (!isInventoryMode)
+        if (isInventoryMode)
         {
-            Debug.Log("Not in Inventory Mode");
-            return;
-        }
+            Debug.Log("Slot " + clickedSlotIndex + " pressed");
 
-        /*if (!IsPointerOverItemSlot())
-        {
-            Debug.Log("Not over item slot");
-        }*/
-
-        Debug.Log("Slot " + clickedSlotIndex + " pressed");
-
-        // is dragging item
-        if (draggedItem != null)
-        {
-            // if new slot has item, remove it from inventory and start dragging it
-            if (inventory.slotIndexToItemType.ContainsKey(clickedSlotIndex))
+            // is dragging item
+            if (draggedItem != null)
             {
-                Item.ItemType newItemType = inventory.slotIndexToItemType[clickedSlotIndex];
-                foreach (Item item in inventory.GetItemList())
+                // if new slot has item, remove it from inventory and start dragging it
+                if (inventory.slotIndexToItemType.ContainsKey(clickedSlotIndex))
                 {
-                    if (item.itemType == newItemType)
+                    Item.ItemType newItemType = inventory.slotIndexToItemType[clickedSlotIndex];
+                    foreach (Item item in inventory.GetItemList())
                     {
-                        Item duplicateItem = item.CreateDuplicateItem(item);
-                        inventory.RemoveItem(item);
-                        // Add current item to inventory
-                        inventory.AddItem(draggedItem, clickedSlotIndex);
-                        // update draggedItem to new item
-                        draggedItem = duplicateItem;
-                        draggedItemImage.sprite = draggedItem.SetSprite();
-                        break;
+                        if (item.itemType == newItemType)
+                        {
+                            Item duplicateItem = item.CreateDuplicateItem(item);
+                            inventory.RemoveItem(item);
+                            // Add current item to inventory
+                            inventory.AddItem(draggedItem, clickedSlotIndex);
+                            // update draggedItem to new item
+                            draggedItem = duplicateItem;
+                            draggedItemImage.sprite = draggedItem.SetSprite();
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    // Add Item to the clickedSlotIndex slot
+                    inventory.AddItem(draggedItem, clickedSlotIndex);
+                    Debug.Log("Put " + draggedItem.itemType + " in new slot");
+                    draggedItem = null;
+                    draggedItemUI.SetActive(false);
                 }
             }
             else
-            { 
-                // Add Item to the clickedSlotIndex slot
-                inventory.AddItem(draggedItem, clickedSlotIndex);
-                Debug.Log("Put " + draggedItem.itemType + " in new slot");
-                draggedItem = null;
-                draggedItemUI.SetActive(false);
-            }
-        }
-        else
-        {
-            // click on a slot that contains item
-            if (inventory.slotIndexToItemType.ContainsKey(clickedSlotIndex))
             {
-                Item.ItemType clickedItemType = inventory.slotIndexToItemType[clickedSlotIndex];
-                foreach (Item item in inventory.GetItemList())
+                // click on a slot that contains item
+                if (inventory.slotIndexToItemType.ContainsKey(clickedSlotIndex))
                 {
-                    if (item.itemType == clickedItemType)
+                    Item.ItemType clickedItemType = inventory.slotIndexToItemType[clickedSlotIndex];
+                    foreach (Item item in inventory.GetItemList())
                     {
-                        Item duplicateItem = item.CreateDuplicateItem(item);
-                        draggedItem = duplicateItem;                        
-                        inventory.RemoveItem(item);
-                        Debug.Log("Pick up " + draggedItem.itemType);
-                        draggedItemUI.SetActive(true);
-                        draggedItemImage.sprite = draggedItem.SetSprite();
-                        break;
+                        if (item.itemType == clickedItemType)
+                        {
+                            Item duplicateItem = item.CreateDuplicateItem(item);
+                            draggedItem = duplicateItem;
+                            inventory.RemoveItem(item);
+                            Debug.Log("Pick up " + draggedItem.itemType);
+                            draggedItemUI.SetActive(true);
+                            draggedItemImage.sprite = draggedItem.SetSprite();
+                            break;
+                        }
                     }
                 }
             }
-        }
+        }      
     }
-
-    // don't work don't know why
-    /*
-        private bool IsPointerOverItemSlot()
-        {
-            // Cast a ray from the mouse position
-            Vector2 rayPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(rayPosition, Vector2.zero, 0f, LayerMask.GetMask("UI")); // Ensure the LayerMask is correct
-
-            if (hit.collider != null && hit.collider.CompareTag("itemSlot"))
-            {
-                // The pointer is over an item slot
-                return true;
-            }
-
-            // The pointer is not over an item slot        
-            return false;
-        }*/
 }
