@@ -6,6 +6,7 @@ TagManager:
   tags:
   - blocc
   - itemSlot
+  - Sign
   layers:
   - Default
   - TransparentFX

@@ -42,13 +42,14 @@ public class Attack : MonoBehaviour
                 {
                     if (Input.mousePosition.x > Screen.width / 2)
                     {
-                        anim.SetTrigger("RightAttack");
+                        anim.SetTrigger("RightAttack");                        
                     }
                     else
                     {
                         anim.SetTrigger("LeftAttack");
                     }
 
+                    AudioManager.instance.SwingSwordSound();
                     timeUntilMelee = meleeSpeed;
                     item.TurnOff();
                 }
@@ -69,7 +70,7 @@ public class Attack : MonoBehaviour
             Vector2 direction = new Vector2(collider.transform.position.x - transform.position.x, collider.transform.position.y - transform.position.y).normalized;
             Vector2 knockback = direction * knockbackForce;
             other.gameObject.GetComponent<DamageableCharacter>().OnHit(damage, knockback);
-            Debug.Log("Enemy Hit!");
+            Debug.Log("Enemy Hit!");            
         }
     }
 }

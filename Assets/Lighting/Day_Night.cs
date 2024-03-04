@@ -74,7 +74,7 @@ public class Day_Night : MonoBehaviour
     public void ControlPPV()
     {
         //ppv.weight = 0;
-        if (hours >= 8 && hours < 13)
+        if (hours >= 10 && hours < 15)
         {
             ppv.weight += (float)1 / 300;
             for (int i = 0; i < stars.Length; i++)
@@ -88,9 +88,9 @@ public class Day_Night : MonoBehaviour
         }
 
 
-        if (hours >= 19)
+        if (hours >= 21)
         {
-            ppv.weight -= (float)1 / 300;
+            ppv.weight -= (float)1 / 200;
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].color = new Color(stars[i].color.r, stars[i].color.g, stars[i].color.b, ppv.weight);
@@ -104,7 +104,7 @@ public class Day_Night : MonoBehaviour
 
     public void CheckNight()
     {
-        if (hours >= 10)
+        if (hours >= 12)
         {
             isNight = true;
         }
