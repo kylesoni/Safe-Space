@@ -53,6 +53,8 @@ public class Movement : MonoBehaviour
 
     public float jumpFlexibility = 1;
 
+    public GameObject spawner;
+
     [SerializeField] private Animator anim;
 
     // Start is called before the first frame update
@@ -62,7 +64,7 @@ public class Movement : MonoBehaviour
         playerlook = GetComponent<SpriteRenderer>();
         facing_right = true;
         tag = "Player";
-        playerbody.centerOfMass = new Vector2(0f, -0.25f);
+        playerbody.centerOfMass = new Vector2(0f, -0.2f);
     }
 
     // Update is called once per frame
@@ -74,6 +76,12 @@ public class Movement : MonoBehaviour
         }
 
         transform.rotation = Quaternion.identity;
+
+        // Turn on EnemySpawner
+        if (transform.position.x > 95f)
+        {
+            spawner.SetActive(true);
+        }
     }
 
     private void FixedUpdate()
@@ -176,6 +184,7 @@ public class Movement : MonoBehaviour
         onground = false;
         anim.SetBool("isJumping", true);
         anim.SetTrigger("Jump");
+        AudioManager.instance.JumpSound();
     }
 
 }

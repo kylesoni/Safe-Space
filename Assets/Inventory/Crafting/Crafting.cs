@@ -72,6 +72,7 @@ public class Crafting : MonoBehaviour
             craftedItem.isConsumable = craftedItem.SetIsConsumable();
             craftedItem.itemInfo = craftedItem.SetItemInfo();
             inventory.AddItem(craftedItem);
+            AudioManager.instance.ItemPickupSound();
         }
         else
         {

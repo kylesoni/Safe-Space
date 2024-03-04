@@ -173,11 +173,11 @@ public class UI_Inventory : MonoBehaviour
             NumberKeySelect();
             MouseScrollSelect();            
             LeftClickUse();
-        }
-
-        FDrop();
-
-        UpdateDraggedItemPosition();
+        } else if (isInventoryMode)
+        {
+            RightClickDrop();
+            UpdateDraggedItemPosition();
+        }        
     }
 
     public static void SetIsMouseOverHotbar(bool isMouseOver)
@@ -195,25 +195,29 @@ public class UI_Inventory : MonoBehaviour
 
     private void NumberKeySelect()
     {
-        // equip items corresponding to the numbers
-        for (int i = 0; i < hotbarSlotCount; i++)
+        if (!isInventoryMode)
         {
-            if ((i == 9 && Input.GetKeyDown(KeyCode.Alpha0)) || Input.GetKeyDown(KeyCode.Alpha1 + i))
+            // equip items corresponding to the numbers
+            for (int i = 0; i < hotbarSlotCount; i++)
             {
-                selectedSlotIndex = i;
-                SetItemSlotHighlight();
-                if (inventory.slotIndexToItemType.ContainsKey(i)){             
-                    Item.ItemType itemType = inventory.slotIndexToItemType[i];                    
-                    inventory.EquipItem(itemType);
-                    Debug.Log("Equipped " + itemType.ToString());
-                }                
-                else
+                if ((i == 9 && Input.GetKeyDown(KeyCode.Alpha0)) || Input.GetKeyDown(KeyCode.Alpha1 + i))
                 {
-                    inventory.ClearEquip();
-                    Debug.Log("Empty slot");
+                    selectedSlotIndex = i;
+                    SetItemSlotHighlight();
+                    if (inventory.slotIndexToItemType.ContainsKey(i))
+                    {
+                        Item.ItemType itemType = inventory.slotIndexToItemType[i];
+                        inventory.EquipItem(itemType);
+                        Debug.Log("Equipped " + itemType.ToString());
+                    }
+                    else
+                    {
+                        inventory.ClearEquip();
+                        Debug.Log("Empty slot");
+                    }
                 }
             }
-        }          
+        }               
     }
 
     public void LeftClickSelect(int slotIndex)
@@ -236,16 +240,15 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    private void FDrop()
+    private void RightClickDrop()
     {
         // drop equipped item when right click
-        if (isInventoryMode && Input.GetKeyDown(KeyCode.F))
-        // if Input.GetMouseButtonDown(1)
+        if (isInventoryMode && Input.GetMouseButtonDown(1))
         {
             if (draggedItem != null)
             {                
                 Item duplicateItem = draggedItem.CreateDuplicateItem(draggedItem);
-                inventory.RemoveItem(draggedItem);
+                inventory.RemoveItem(draggedItem);                
                 ItemWorld.DropItem(player.transform.position, duplicateItem);
 
                 draggedItem = null;
@@ -261,7 +264,7 @@ public class UI_Inventory : MonoBehaviour
     private void LeftClickUse()
     {
         // use equipped item when left click and mouse not over hotbar
-        if (Input.GetMouseButtonDown(0) && !isMouseOverHotbar)
+        if (!isInventoryMode && Input.GetMouseButtonDown(0) && !isMouseOverHotbar)
         {
             if (inventory.EquippedItem != null)
             {
@@ -272,24 +275,29 @@ public class UI_Inventory : MonoBehaviour
                         break;
                     case Item.ItemType.HealthPotion:
                         DamageableCharacter.Heal(100);
+                        AudioManager.instance.DrinkPotionSound();
                         inventory.UseItem(inventory.EquippedItem);
                         break;
                     case Item.ItemType.JumpPotion:
                         Movement.jumpforce = 1500f;
+                        AudioManager.instance.DrinkPotionSound();
                         inventory.UseItem(inventory.EquippedItem);
                         break;
                     case Item.ItemType.GuardianPotion:
                         if(!InvincibleAbility.isPotionInvincible){
+                            AudioManager.instance.DrinkPotionSound();
                             InvincibleAbility.PlayerInvincibleForSeconds(5);
                             inventory.UseItem(inventory.EquippedItem);
                         }
                         break;
                     case Item.ItemType.Lantern:
                         lantern.TurnOn();
+                        AudioManager.instance.SwitchOnSound();
                         inventory.UseItem(inventory.EquippedItem);
                         break;
                     case Item.ItemType.Star:
                         starSpawner.PutStar();
+                        AudioManager.instance.PlaceStarSound();
                         // handle inventory.UseItem(inventory.EquippedItem) in PutStar()
                         break;
                 }
@@ -303,13 +311,16 @@ public class UI_Inventory : MonoBehaviour
 
     private void MouseScrollSelect()
     {
-        // mouse scroll to equip item
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-        
-        // scroll up
-        if (scrollInput > 0f)       ScrollSelectSlot(-1);
-        // scroll down
-        else if (scrollInput < 0f)  ScrollSelectSlot(1);        
+        if (!isInventoryMode)
+        {
+            // mouse scroll to equip item
+            float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+
+            // scroll up
+            if (scrollInput > 0f) ScrollSelectSlot(-1);
+            // scroll down
+            else if (scrollInput < 0f) ScrollSelectSlot(1);
+        }              
     }
 
     /// <summary>

@@ -108,6 +108,7 @@ public class DamageableCharacter : MonoBehaviour
         if (isPlayer)
         {
             SceneManager.LoadScene("WorldPrototype");
+            AudioManager.instance.GameOverSound();
         }
         else
         {
@@ -126,6 +127,7 @@ public class DamageableCharacter : MonoBehaviour
                 Debug.Log("Took Damage!");
                 player_anim.SetTrigger("Hit");
                 //GetComponent<Movement>().enabled = false;
+                AudioManager.instance.TakeDamageSound();
             }
 
             rb.AddForce(knockback, ForceMode2D.Impulse);
@@ -140,6 +142,7 @@ public class DamageableCharacter : MonoBehaviour
                 {
                     GetComponent<Wisp>().enabled = false;
                 }
+                AudioManager.instance.HitEnemySound();
             }
 
             if (canTurnInvincible)

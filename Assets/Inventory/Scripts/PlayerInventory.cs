@@ -37,6 +37,7 @@ public class PlayerInventory : MonoBehaviour
             // Add item to inventory
             Item item = itemWorld.GetItem();
             inventory.AddItem(item);
+            AudioManager.instance.ItemPickupSound();
 
             // Equip item if it's put in the selected slot
             if (inventory.itemTypeToSlotIndex[item.itemType] == uiInventory.selectedSlotIndex)

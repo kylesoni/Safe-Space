@@ -71,6 +71,11 @@ public class TileMining : MonoBehaviour
             overlay_map.SetTile(overlayCellPosition, selectedTileOverlay);
         }
 
+        if (map.GetTile(cellPosition) != null && inventory.EquippedItem.itemType == Item.ItemType.Pickaxe)
+        {
+            overlay_map.SetTile(overlayCellPosition, selectedTileOverlay);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (map.GetTile(cellPosition) == null)
@@ -79,10 +84,12 @@ public class TileMining : MonoBehaviour
                 {
                     inventory.RemoveItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
                     map.SetTile(cellPosition, placeStone);
+                    AudioManager.instance.PlaceBlockSound();
                 } else if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Dirt)
                 {
-                    inventory.RemoveItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
+                    inventory.RemoveItem(new Item { itemType = Item.ItemType.Dirt, amount = 1 });
                     map.SetTile(cellPosition, placeDirt);
+                    AudioManager.instance.PlaceBlockSound();
                 }
             }
         }
@@ -104,6 +111,9 @@ public class TileMining : MonoBehaviour
                 // Show the slider
                 // slider.gameObject.SetActive(true);
                 slider.transform.position = Camera.main.WorldToScreenPoint(cellPosition + new Vector3(0.5f, 0.5f, 0));
+
+                // Play Mining Sound
+                AudioManager.instance.PlayMiningSound();
 
                 // Update the slider value
                 slider.value += Time.deltaTime;
@@ -153,11 +163,16 @@ public class TileMining : MonoBehaviour
                     newItem.isConsumable = newItem.SetIsConsumable();
                     newItem.itemInfo = newItem.SetItemInfo();
                     inventory.AddItem(newItem);
+                    AudioManager.instance.ItemPickupSound();
 
                     // Remove the tile at the clicked position
                     map.SetTile(cellPosition, null);
                     slider.value = 0;
                     slider.gameObject.SetActive(false);
+
+                    // Stop Mining Sound
+                    AudioManager.instance.StopMiningSound();
+
                 }
             }
             else if (background.GetTile(cellPosition) != null)
@@ -165,6 +180,7 @@ public class TileMining : MonoBehaviour
                 // Similar implementation for background tiles if needed
                 slider.gameObject.SetActive(true);
                 slider.transform.position = Camera.main.WorldToScreenPoint(cellPosition + new Vector3(0.5f, 0.5f, 0));
+                AudioManager.instance.PlayMiningSound();
 
                 slider.value += Time.deltaTime;
                 if (slider.value >= slider.maxValue)
@@ -172,18 +188,22 @@ public class TileMining : MonoBehaviour
                     background.SetTile(cellPosition, null);
                     slider.value = 0;
                     slider.gameObject.SetActive(false);
+
+                    AudioManager.instance.StopMiningSound();
                 }
             }
             else
             {
                 slider.value = 0;
                 slider.gameObject.SetActive(false);
+                AudioManager.instance.StopMiningSound(); // debug
             }
         }
         else
         {
             slider.value = 0;
             slider.gameObject.SetActive(false);
+            AudioManager.instance.StopMiningSound(); // debug
         }
     }
 }
