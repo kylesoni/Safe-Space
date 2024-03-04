@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -15,10 +16,15 @@ public class AudioManager : MonoBehaviour
     public AudioSource placeStarSound;
     public AudioSource switchOnSound;
 
-    public AudioSource backgroundMusic;
+    public AudioSource backgroundMusicDay;
+    public AudioSource backgroundMusicNight;
+
+    public bool Day = true;
+    public Day_Night daynight;
 
     private void Awake()
-    {        
+    {
+        backgroundMusicDay.Play();
         if (instance == null)
         {
             instance = this;
@@ -31,7 +37,19 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    
+    private void Start()
+    {
+        daynight = FindObjectOfType<Day_Night>();
+    }
+
+    private void Update()
+    {
+        if (Day == daynight.isNight)
+        {
+            SwapBackground();
+        }
+    }
+
     public void HitEnemySound()
     {      
         hitEnemySound.Play();
@@ -94,6 +112,44 @@ public class AudioManager : MonoBehaviour
         switchOnSound.Play();
     }
 
+    public void SwapBackground()
+    {
+        Day = !Day;
+        StopAllCoroutines();
+        StartCoroutine(FadeTrack());
+    }
+
+    private IEnumerator FadeTrack()
+    {
+        Debug.Log("Hi");
+        float timeToFade = 5f;
+        float timeElapsed = 0;
+
+        if (!Day)
+        {
+            backgroundMusicNight.Play();
+
+            while (timeElapsed < timeToFade)
+            {
+                backgroundMusicNight.volume = Mathf.Lerp(0, 1, timeElapsed / timeToFade);
+                backgroundMusicDay.volume = Mathf.Lerp(0.2f, 0, timeElapsed / timeToFade);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+        else
+        {
+            backgroundMusicDay.Play();
+
+            while (timeElapsed < timeToFade)
+            {
+                backgroundMusicNight.volume = Mathf.Lerp(1, 0, timeElapsed / timeToFade);
+                backgroundMusicDay.volume = Mathf.Lerp(0, 0.2f, timeElapsed / timeToFade);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+    }
 
     /*  public void ToggleBackgroundMusic()
       {
