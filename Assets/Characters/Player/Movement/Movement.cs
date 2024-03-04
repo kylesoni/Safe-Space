@@ -176,6 +176,7 @@ public class Movement : MonoBehaviour
         onground = false;
         anim.SetBool("isJumping", true);
         anim.SetTrigger("Jump");
+        AudioManager.instance.JumpSound();
     }
 
 }
