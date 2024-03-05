@@ -58,20 +58,27 @@ public class TileMining : MonoBehaviour
         // Left click to place tile
         if (Input.GetMouseButtonDown(0))
         {
-            if (map.GetTile(cellPosition) == null)
+            // Can't place tile on other gameobjects
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+            if (hit.collider == null)
             {
-                if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Stone)
+                if (map.GetTile(cellPosition) == null)
                 {
-                    inventory.RemoveItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
-                    map.SetTile(cellPosition, placeStone);
-                    AudioManager.instance.PlaceBlockSound();
-                } else if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Dirt)
-                {
-                    inventory.RemoveItem(new Item { itemType = Item.ItemType.Dirt, amount = 1 });
-                    map.SetTile(cellPosition, placeDirt);
-                    AudioManager.instance.PlaceBlockSound();
+                    if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Stone)
+                    {
+                        inventory.RemoveItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
+                        map.SetTile(cellPosition, placeStone);
+                        AudioManager.instance.PlaceBlockSound();
+                    }
+                    else if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Dirt)
+                    {
+                        inventory.RemoveItem(new Item { itemType = Item.ItemType.Dirt, amount = 1 });
+                        map.SetTile(cellPosition, placeDirt);
+                        AudioManager.instance.PlaceBlockSound();
+                    }
                 }
-            }
+            }                      
         }
 
         // Check for left mouse click when equipped with the pickaxe      
