@@ -107,7 +107,7 @@ public class DamageableCharacter : MonoBehaviour
     {
         if (isPlayer)
         {
-            SceneManager.LoadScene("WorldPrototype");
+            SceneManager.LoadScene("Final");
             AudioManager.instance.GameOverSound();
         }
         else if (GetComponent<Wisp>() || GetComponent<Slime>()) 
