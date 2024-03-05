@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource jumpSound;
     public AudioSource placeStarSound;
     public AudioSource switchOnSound;
+    public AudioSource gameWinSound;
 
     public AudioSource backgroundMusicDay;
     public AudioSource backgroundMusicNight;
@@ -110,6 +111,11 @@ public class AudioManager : MonoBehaviour
     public void SwitchOnSound()
     {
         switchOnSound.Play();
+    }
+
+    public void GameWinSound()
+    {
+        gameWinSound.Play();
     }
 
     public void SwapBackground()

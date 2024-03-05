@@ -43,6 +43,9 @@ public class UI_Inventory : MonoBehaviour
 
     private static bool isMouseOverHotbar = false;
 
+    public Spaceship spaceship;
+    public GameObject SpaceshipUI;
+
 
     private void Awake()
     {
@@ -299,6 +302,14 @@ public class UI_Inventory : MonoBehaviour
                         starSpawner.PutStar();
                         AudioManager.instance.PlaceStarSound();
                         // handle inventory.UseItem(inventory.EquippedItem) in PutStar()
+                        break;
+                    case Item.ItemType.Spaceship:
+                        if (!SpaceshipUI.activeSelf)
+                        {
+                            spaceship.ShowSpaceshipUI();
+                            AudioManager.instance.GameWinSound();
+                            inventory.UseItem(inventory.EquippedItem);
+                        }                        
                         break;
                 }
             }

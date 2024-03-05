@@ -21,6 +21,22 @@ public class ItemWorld : MonoBehaviour
         {
             transform = Instantiate(ItemAssets.Instance.star, position, Quaternion.identity);
         }
+        else if (item.itemType == Item.ItemType.Battery)
+        {
+            transform = Instantiate(ItemAssets.Instance.battery, position, Quaternion.identity);
+        }
+        else if (item.itemType == Item.ItemType.Control_Panel)
+        {
+            transform = Instantiate(ItemAssets.Instance.control_panel, position, Quaternion.identity);
+        }
+        else if (item.itemType == Item.ItemType.Thruster)
+        {
+            transform = Instantiate(ItemAssets.Instance.thruster, position, Quaternion.identity);
+        }
+        else if (item.itemType == Item.ItemType.Spaceship)
+        {
+            transform = Instantiate(ItemAssets.Instance.spaceship, position, Quaternion.identity);
+        }
         else
         {
             transform = Instantiate(ItemAssets.Instance.pfItemWorld, position, Quaternion.identity);
