@@ -24,6 +24,12 @@ public class Item
         Iron,
         Gold,
 
+        // Spaceship
+        Battery,
+        Thruster,
+        Control_Panel,
+        Spaceship,
+
     }
 
     // attributes
@@ -48,11 +54,17 @@ public class Item
                 case ItemType.Key:              return ItemAssets.Instance.keySprite;
                 case ItemType.Lantern:          return ItemAssets.Instance.lanternSprite;
                 case ItemType.Star:             return ItemAssets.Instance.starSprite;
-            // Blocks
+                // Blocks
                 case ItemType.Dirt:             return ItemAssets.Instance.dirtSprite;
                 case ItemType.Stone:            return ItemAssets.Instance.stoneSprite;
                 case ItemType.Iron:            return ItemAssets.Instance.ironSprite;
                 case ItemType.Gold:            return ItemAssets.Instance.goldSprite;
+                // Spaceship
+                case ItemType.Battery:             return ItemAssets.Instance.batterySprite;
+                case ItemType.Thruster:            return ItemAssets.Instance.thrusterSprite;
+                case ItemType.Control_Panel:       return ItemAssets.Instance.controlPanelSprite;
+                case ItemType.Spaceship:           return ItemAssets.Instance.spaceshipSprite;
+                
                
         }
     }
@@ -64,6 +76,10 @@ public class Item
             case ItemType.Sword:    return false;
             case ItemType.Pickaxe: return false;
             case ItemType.Lantern: return false;
+            case ItemType.Battery: return false;
+            case ItemType.Thruster: return false;
+            case ItemType.Control_Panel: return false;
+            case ItemType.Spaceship: return false;
             default:                return true;
         }
     }
@@ -80,12 +96,17 @@ public class Item
             case ItemType.Bomb: return "Bomb: Explosive device for breaking blocks";
             case ItemType.Key: return "Key: Unlocks doors or restricted areas";
             case ItemType.Lantern: return "Lantern: Portable light source";
-            case ItemType.Star: return "Star: place in the air to light up the surrounding";
+            case ItemType.Star: return "Star: Place in the air to light up the surrounding";
             // Blocks
             case ItemType.Dirt: return "Dirt: Common surface terrain";
             case ItemType.Stone: return "Stone: Durable building block and crafting resource";
             case ItemType.Iron: return "Iron: Durable building block and crafting resource";
             case ItemType.Gold: return "Gold: Durable building block and crafting resource";
+            // Spaceship
+            case ItemType.Battery: return "Battery: Power source for the spaceship's systems";
+            case ItemType.Thruster: return "Thruster: Maneuvering engine for controlling the spaceship's movement";
+            case ItemType.Control_Panel: return "Control Panel: Central interface for managing and operating the spaceship";
+            case ItemType.Spaceship: return "Spaceship: An interstellar vessel";
 
             default: return "no relevant item info";
         }

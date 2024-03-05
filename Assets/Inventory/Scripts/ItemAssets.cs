@@ -8,15 +8,21 @@ public class ItemAssets : MonoBehaviour
     {
         Instance = this;
     }
+
+    // Prefabs
     public Transform pfItemWorld;
     public Transform star;
+    public Transform battery;
+    public Transform thruster;
+    public Transform control_panel;
+    public Transform spaceship;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "blocc")
         {
             
-            Rigidbody2D itemRB = pfItemWorld.GetComponent<Rigidbody2D>(); // star stays on sky
+            Rigidbody2D itemRB = pfItemWorld.GetComponent<Rigidbody2D>(); // star stays on sky // spaceship prefabs are somehow automatically handled 
             // Rigidbody2D itemRB = collision.collider.GetComponent<Rigidbody2D>(); 
             if (itemRB != null)
             {
@@ -42,4 +48,10 @@ public class ItemAssets : MonoBehaviour
     public Sprite stoneSprite;
     public Sprite ironSprite;
     public Sprite goldSprite;
+
+    // Spaceship
+    public Sprite batterySprite;
+    public Sprite thrusterSprite;
+    public Sprite controlPanelSprite;
+    public Sprite spaceshipSprite;
 }
