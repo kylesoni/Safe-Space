@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] dayEnemyPrefabs;
     public GameObject[] nightEnemyPrefabs;
+    public GameObject[] undergroundEnemyPrefabs;
 
     public float offset;
 
@@ -22,6 +23,8 @@ public class EnemySpawner : MonoBehaviour
     private Day_Night clock;
     private Camera cam;
     private Movement player;
+
+    private bool isUnderground = false;
 
     // Start is called before the first frame update
     void Start()
@@ -44,11 +47,26 @@ public class EnemySpawner : MonoBehaviour
         {
             spawnTimer -= Time.deltaTime;
         }
+
+        if (player.transform.position.y <= -65)
+        {
+            isUnderground = true;
+        }
     }
 
     private void SpawnEnemy()
     {
-        if (clock.isNight)
+        if (isUnderground)
+        {
+            int enemyIndex = Random.Range(0, undergroundEnemyPrefabs.Length);
+            Vector2 newSpawn = GetSpawnPoint();
+            var hitColliders = Physics.OverlapSphere(newSpawn, 1);
+            if (hitColliders.Length <= 0.1)
+            {
+                GameObject.Instantiate(undergroundEnemyPrefabs[enemyIndex], GetSpawnPoint(), Quaternion.identity);
+            }
+        }
+        else if (clock.isNight)
         {
             int enemyIndex = Random.Range(0, nightEnemyPrefabs.Length);
             Vector2 newSpawn = GetSpawnPoint();

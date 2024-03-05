@@ -266,7 +266,7 @@ public class Knight : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isAttacking && collision.gameObject.GetComponent<DamageableCharacter>())
+        if (isAttacking && collision.gameObject.GetComponent<Movement>())
         {
             DamageableCharacter damagable_object = collision.gameObject.GetComponent<DamageableCharacter>();
 

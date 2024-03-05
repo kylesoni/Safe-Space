@@ -45,7 +45,7 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject != archer && collision.gameObject.GetComponent<DamageableCharacter>() && been_shot)
+        if (collision.gameObject != archer && collision.gameObject.GetComponent<Movement>() && been_shot)
         {
             DamageableCharacter damagable_object = collision.gameObject.GetComponent<DamageableCharacter>();
 
@@ -61,7 +61,7 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject != archer && collision.gameObject.GetComponent<DamageableCharacter>() && been_shot)
+        if (collision.gameObject != archer && collision.gameObject.GetComponent<Movement>() && been_shot)
         {
             DamageableCharacter damagable_object = collision.gameObject.GetComponent<DamageableCharacter>();
 
