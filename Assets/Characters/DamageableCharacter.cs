@@ -110,7 +110,7 @@ public class DamageableCharacter : MonoBehaviour
             SceneManager.LoadScene("WorldPrototype");
             AudioManager.instance.GameOverSound();
         }
-        else
+        else if (GetComponent<Wisp>() || GetComponent<Slime>()) 
         {
             Destroy(gameObject);
         }
