@@ -41,7 +41,7 @@ public class Slime : MonoBehaviour
             move = true;
             anim.SetBool("isMoving", true);
         }
-        if (body.velocity.y < -3)
+        if (body.velocity.y < -10)
         {
             body.velocity = new Vector2(body.velocity.x, -3);
         }
