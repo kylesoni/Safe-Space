@@ -138,6 +138,7 @@ public class Item
             case ItemType.Thruster: return false;
             case ItemType.Control_Panel: return false;
             case ItemType.Spaceship: return false;
+            case ItemType.Gold: return false;
 
             default: return !(isBlock());
         }
