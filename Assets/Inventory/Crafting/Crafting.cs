@@ -44,12 +44,18 @@ public class Crafting : MonoBehaviour
             { Item.ItemType.Iron, 5 }
         };
 
-        CraftingRecipes[Item.ItemType.Control_Panel] = new Dictionary<Item.ItemType, int>
+        CraftingRecipes[Item.ItemType.Battery] = new Dictionary<Item.ItemType, int>
         {
-            { Item.ItemType.Wood, 8 },
-            { Item.ItemType.Stone, 10 },
-            { Item.ItemType.Iron, 20 },
-            { Item.ItemType.Gold, 5 },
+            { Item.ItemType.Gold, 1 },
+            { Item.ItemType.Iron, 5 }
+        };
+
+        CraftingRecipes[Item.ItemType.Spaceship] = new Dictionary<Item.ItemType, int>
+        {
+            { Item.ItemType.Control_Panel, 1 },
+            { Item.ItemType.Thruster, 1 },
+            { Item.ItemType.Battery, 2 },
+            { Item.ItemType.Iron, 10 },
             { Item.ItemType.Ruby, 5 }
         };
     }
