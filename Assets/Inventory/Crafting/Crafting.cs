@@ -33,8 +33,24 @@ public class Crafting : MonoBehaviour
         CraftingRecipes = new Dictionary<Item.ItemType, Dictionary<Item.ItemType, int>>();
         CraftingRecipes[Item.ItemType.Sword] = new Dictionary<Item.ItemType, int>
         {
-            { Item.ItemType.Dirt, 2 },
-            { Item.ItemType.Stone, 1 }
+            { Item.ItemType.Wood, 2 },
+            { Item.ItemType.Stone, 3 }
+        };
+
+        CraftingRecipes[Item.ItemType.USword] = new Dictionary<Item.ItemType, int>
+        {
+            { Item.ItemType.Wood, 8 },
+            { Item.ItemType.Stone, 5 },
+            { Item.ItemType.Iron, 5 }
+        };
+
+        CraftingRecipes[Item.ItemType.Control_Panel] = new Dictionary<Item.ItemType, int>
+        {
+            { Item.ItemType.Wood, 8 },
+            { Item.ItemType.Stone, 10 },
+            { Item.ItemType.Iron, 20 },
+            { Item.ItemType.Gold, 5 },
+            { Item.ItemType.Ruby, 5 }
         };
     }
 
