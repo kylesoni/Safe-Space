@@ -25,6 +25,16 @@ public class TileMining : MonoBehaviour
     public Tile overlay_break_4;
     public Tile overlay_break_5;
 
+    public Tile[] gold_tiles;
+    public Tile[] greystone_tiles;
+    public Tile[] silver_tiles;
+    public Tile sand;
+    public Tile redsand;
+    public Tile[] wood;
+    public Tile glass;
+    public Tile redstone;
+    public Tile redwood;
+
     private Inventory inventory;
 
     private Vector3Int currentlyMining;
