@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     private Camera cam;
     private Movement player;
 
-    private bool isUnderground = false;
+    public bool isUnderground = false;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +51,10 @@ public class EnemySpawner : MonoBehaviour
         if (player.transform.position.y <= -65)
         {
             isUnderground = true;
+        }
+        else
+        {
+            isUnderground = false;
         }
     }
 

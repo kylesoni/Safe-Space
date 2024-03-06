@@ -118,8 +118,6 @@ public class Ghost : MonoBehaviour
         {
             sprite.flipX = true;
         }
-
-        animator.SetBool("Moving", true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

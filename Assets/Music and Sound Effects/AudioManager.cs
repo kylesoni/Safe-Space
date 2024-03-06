@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class AudioManager : MonoBehaviour
 {
@@ -19,9 +20,12 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource backgroundMusicDay;
     public AudioSource backgroundMusicNight;
+    public AudioSource backgroundMusicUnder;
 
-    public bool Day = true;
-    public Day_Night daynight;
+    private bool Day = true;
+    private bool Under = false;
+    private Day_Night daynight;
+    private EnemySpawner spawner;
 
     private void Awake()
     {
@@ -34,20 +38,32 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-              
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
         daynight = FindObjectOfType<Day_Night>();
+        spawner = FindObjectOfType<EnemySpawner>();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()
     {
+        if (spawner == null)
+        {
+            spawner = FindObjectOfType<EnemySpawner>();
+        }
+        else
+        {
+            if (Under != spawner.isUnderground)
+            {
+                Under = !Under;
+                SwapUnderground();
+            }
+        }
         if (Day == daynight.isNight)
         {
-            SwapBackground();
+            Day = !Day;
+            if (!Under)
+            {
+                SwapBackground();
+            }
         }
     }
 
@@ -120,40 +136,56 @@ public class AudioManager : MonoBehaviour
 
     public void SwapBackground()
     {
-        Day = !Day;
         StopAllCoroutines();
-        StartCoroutine(FadeTrack());
-    }
-
-    private IEnumerator FadeTrack()
-    {
-        Debug.Log("Hi");
-        float timeToFade = 5f;
-        float timeElapsed = 0;
-
         if (!Day)
         {
-            backgroundMusicNight.Play();
+            StartCoroutine(FadeTrack(backgroundMusicDay, backgroundMusicNight));
+        }
+        else
+        {
+            StartCoroutine(FadeTrack(backgroundMusicNight, backgroundMusicDay));
+        }
+    }
 
-            while (timeElapsed < timeToFade)
+    public void SwapUnderground()
+    {
+        StopAllCoroutines();
+        if (Day)
+        {
+            if (Under)
             {
-                backgroundMusicNight.volume = Mathf.Lerp(0, 1, timeElapsed / timeToFade);
-                backgroundMusicDay.volume = Mathf.Lerp(0.2f, 0, timeElapsed / timeToFade);
-                timeElapsed += Time.deltaTime;
-                yield return null;
+                StartCoroutine(FadeTrack(backgroundMusicDay, backgroundMusicUnder));
+            }
+            else
+            {
+                StartCoroutine(FadeTrack(backgroundMusicUnder, backgroundMusicDay));
             }
         }
         else
         {
-            backgroundMusicDay.Play();
-
-            while (timeElapsed < timeToFade)
+            if (Under)
             {
-                backgroundMusicNight.volume = Mathf.Lerp(1, 0, timeElapsed / timeToFade);
-                backgroundMusicDay.volume = Mathf.Lerp(0, 0.2f, timeElapsed / timeToFade);
-                timeElapsed += Time.deltaTime;
-                yield return null;
+                StartCoroutine(FadeTrack(backgroundMusicNight, backgroundMusicUnder));
             }
+            else
+            {
+                StartCoroutine(FadeTrack(backgroundMusicUnder, backgroundMusicNight));
+            }
+        }
+    }
+
+    private IEnumerator FadeTrack(AudioSource Track1, AudioSource Track2)
+    {
+        float timeToFade = 5f;
+        float timeElapsed = 0;
+        Track2.Play();
+
+        while (timeElapsed < timeToFade)
+        {
+            Track2.volume = Mathf.Lerp(0, 1, timeElapsed / timeToFade);
+            Track1.volume = Mathf.Lerp(1, 0, timeElapsed / timeToFade);
+            timeElapsed += Time.deltaTime;
+            yield return null;
         }
     }
 
