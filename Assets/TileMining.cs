@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using System.Linq;
 
 public class TileMining : MonoBehaviour
 {
@@ -44,6 +45,55 @@ public class TileMining : MonoBehaviour
         // Hide the slider
         slider.gameObject.SetActive(false);
     }
+
+    public Item.ItemType TileToItem(TileBase tile)
+    {
+        // God forgive me for I have sinned.
+
+        if (tile == sand)
+        {
+            return Item.ItemType.Sand;
+        }
+        else if (tile == redsand)
+        {
+            return Item.ItemType.Redsand;
+        }
+        else if (gold_tiles.Contains(tile))
+        {
+            return Item.ItemType.Gold;
+        }
+        else if (greystone_tiles.Contains(tile))
+        {
+            return Item.ItemType.Ruby;
+        }
+        else if (silver_tiles.Contains(tile))
+        {
+            return Item.ItemType.Iron;
+        }
+        else if (wood.Contains(tile))
+        {
+            return Item.ItemType.Wood;
+        }
+        else if (tile == glass)
+        {
+            return Item.ItemType.Glass;
+        }
+        else if (tile == redstone)
+        {
+            return Item.ItemType.Redstone;
+        }
+        else if (tile == redwood)
+        {
+            return Item.ItemType.Redwood;
+        }
+        // Add more conditions as needed for other tile types
+        else
+        {
+            // Return a default item type if none of the conditions above are met
+            return Item.ItemType.Stone; // Consider adding an Unknown or similar default type if not already present
+        }
+    }
+
 
     public void SetInventory(Inventory inventory)
     {
@@ -156,22 +206,8 @@ public class TileMining : MonoBehaviour
 
                 if (slider.value >= slider.maxValue)
                 {
-                    Item newItem;
-                    switch (tile)
-                    {                        
-                        case Tile _ when tile == stoneTile:
-                            newItem = new Item { itemType = Item.ItemType.Stone, amount = 1 };                            
-                            break;
-                        case Tile _ when tile == dirtTile:
-                            newItem = new Item { itemType = Item.ItemType.Dirt, amount = 1 };                            
-                            break;
-                        case Tile _ when tile == grassTile:
-                            newItem = new Item { itemType = Item.ItemType.Dirt, amount = 1 };                            
-                            break;
-                        default:
-                            newItem = new Item { itemType = Item.ItemType.Stone, amount = 1 };                                              
-                            break;
-                    }
+                    Item newItem = new Item { itemType = TileToItem( tile ), amount = 1 };                            
+
                     newItem.isConsumable = newItem.SetIsConsumable();
                     newItem.itemInfo = newItem.SetItemInfo();
                     inventory.AddItem(newItem);
