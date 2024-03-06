@@ -114,6 +114,11 @@ public class UI_Inventory : MonoBehaviour
             // Set Image
             Image image = itemRectTransform.Find("image").GetComponent<Image>();           
             image.sprite = item.SetSprite();
+            // make block sprite smaller
+            if (item.isBlock())
+            {   
+                image.rectTransform.localScale = new Vector3(0.6f, 0.6f, 1f);
+            }
 
             // Set Amount Text
             TextMeshProUGUI uiText = itemRectTransform.Find("text").GetComponent<TextMeshProUGUI>();

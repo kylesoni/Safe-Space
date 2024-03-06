@@ -23,7 +23,16 @@ public class Item
         Dirt,
         Stone,
         Iron,
+        Sand,
+        Redsand,
+        Wood,
+        Glass,
+        Redstone,
+        Redwood,
+
+        // Materials
         Gold,
+        Ruby,
 
         // Spaceship
         Battery,
@@ -40,34 +49,57 @@ public class Item
     public bool isActive = false;
     public string itemInfo;
 
-    public Sprite SetSprite()
+    public static Sprite GetSprite(ItemType itemType)
     {
         switch(itemType)
         {
-            default:
                 // Items
-                case ItemType.Sword:            return ItemAssets.Instance.swordSprite;
-                case ItemType.USword:           return ItemAssets.Instance.UswordSprite;
-                case ItemType.Pickaxe:          return ItemAssets.Instance.pickaxeSprite;
-                case ItemType.HealthPotion:     return ItemAssets.Instance.healthPotionSprite;                
-                case ItemType.JumpPotion:       return ItemAssets.Instance.jumpPotionSprite;
-                case ItemType.GuardianPotion:   return ItemAssets.Instance.guardianPotionSprite;
-                case ItemType.Bomb:             return ItemAssets.Instance.BombSprite;
-                case ItemType.Key:              return ItemAssets.Instance.keySprite;
-                case ItemType.Lantern:          return ItemAssets.Instance.lanternSprite;
-                case ItemType.Star:             return ItemAssets.Instance.starSprite;
-                // Blocks
-                case ItemType.Dirt:             return ItemAssets.Instance.dirtSprite;
-                case ItemType.Stone:            return ItemAssets.Instance.stoneSprite;
-                case ItemType.Iron:            return ItemAssets.Instance.ironSprite;
-                case ItemType.Gold:            return ItemAssets.Instance.goldSprite;
-                // Spaceship
-                case ItemType.Battery:             return ItemAssets.Instance.batterySprite;
-                case ItemType.Thruster:            return ItemAssets.Instance.thrusterSprite;
-                case ItemType.Control_Panel:       return ItemAssets.Instance.controlPanelSprite;
-                case ItemType.Spaceship:           return ItemAssets.Instance.spaceshipSprite;
-                
-               
+            case ItemType.Sword: return ItemAssets.Instance.swordSprite;
+            case ItemType.USword: return ItemAssets.Instance.UswordSprite;
+            case ItemType.Pickaxe: return ItemAssets.Instance.pickaxeSprite;
+            case ItemType.HealthPotion: return ItemAssets.Instance.healthPotionSprite;
+            case ItemType.JumpPotion: return ItemAssets.Instance.jumpPotionSprite;
+            case ItemType.GuardianPotion: return ItemAssets.Instance.guardianPotionSprite;
+            case ItemType.Bomb: return ItemAssets.Instance.BombSprite;
+            case ItemType.Key: return ItemAssets.Instance.keySprite;
+            case ItemType.Lantern: return ItemAssets.Instance.lanternSprite;
+            case ItemType.Star: return ItemAssets.Instance.starSprite;
+            case ItemType.Sand: return ItemAssets.Instance.SandSprite;
+            case ItemType.Redsand: return ItemAssets.Instance.RedsandSprite;
+            case ItemType.Wood: return ItemAssets.Instance.WoodSprite;
+            case ItemType.Glass: return ItemAssets.Instance.GlassSprite;
+            case ItemType.Redstone: return ItemAssets.Instance.RedstoneSprite;
+            case ItemType.Redwood: return ItemAssets.Instance.RedwoodSprite;
+
+            // Blocks
+            case ItemType.Dirt: return ItemAssets.Instance.dirtSprite;
+            case ItemType.Stone: return ItemAssets.Instance.stoneSprite;
+            case ItemType.Iron: return ItemAssets.Instance.ironSprite;
+            case ItemType.Ruby: return ItemAssets.Instance.RubySprite;
+            case ItemType.Gold: return ItemAssets.Instance.goldSprite;
+            // Spaceship
+            case ItemType.Battery: return ItemAssets.Instance.batterySprite;
+            case ItemType.Thruster: return ItemAssets.Instance.thrusterSprite;
+            case ItemType.Control_Panel: return ItemAssets.Instance.controlPanelSprite;
+            case ItemType.Spaceship: return ItemAssets.Instance.spaceshipSprite;
+
+            default: return ItemAssets.Instance.stoneSprite;
+        }
+    }
+
+    public Sprite SetSprite()
+    {
+        return GetSprite(itemType);
+    }
+
+    public bool isBlock()
+    {
+        switch (itemType)
+        {
+            case ItemType.Stone: return true;
+            case ItemType.Dirt: return true;
+            case ItemType.Iron: return true;
+            default: return false;
         }
     }
 
@@ -84,11 +116,7 @@ public class Item
             case ItemType.Control_Panel: return false;
             case ItemType.Spaceship: return false;
 
-            case ItemType.Dirt: return false;
-            case ItemType.Stone: return false;
-            case ItemType.Iron: return false;
-            case ItemType.Gold: return false;
-            default:                return true;
+            default: return !(isBlock());
         }
     }
 

@@ -43,6 +43,15 @@ public class ItemAssets : MonoBehaviour
     public Sprite keySprite;
     public Sprite lanternSprite;
     public Sprite starSprite;
+    public Sprite SandSprite;
+    public Sprite RedsandSprite;
+    public Sprite WoodSprite;
+    public Sprite GlassSprite;
+    public Sprite RedstoneSprite;
+    public Sprite RedwoodSprite;
+
+    // Materials
+    public Sprite RubySprite;
 
     // Blocks
     public Sprite dirtSprite;

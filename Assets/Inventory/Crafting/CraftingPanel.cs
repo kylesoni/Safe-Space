@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Item;
 
 public class CraftingPanel : MonoBehaviour
 {
@@ -22,12 +23,12 @@ public class CraftingPanel : MonoBehaviour
         craftingSystem = FindObjectOfType<Crafting>();
         // Bind the Craft button to the crafting method
         CraftButton.onClick.AddListener(CraftSelectedItem);
+        UpdateRecipeDisplay(selectedItemType);
     }
 
     private void Update()
     {
         CraftButton.interactable = craftingSystem.CanCraft(selectedItemType);
-        print(craftingSystem.CanCraft(selectedItemType));
         UpdateRecipeDisplay(selectedItemType);
     }
 
@@ -46,11 +47,7 @@ public class CraftingPanel : MonoBehaviour
 
             // Assuming ItemAssets.Instance provides direct access to sprites based on ItemType
             // Set the main item image
-            Sprite itemSprite = ItemAssets.Instance.swordSprite; // Simplified approach
-            if (itemSprite != null)
-            {
-                ItemImage.sprite = itemSprite;
-            }
+            ItemImage.sprite = Item.GetSprite( itemType );
 
             // Instantiate an ItemAmountIndicatorPrefab for each item in the recipe
             foreach (var item in recipe)
