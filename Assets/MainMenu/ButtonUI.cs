@@ -16,4 +16,16 @@ public class ButtonUI : MonoBehaviour
         Difficulty.difficulty = 0;
         SceneManager.LoadScene("Final");
     }
+
+    public void Menu()
+    {
+        Destroy(AudioManager.instance.gameObject);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ExitGame()
+    {
+        UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
 }
