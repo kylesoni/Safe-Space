@@ -20,6 +20,7 @@ public class TileMining : MonoBehaviour
     public Tile placeDirt;
 
     public Tile selectedTileOverlay;
+    public Tile placeTileOverlay;
     public Tile overlay_break_1;
     public Tile overlay_break_2;
     public Tile overlay_break_3;
@@ -35,6 +36,7 @@ public class TileMining : MonoBehaviour
     public Tile glass;
     public Tile redstone;
     public Tile redwood;
+    public Tile brick;
 
     private Inventory inventory;
 
@@ -86,6 +88,10 @@ public class TileMining : MonoBehaviour
         {
             return Item.ItemType.Redwood;
         }
+        else if (tile == brick)
+        {
+            return Item.ItemType.Brick;
+        }
         // Add more conditions as needed for other tile types
         else
         {
@@ -126,12 +132,10 @@ public class TileMining : MonoBehaviour
             return;
         }
 
-        if (inventory.EquippedItem.isBlock() && map.GetTile(cellPosition) == null && background.GetTile(cellPosition) == null)
+        if (inventory.EquippedItem != null && inventory.EquippedItem.isBlock() && map.GetTile(cellPosition) == null && background.GetTile(cellPosition) == null)
         {
-            overlay_map.SetTile(overlayCellPosition, selectedTileOverlay);
-        }
-
-        if (map.GetTile(cellPosition) != null && inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Pickaxe)
+            overlay_map.SetTile(overlayCellPosition, placeTileOverlay);
+        } else if (map.GetTile(cellPosition) != null && inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Pickaxe)
         {
             overlay_map.SetTile(overlayCellPosition, selectedTileOverlay);
         }
@@ -155,6 +159,8 @@ public class TileMining : MonoBehaviour
                         case Item.ItemType.Wood: placeTile = wood[0]; break;
                         case Item.ItemType.Glass: placeTile = glass; break;
                         case Item.ItemType.Redstone: placeTile = redstone; break;
+                        case Item.ItemType.Redwood: placeTile = redwood; break;
+                        case Item.ItemType.Brick: placeTile = brick; break;
                         default: placeTile = null; break;
                     }
 
