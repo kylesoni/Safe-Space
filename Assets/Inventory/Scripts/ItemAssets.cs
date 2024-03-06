@@ -28,7 +28,6 @@ public class ItemAssets : MonoBehaviour
 
     // Items
     public Sprite swordSprite;
-    public Sprite UswordSprite;
     public Sprite pickaxeSprite;
     public Sprite healthPotionSprite;
     public Sprite jumpPotionSprite;

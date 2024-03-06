@@ -7,58 +7,23 @@ public class Attack : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private float meleeSpeed;
     [SerializeField] private int damage;
-
-    [SerializeField] private float UmeleeSpeed;
-    [SerializeField] private int Udamage;
-
-    public bool isUpgraded;
-
+    
     private Inventory inventory;
     
     public float knockbackForce = 25f;
     [SerializeField] private GameObject sword;
 
-    private float OmeleeSpeed;
-    private int Odamage;
-
     float timeUntilMelee = 0;
-
-    private void Start()
-    {
-        OmeleeSpeed = meleeSpeed;
-        Odamage = damage;
-    }
 
     private void Update()
     {
-        Item item = inventory.EquippedItem;
-        if (item != null && item.itemType == Item.ItemType.USword)
-        {
-            isUpgraded = true;
-            sword.transform.localScale = new Vector2(0.1f, 0.1f);
-        }
-        else
-        {
-            isUpgraded = false;
-            sword.transform.localScale = new Vector2(0.06f, 0.06f);
-        }
-        if (sword.activeInHierarchy)
-        {
+       if (sword.activeInHierarchy)
+       {
            anim.SetBool("isAttacking", true);
-        }
-        else
-        {
+       }
+       else
+       {
             anim.SetBool("isAttacking", false);
-        }
-        if (isUpgraded && meleeSpeed != UmeleeSpeed)
-        {
-            meleeSpeed = UmeleeSpeed;
-            damage = Udamage;
-        }
-        else if (!isUpgraded && meleeSpeed != OmeleeSpeed)
-        {
-            meleeSpeed = OmeleeSpeed;
-            damage = Odamage;
         }
     }
     public void SetInventory(Inventory inventory)
@@ -69,7 +34,7 @@ public class Attack : MonoBehaviour
     private void FixedUpdate()
     {
         Item item = inventory.EquippedItem;
-        if (item != null && (item.itemType == Item.ItemType.Sword || item.itemType == Item.ItemType.USword))
+        if (item != null && item.itemType == Item.ItemType.Sword)
         {
             if (timeUntilMelee <= 0f)
             {
