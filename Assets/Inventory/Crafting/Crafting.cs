@@ -56,6 +56,12 @@ public class Crafting : MonoBehaviour
             { Item.ItemType.Ruby, 10 }
         };
 
+        CraftingRecipes[Item.ItemType.HealthPotion] = new Dictionary<Item.ItemType, int>
+        {
+            { Item.ItemType.Stone, 5 },
+            { Item.ItemType.Ruby, 1 }
+        };
+
         CraftingRecipes[Item.ItemType.Thruster] = new Dictionary<Item.ItemType, int>
         {
             { Item.ItemType.Wood, 10 },
