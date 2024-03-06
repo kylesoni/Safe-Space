@@ -23,7 +23,16 @@ public class Item
         Dirt,
         Stone,
         Iron,
+        Sand,
+        Redsand,
+        Wood,
+        Glass,
+        Redstone,
+        Redwood,
+
+        // Materials
         Gold,
+        Ruby,
 
         // Spaceship
         Battery,
@@ -56,10 +65,18 @@ public class Item
                 case ItemType.Key:              return ItemAssets.Instance.keySprite;
                 case ItemType.Lantern:          return ItemAssets.Instance.lanternSprite;
                 case ItemType.Star:             return ItemAssets.Instance.starSprite;
+                case ItemType.Sand:              return ItemAssets.Instance.SandSprite;
+                case ItemType.Redsand:           return ItemAssets.Instance.RedsandSprite;
+                case ItemType.Wood:              return ItemAssets.Instance.WoodSprite;
+                case ItemType.Glass:             return ItemAssets.Instance.GlassSprite;
+                case ItemType.Redstone:          return ItemAssets.Instance.RedstoneSprite;
+                case ItemType.Redwood:           return ItemAssets.Instance.RedwoodSprite;
+
                 // Blocks
                 case ItemType.Dirt:             return ItemAssets.Instance.dirtSprite;
                 case ItemType.Stone:            return ItemAssets.Instance.stoneSprite;
                 case ItemType.Iron:            return ItemAssets.Instance.ironSprite;
+                case ItemType.Ruby:              return ItemAssets.Instance.RubySprite;
                 case ItemType.Gold:            return ItemAssets.Instance.goldSprite;
                 // Spaceship
                 case ItemType.Battery:             return ItemAssets.Instance.batterySprite;
