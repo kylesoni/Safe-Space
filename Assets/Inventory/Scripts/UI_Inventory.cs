@@ -32,6 +32,7 @@ public class UI_Inventory : MonoBehaviour
     public Image dimmingOverlay;
     public GameObject draggedItemUI;
     public Image draggedItemImage;
+    public GameObject craftingPanel;
     private SortedList<int, RectTransform> itemRectTransforms = new SortedList<int, RectTransform>();
 
     private Movement Movement;
@@ -66,6 +67,7 @@ public class UI_Inventory : MonoBehaviour
 
         dimmingOverlay.gameObject.SetActive(false);
         draggedItemUI.SetActive(false);
+        craftingPanel.SetActive(false);
     }
 
     public void SetPlayer(PlayerInventory player)
@@ -431,6 +433,7 @@ public class UI_Inventory : MonoBehaviour
 
             dimmingOverlay.gameObject.SetActive(true);
             inventorySlots.SetActive(true);
+            craftingPanel.SetActive(true);
             DisplayInactiveItem();
         }
         
@@ -454,6 +457,7 @@ public class UI_Inventory : MonoBehaviour
             dimmingOverlay.gameObject.SetActive(false);
             draggedItemUI.SetActive(false);
             inventorySlots.SetActive(false);
+            craftingPanel.SetActive(false);
             HideInventoryItem();
         }
     }
