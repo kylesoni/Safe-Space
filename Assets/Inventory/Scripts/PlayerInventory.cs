@@ -56,7 +56,7 @@ public class PlayerInventory : MonoBehaviour
     /// <param name="equippedItem"> Display this or hide this</param>
     public void SetEquipItemOnPlayer(Item equippedItem) { 
         // display the image
-        if(equippedItem!= null && inventory.EquippedItem != null && equippedItem.itemType != Item.ItemType.Sword)
+        if(equippedItem!= null && inventory.EquippedItem != null && equippedItem.itemType != Item.ItemType.Sword && equippedItem.itemType != Item.ItemType.USword)
         {
             // TODO: show number? need? should?
             equippedItemImage.sprite = equippedItem.SetSprite();
