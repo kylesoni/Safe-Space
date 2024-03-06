@@ -28,6 +28,7 @@ public class Item
         Glass,
         Redstone,
         Redwood,
+        Brick,
 
         // Materials
         Gold,
@@ -73,6 +74,7 @@ public class Item
             case ItemType.Glass: return ItemAssets.Instance.GlassSprite;
             case ItemType.Redstone: return ItemAssets.Instance.RedstoneSprite;
             case ItemType.Redwood: return ItemAssets.Instance.RedwoodSprite;
+            case ItemType.Brick: return ItemAssets.Instance.BrickSprite;
 
             // Materials            
             case ItemType.Iron: return ItemAssets.Instance.ironSprite;
@@ -106,6 +108,7 @@ public class Item
             case ItemType.Glass: return true;
             case ItemType.Redstone: return true;
             case ItemType.Redwood: return true;
+            case ItemType.Brick: return true;
             default: return false;
         }
     }
@@ -169,6 +172,8 @@ public class Item
                 return "Redstone: Resource used for creating electrical circuits";
             case ItemType.Redwood:
                 return "Redwood: Sturdy building material obtained from redwood trees";
+            case ItemType.Brick:
+                return "A hard, solid block used for building houses and other structures.";
 
             // Materials
             case ItemType.Iron:

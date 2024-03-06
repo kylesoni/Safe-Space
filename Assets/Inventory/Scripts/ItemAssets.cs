@@ -49,6 +49,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite GlassSprite;
     public Sprite RedstoneSprite;
     public Sprite RedwoodSprite;
+    public Sprite BrickSprite;
 
     // Materials
     public Sprite RubySprite;
