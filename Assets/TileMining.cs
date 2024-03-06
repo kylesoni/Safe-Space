@@ -187,9 +187,20 @@ public class TileMining : MonoBehaviour
                 slider.value = 0;
                 slider.gameObject.SetActive(false);
 
-                switch(inventory.EquippedItem.itemType)
+                switch (inventory.EquippedItem.itemType)
                 {
-                    case Item.ItemType.Pickaxe: slider.maxValue = 0.3f; break;
+                    case Item.ItemType.Pickaxe:
+                        {
+                            if (map.GetTile(cellPosition) == brick || greystone_tiles.Contains(map.GetTile(cellPosition)))
+                            {
+                                slider.maxValue = 99999f;
+                            } else
+                            {
+                                slider.maxValue = 0.3f;
+                            }
+
+                            break;
+                        }
                     case Item.ItemType.IronPickaxe: slider.maxValue = 0.15f; break;
                     default: slider.maxValue = 0.3f; break;
                 }
