@@ -7,53 +7,32 @@ public class CraftingUI : MonoBehaviour
     public Crafting craftingSystem; // Reference to the Crafting system
     public Text recipeDisplayText; // UI Text to display recipes
     public Button craftButton; // Button to initiate crafting
-    private Item.ItemType selectedItemType; // Currently selected item type for crafting
+
+    public GameObject craftingRecipeUIPrefab;
 
     void Start()
     {
         // Initially hide the crafting UI or select an item type to display
-        gameObject.SetActive(true); // or UpdateRecipeDisplay(Item.ItemType.Sword);
+        // gameObject.SetActive(true); // or UpdateRecipeDisplay(Item.ItemType.Sword);
 
         // Add a listener to the craft button onClick event
-        craftButton.onClick.AddListener(CraftSelectedItem);
+        // craftButton.onClick.AddListener(CraftSelectedItem);
+
+        // Ensure you have a reference to your scene's Canvas.
+        //GameObject canvas = GameObject.Find("Canvas"); // Make sure the Canvas is named "Canvas" or adjust as needed.
+        // Select canvas as parent
+        //GameObject canvas = GetComponentInParent<Canvas>().gameObject;
+
+        // Instantiate the Panel prefab as a child of the Canvas.
+        //GameObject panelInstance = Instantiate(craftingRecipeUIPrefab, canvas.transform);
+        //panelInstance.GetComponent<CraftingPanel>().UpdateRecipeDisplay(Item.ItemType.Sword);
+        //panelInstance.transform.SetParent(this.transform, false);
+
+        // Optionally, adjust the instantiated Panel's RectTransform or other properties.
     }
 
     void Update()
     {
-        UpdateRecipeDisplay(Item.ItemType.Sword);
-    }
-
-    public void UpdateRecipeDisplay(Item.ItemType itemType)
-    {
-        selectedItemType = itemType;
-        if (craftingSystem.CraftingRecipes.TryGetValue(itemType, out var recipe))
-        {
-            // Build the recipe text
-            string recipeText = $"{itemType}:\n";
-            recipeText += string.Join("\n", recipe.Select(r => $"{r.Key}: {r.Value}"));
-
-            // Update the UI
-            recipeDisplayText.text = recipeText;
-
-            // Check if the item can be crafted and enable/disable the craft button accordingly
-            craftButton.interactable = craftingSystem.CanCraft(itemType);
-        }
-        else
-        {
-            recipeDisplayText.text = "No recipe available.";
-        }
-    }
-
-    void CraftSelectedItem()
-    {
-        craftingSystem.CraftItem(selectedItemType);
-        // Optionally, update inventory display or provide feedback to the player
-    }
-
-    // This method can be called to show the UI for a specific item's recipe
-    public void ShowCraftingForItem(Item.ItemType itemType)
-    {
-        gameObject.SetActive(true);
-        UpdateRecipeDisplay(itemType);
+        // UpdateRecipeDisplay(Item.ItemType.Sword);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TileMining : MonoBehaviour
 {
     public Tilemap map;
+    public Tilemap overlay_map;
     public Tilemap background;
     public Slider slider;
     public Tile placeTile;
@@ -16,6 +17,13 @@ public class TileMining : MonoBehaviour
 
     public Tile placeStone;
     public Tile placeDirt;
+
+    public Tile selectedTileOverlay;
+    public Tile overlay_break_1;
+    public Tile overlay_break_2;
+    public Tile overlay_break_3;
+    public Tile overlay_break_4;
+    public Tile overlay_break_5;
 
     private Inventory inventory;
 
@@ -49,13 +57,20 @@ public class TileMining : MonoBehaviour
     {
         Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = map.WorldToCell(worldPoint);
+        Vector3Int overlayCellPosition = overlay_map.WorldToCell(worldPoint);
+
+        overlay_map.ClearAllTiles();
 
         if (Vector3.Distance(transform.position, worldPoint) > 12)
         {
             return;
         }
 
-        // Left click to place tile
+        if (map.GetTile(cellPosition) != null && inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Pickaxe)
+        {
+            overlay_map.SetTile(overlayCellPosition, selectedTileOverlay);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             // Can't place tile on other gameobjects
@@ -96,7 +111,7 @@ public class TileMining : MonoBehaviour
             if (tile != null)
             {
                 // Show the slider
-                slider.gameObject.SetActive(true);
+                // slider.gameObject.SetActive(true);
                 slider.transform.position = Camera.main.WorldToScreenPoint(cellPosition + new Vector3(0.5f, 0.5f, 0));
 
                 // Play Mining Sound
@@ -104,6 +119,31 @@ public class TileMining : MonoBehaviour
 
                 // Update the slider value
                 slider.value += Time.deltaTime;
+
+                // Update break overlay
+                double breakPercent = slider.value / slider.maxValue;
+
+                if (breakPercent < 0.2)
+                {
+                    overlay_map.SetTile(overlayCellPosition, overlay_break_1);
+                }
+                else if (breakPercent < 0.4)
+                {
+                    overlay_map.SetTile(overlayCellPosition, overlay_break_2);
+                }
+                else if (breakPercent < 0.6)
+                {
+                    overlay_map.SetTile(overlayCellPosition, overlay_break_3);
+                }
+                else if (breakPercent < 0.8)
+                {
+                    overlay_map.SetTile(overlayCellPosition, overlay_break_4);
+                }
+                else
+                {
+                    overlay_map.SetTile(overlayCellPosition, overlay_break_5);
+                }
+
                 if (slider.value >= slider.maxValue)
                 {
                     Item newItem;

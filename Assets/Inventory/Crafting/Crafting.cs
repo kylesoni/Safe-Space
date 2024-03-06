@@ -40,18 +40,25 @@ public class Crafting : MonoBehaviour
 
     public bool CanCraft(Item.ItemType itemToCraft)
     {
+        print("CanCraft");
+
         if (!CraftingRecipes.ContainsKey(itemToCraft))
             return false;
+
+        print("CanCraft1");
 
         var inventory = playerInventory.inventory;
         foreach (var requirement in CraftingRecipes[itemToCraft])
         {
+            print("CanCraft 2");
             if (!inventory.itemTypeToSlotIndex.ContainsKey(requirement.Key) ||
                 inventory.GetItemList().Find(item => item.itemType == requirement.Key).amount < requirement.Value)
             {
                 return false;
             }
         }
+
+        print("CanCraft 3");
 
         return true;
     }
