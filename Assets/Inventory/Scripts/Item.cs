@@ -71,6 +71,18 @@ public class Item
         }
     }
 
+    public bool isBlock()
+    {
+        switch (itemType)
+        {
+            case ItemType.Stone: return true;
+            case ItemType.Dirt: return true;
+            case ItemType.Gold: return true;
+            case ItemType.Iron: return true;
+            default: return false;
+        }
+    }
+
     public bool SetIsConsumable()
     {
         switch (itemType)
