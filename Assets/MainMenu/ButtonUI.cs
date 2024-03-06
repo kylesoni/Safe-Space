@@ -22,4 +22,10 @@ public class ButtonUI : MonoBehaviour
         Destroy(AudioManager.instance.gameObject);
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void ExitGame()
+    {
+        UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
 }
