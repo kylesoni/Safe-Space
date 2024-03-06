@@ -9,6 +9,7 @@ public class Item
     {
         // Items
         Sword,
+        USword,
         Pickaxe,
         HealthPotion,
         JumpPotion,
@@ -46,6 +47,7 @@ public class Item
             default:
                 // Items
                 case ItemType.Sword:            return ItemAssets.Instance.swordSprite;
+                case ItemType.USword:           return ItemAssets.Instance.UswordSprite;
                 case ItemType.Pickaxe:          return ItemAssets.Instance.pickaxeSprite;
                 case ItemType.HealthPotion:     return ItemAssets.Instance.healthPotionSprite;                
                 case ItemType.JumpPotion:       return ItemAssets.Instance.jumpPotionSprite;
@@ -74,6 +76,7 @@ public class Item
         switch (itemType)
         {
             case ItemType.Sword:    return false;
+            case ItemType.USword: return false;
             case ItemType.Pickaxe: return false;
             case ItemType.Lantern: return false;
             case ItemType.Battery: return false;
@@ -94,6 +97,7 @@ public class Item
         switch(itemType)
         {          
             case ItemType.Sword: return "Sword: Melee weapon for close combat";
+            case ItemType.USword: return "Iron Sword: Faster and sharper melee weapon.";
             case ItemType.Pickaxe: return "Pickaxe: Tool for mining and breaking blocks";
             case ItemType.HealthPotion: return "Health Potion: Restores player's health";
             case ItemType.JumpPotion: return "Jump Potion: Enhances jumping abilities permanently.";
@@ -126,6 +130,9 @@ public class Item
         {            
             case ItemType.Sword:
                 Debug.Log("Trying to use " + itemType);
+                isActive = true;
+                break;
+            case ItemType.USword:
                 isActive = true;
                 break;
             default:
