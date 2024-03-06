@@ -155,9 +155,9 @@ public class Item
             case ItemType.IronSword:
                 return "Iron Sword: Faster and sharper melee weapon.";
             case ItemType.Pickaxe:
-                return "Iron Pickaxe: Tool for mining and breaking blocks";
+                return "Pickaxe: Tool for mining and breaking blocks";
             case ItemType.IronPickaxe:
-                return "Pickaxe: Improved tool for mining and breaking blocks";
+                return "Iron Pickaxe: Improved tool for mining and breaking blocks";
             case ItemType.HealthPotion:
                 return "Health Potion: Restores player's health";
             case ItemType.JumpPotion:
