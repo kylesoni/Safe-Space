@@ -22,8 +22,8 @@ public class AudioManager : MonoBehaviour
     public AudioSource backgroundMusicNight;
     public AudioSource backgroundMusicUnder;
 
-    private bool Day = true;
-    private bool Under = false;
+    public bool Day = true;
+    public bool Under = false;
     private Day_Night daynight;
     private EnemySpawner spawner;
 
@@ -40,6 +40,8 @@ public class AudioManager : MonoBehaviour
         }
         daynight = FindObjectOfType<Day_Night>();
         spawner = FindObjectOfType<EnemySpawner>();
+        Day = true;
+        Under = false;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -57,14 +59,33 @@ public class AudioManager : MonoBehaviour
                 SwapUnderground();
             }
         }
-        if (Day == daynight.isNight)
+        if (daynight == null)
         {
-            Day = !Day;
-            if (!Under)
-            {
-                SwapBackground();
-            }
+            daynight = FindObjectOfType<Day_Night>();
         }
+        else
+        {
+            if (Day == daynight.isNight)
+            {
+                Day = !Day;
+                if (!Under)
+                {
+                    SwapBackground();
+                }
+            }
+        }   
+    }
+
+    public void Reload()
+    {
+        backgroundMusicDay.Play();
+        backgroundMusicNight.Stop();
+        backgroundMusicUnder.Stop();
+        backgroundMusicDay.volume = 1;
+        daynight = null;
+        spawner = null;
+        Under = false;
+        Day = true;
     }
 
     public void HitEnemySound()
