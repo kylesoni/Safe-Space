@@ -214,6 +214,7 @@ public class UI_Inventory : MonoBehaviour
             {
                 if ((i == 9 && Input.GetKeyDown(KeyCode.Alpha0)) || Input.GetKeyDown(KeyCode.Alpha1 + i))
                 {
+                    inventory.ClearEquip();
                     selectedSlotIndex = i;
                     SetItemSlotHighlight();
                     if (inventory.slotIndexToItemType.ContainsKey(i))
@@ -280,10 +281,31 @@ public class UI_Inventory : MonoBehaviour
         {
             if (inventory.EquippedItem != null)
             {
+                Debug.Log(inventory.EquippedItem.SetItemInfo());
                 switch (inventory.EquippedItem.itemType)
                 {
                     default: 
                         inventory.UseItem(inventory.EquippedItem);
+                        break;
+                    case Item.ItemType.Sword:
+                        if (Input.mousePosition.x > Screen.width / 2)
+                        {
+                            player.GetComponent<Attack>().RightAttack();
+                        }
+                        else
+                        {
+                            player.GetComponent<Attack>().LeftAttack();
+                        }
+                        break;
+                    case Item.ItemType.IronSword:
+                        if (Input.mousePosition.x > Screen.width / 2)
+                        {
+                            player.GetComponent<Attack>().RightAttack();
+                        }
+                        else
+                        {
+                            player.GetComponent<Attack>().LeftAttack();
+                        }
                         break;
                     case Item.ItemType.HealthPotion:
                         DamageableCharacter.Heal(100);
@@ -503,6 +525,10 @@ public class UI_Inventory : MonoBehaviour
                 {
                     // Add Item to the clickedSlotIndex slot
                     inventory.AddItem(draggedItem, clickedSlotIndex);
+                    if (clickedSlotIndex > 9)
+                    {
+                        inventory.ClearEquip();
+                    }
                     Debug.Log("Put " + draggedItem.itemType + " in new slot");
                     draggedItem = null;
                     draggedItemUI.SetActive(false);

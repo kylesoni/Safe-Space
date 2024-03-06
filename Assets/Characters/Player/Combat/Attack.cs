@@ -13,13 +13,15 @@ public class Attack : MonoBehaviour
 
     public bool isUpgraded;
 
+    public bool canAttack = true;
+
     private Inventory inventory;
     
     public float knockbackForce = 25f;
     [SerializeField] private GameObject sword;
 
-    private float OmeleeSpeed;
-    private int Odamage;
+    public float OmeleeSpeed;
+    public int Odamage;
 
     float timeUntilMelee = 0;
 
@@ -68,32 +70,30 @@ public class Attack : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Item item = inventory.EquippedItem;
-        if (item != null && (item.itemType == Item.ItemType.Sword || item.itemType == Item.ItemType.IronSword))
+        if (timeUntilMelee <= 0f)
         {
-            if (timeUntilMelee <= 0f)
-            {
-                if (item.isActive)
-                {
-                    if (Input.mousePosition.x > Screen.width / 2)
-                    {
-                        anim.SetTrigger("RightAttack");                        
-                    }
-                    else
-                    {
-                        anim.SetTrigger("LeftAttack");
-                    }
+            canAttack = true;
+        }
+        timeUntilMelee -= Time.fixedDeltaTime;
+    }
 
-                    AudioManager.instance.SwingSwordSound();
-                    timeUntilMelee = meleeSpeed;
-                    item.TurnOff();
-                }
-            }
-            else
-            {
-                timeUntilMelee -= Time.fixedDeltaTime;
-                item.TurnOff();
-            }
+    public void RightAttack()
+    {
+        if (canAttack)
+        {
+            anim.SetTrigger("RightAttack");
+            canAttack = false;
+            timeUntilMelee = meleeSpeed;
+        }
+    }
+
+    public void LeftAttack()
+    {
+        if (canAttack)
+        {
+            anim.SetTrigger("LeftAttack");
+            canAttack = false;
+            timeUntilMelee = meleeSpeed;
         }
     }
 
