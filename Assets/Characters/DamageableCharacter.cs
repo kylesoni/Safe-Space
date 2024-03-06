@@ -107,9 +107,19 @@ public class DamageableCharacter : MonoBehaviour
     {
         if (isPlayer)
         {
-            SceneManager.LoadScene("Final");
-            AudioManager.instance.GameOverSound();
-            AudioManager.instance.Reload();
+            if (Difficulty.difficulty == 1)
+            {
+                SceneManager.LoadScene("Final");
+                AudioManager.instance.GameOverSound();
+                AudioManager.instance.Reload();
+            }
+            else
+            {
+                gameObject.transform.position = new Vector3(-13.48f, 1.29f, 0);
+                AudioManager.instance.GameOverSound();
+                health = maxHealth;
+                healthbar.SetHealth(health);
+            }
         }
         else if (GetComponent<Wisp>() || GetComponent<Slime>()) 
         {
