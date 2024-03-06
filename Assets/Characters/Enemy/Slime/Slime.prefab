@@ -195,8 +195,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackSpeed: 0
-  AttackDamage: 25
+  AttackDamage: 10
   speed: 3
+  aggroRange: 10
   knockbackForce: 25
 --- !u!114 &722160540310223133
 MonoBehaviour:
@@ -220,6 +221,3 @@ MonoBehaviour:
   movementTimer: 0
   healthbar: {fileID: 0}
   isPlayer: 0
-  isPotionInvincible: 0
-  blinkDuration: 0.2
-  colorChangeSpeed: 0.1

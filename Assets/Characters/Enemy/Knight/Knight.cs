@@ -42,8 +42,8 @@ public class Knight : MonoBehaviour
     void Start()
     {
         enemy = GetComponent<DamageableCharacter>();
-        enemy.health = 150;
-        enemy.maxHealth = 150;
+        enemy.health = 100;
+        enemy.maxHealth = 100;
         ai = GetComponent<EnemyAI>();
         ai.aggroDistance = aggroDistance;
         ai.visiondistance = visionDistance;

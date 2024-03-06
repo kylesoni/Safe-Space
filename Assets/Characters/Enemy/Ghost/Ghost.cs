@@ -234,7 +234,7 @@ public class Ghost : MonoBehaviour
             Vector2 direction = new Vector2(collision.collider.transform.position.x - transform.position.x, 0.1f).normalized;
             Vector2 knockback = direction * knockbackForce;
 
-            player.GetComponent<DamageableCharacter>().OnHit((int) Mathf.Round(player.GetComponent<DamageableCharacter>().maxHealth * 0.5f), knockback);
+            player.GetComponent<DamageableCharacter>().OnHit((int) Mathf.Round(player.GetComponent<DamageableCharacter>().maxHealth * 0.25f), knockback);
         } else
         {
             is_overlapping = true;
@@ -249,7 +249,7 @@ public class Ghost : MonoBehaviour
             Vector2 direction = new Vector2(collision.collider.transform.position.x - transform.position.x, 0.1f).normalized;
             Vector2 knockback = direction * knockbackForce;
 
-            player.GetComponent<DamageableCharacter>().OnHit((int)Mathf.Round(player.GetComponent<DamageableCharacter>().maxHealth * 0.5f), knockback);
+            player.GetComponent<DamageableCharacter>().OnHit((int)Mathf.Round(player.GetComponent<DamageableCharacter>().maxHealth * 0.25f), knockback);
         }
  
 

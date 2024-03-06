@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -771967811187071901}
   - component: {fileID: -1667655171383842247}
   - component: {fileID: -3222277978109257447}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Knight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ MonoBehaviour:
   maxSpeed: 5
   jumpForce: 750
   attackDistance: 3
-  attackDamage: 25
+  attackDamage: 20
   knockbackForce: 20
   attackCooldown: 0.5
   aggressiveToPassiveDuration: 10

@@ -48,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
             spawnTimer -= Time.deltaTime;
         }
 
-        if (player.transform.position.y <= -65)
+        if (player.transform.position.y <= -55)
         {
             isUnderground = true;
         }

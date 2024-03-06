@@ -56,7 +56,10 @@ public class Arrow : MonoBehaviour
 
             Destroy(gameObject);
         }
-
+        else if (collision.gameObject != archer && been_shot)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

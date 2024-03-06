@@ -278,10 +278,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackSpeed: 0
-  AttackDamage: 25
+  AttackDamage: 15
   speed: 4
   aggroRange: 10
-  knockbackForce: 100
+  knockbackForce: 50
 --- !u!114 &7044639902766444389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,8 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e1d1e79d56e9c3408fa7db0342b8a78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  health: 75
+  maxHealth: 75
   stamina: 0
   iFrames: 1
   iTimer: 0
