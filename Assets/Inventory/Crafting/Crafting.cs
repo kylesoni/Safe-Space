@@ -46,7 +46,7 @@ public class Crafting : MonoBehaviour
         CraftingRecipes[Item.ItemType.IronSword] = new Dictionary<Item.ItemType, int>
         {
             { Item.ItemType.Wood, 8 },
-            { Item.ItemType.Stone, 5 },
+            { Item.ItemType.Gold, 5 },
             { Item.ItemType.Iron, 5 }
         };
 
