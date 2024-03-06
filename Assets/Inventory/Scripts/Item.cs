@@ -139,6 +139,8 @@ public class Item
             case ItemType.Control_Panel: return false;
             case ItemType.Spaceship: return false;
             case ItemType.Gold: return false;
+            case ItemType.Ruby: return false;
+            case ItemType.Iron: return false;
 
             default: return !(isBlock());
         }
