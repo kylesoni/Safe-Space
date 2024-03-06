@@ -88,6 +88,10 @@ public class TileMining : MonoBehaviour
         {
             return Item.ItemType.Redwood;
         }
+        else if (tile == dirtTile || tile == grassTile)
+        {
+            return Item.ItemType.Dirt;
+        }
         else if (tile == brick)
         {
             return Item.ItemType.Brick;
@@ -135,7 +139,7 @@ public class TileMining : MonoBehaviour
         if (inventory.EquippedItem != null && inventory.EquippedItem.isBlock() && map.GetTile(cellPosition) == null && background.GetTile(cellPosition) == null)
         {
             overlay_map.SetTile(overlayCellPosition, placeTileOverlay);
-        } else if (map.GetTile(cellPosition) != null && inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Pickaxe)
+        } else if (map.GetTile(cellPosition) != null && inventory.EquippedItem != null && inventory.EquippedItem.isPickaxe())
         {
             overlay_map.SetTile(overlayCellPosition, selectedTileOverlay);
         }
@@ -175,17 +179,40 @@ public class TileMining : MonoBehaviour
         }
 
         // Check for left mouse click when equipped with the pickaxe      
-        if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Pickaxe && Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && inventory.EquippedItem != null && inventory.EquippedItem.isPickaxe())
         {
             if (cellPosition != currentlyMining)
             {
                 currentlyMining = cellPosition;
                 slider.value = 0;
                 slider.gameObject.SetActive(false);
+
+                switch(inventory.EquippedItem.itemType)
+                {
+                    case Item.ItemType.Pickaxe: slider.maxValue = 0.3f; break;
+                    case Item.ItemType.IronPickaxe: slider.maxValue = 0.15f; break;
+                    default: slider.maxValue = 0.3f; break;
+                }
             }
 
             // Check if the clicked position has a tile and it's a stone tile
             TileBase tile = map.GetTile(cellPosition);
+            bool isBackground = false;
+
+            if (tile == null)
+            {
+                tile = background.GetTile(cellPosition);
+
+                // Check if tile is in the list Tile[] wood
+                if (wood.Contains(tile))
+                {
+                    isBackground = true;
+                } else
+                {
+                    tile = null;
+                }
+            }
+
             if (tile != null)
             {
                 // Show the slider
@@ -232,30 +259,20 @@ public class TileMining : MonoBehaviour
                     AudioManager.instance.ItemPickupSound();
 
                     // Remove the tile at the clicked position
-                    map.SetTile(cellPosition, null);
+                    if (isBackground)
+                    {
+                        background.SetTile(cellPosition, null);
+                    }
+                    else
+                    {
+                        map.SetTile(cellPosition, null);
+                    }
                     slider.value = 0;
                     slider.gameObject.SetActive(false);
 
                     // Stop Mining Sound
                     AudioManager.instance.StopMiningSound();
 
-                }
-            }
-            else if (background.GetTile(cellPosition) != null)
-            {
-                // Similar implementation for background tiles if needed
-                slider.gameObject.SetActive(true);
-                slider.transform.position = Camera.main.WorldToScreenPoint(cellPosition + new Vector3(0.5f, 0.5f, 0));
-                AudioManager.instance.PlayMiningSound();
-
-                slider.value += Time.deltaTime;
-                if (slider.value >= slider.maxValue)
-                {
-                    background.SetTile(cellPosition, null);
-                    slider.value = 0;
-                    slider.gameObject.SetActive(false);
-
-                    AudioManager.instance.StopMiningSound();
                 }
             }
             else

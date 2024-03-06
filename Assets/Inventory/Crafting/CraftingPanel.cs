@@ -12,16 +12,16 @@ public class CraftingPanel : MonoBehaviour
     public Image ItemImage;
     public GameObject GridLayout;
 
-    private Crafting craftingSystem; // Reference to the Crafting system
+    private Crafting craftingSystem;
 
-    public Item.ItemType selectedItemType; // Currently selected item type for crafting
+    public Item.ItemType selectedItemType;
 
     public GameObject ItemAmountIndicatorPrefab;
 
     void Start()
     {
         craftingSystem = FindObjectOfType<Crafting>();
-        // Bind the Craft button to the crafting method
+
         CraftButton.onClick.AddListener(CraftSelectedItem);
         UpdateRecipeDisplay(selectedItemType);
     }
@@ -34,7 +34,6 @@ public class CraftingPanel : MonoBehaviour
 
     public void UpdateRecipeDisplay(Item.ItemType itemType)
     {
-        // Clear existing indicators
         foreach (Transform child in GridLayout.transform)
         {
             Destroy(child.gameObject);
@@ -45,18 +44,12 @@ public class CraftingPanel : MonoBehaviour
         {
             ItemNameText.text = $"{itemType}:";
 
-            // Assuming ItemAssets.Instance provides direct access to sprites based on ItemType
-            // Set the main item image
             ItemImage.sprite = Item.GetSprite( itemType );
 
-            // Instantiate an ItemAmountIndicatorPrefab for each item in the recipe
             foreach (var item in recipe)
             {
                 GameObject indicator = Instantiate(ItemAmountIndicatorPrefab, GridLayout.transform);
-                // Assuming your prefab has a script attached that contains the SetItemType method
-                indicator.GetComponent<ItemAmountIndicator>().SetItemType(item.Key, item.Value); // Replace YourIndicatorComponent with the actual component name
-
-                // Optionally, set the amount or other properties of the indicator here
+                indicator.GetComponent<ItemAmountIndicator>().SetItemType(item.Key, item.Value);
             }
 
             CraftButton.interactable = craftingSystem.CanCraft(itemType);
@@ -64,14 +57,14 @@ public class CraftingPanel : MonoBehaviour
         else
         {
             ItemNameText.text = "Unavailable";
-            ItemImage.sprite = null; // Clear the item image
+            ItemImage.sprite = null;
         }
     }
 
     void CraftSelectedItem()
     {
         craftingSystem.CraftItem(selectedItemType);
-        // Update the recipe display to reflect any changes in inventory
+
         UpdateRecipeDisplay(selectedItemType);
     }
 

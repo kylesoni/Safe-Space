@@ -115,6 +115,16 @@ public class Item
         }
     }
 
+    public bool isPickaxe()
+    {
+        switch (itemType)
+        {
+            case ItemType.Pickaxe: return true;
+            case ItemType.IronPickaxe: return true;
+            default: return false;
+        }
+    }
+
     public bool SetIsConsumable()
     {
         switch (itemType)
