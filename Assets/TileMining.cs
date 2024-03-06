@@ -126,6 +126,11 @@ public class TileMining : MonoBehaviour
             return;
         }
 
+        if (inventory.EquippedItem.isBlock() && map.GetTile(cellPosition) == null && background.GetTile(cellPosition) == null)
+        {
+            overlay_map.SetTile(overlayCellPosition, selectedTileOverlay);
+        }
+
         if (map.GetTile(cellPosition) != null && inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Pickaxe)
         {
             overlay_map.SetTile(overlayCellPosition, selectedTileOverlay);
