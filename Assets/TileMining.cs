@@ -140,16 +140,23 @@ public class TileMining : MonoBehaviour
             {
                 if (map.GetTile(cellPosition) == null)
                 {
-                    if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Stone)
+                    Tile placeTile;
+                    switch (inventory.EquippedItem.itemType)
                     {
-                        inventory.RemoveItem(new Item { itemType = Item.ItemType.Stone, amount = 1 });
-                        map.SetTile(cellPosition, placeStone);
-                        AudioManager.instance.PlaceBlockSound();
+                        case Item.ItemType.Stone: placeTile = stoneTile; break;
+                        case Item.ItemType.Dirt: placeTile = dirtTile; break;
+                        case Item.ItemType.Sand: placeTile = sand; break;
+                        case Item.ItemType.Redsand: placeTile = redsand; break;
+                        case Item.ItemType.Wood: placeTile = wood[0]; break;
+                        case Item.ItemType.Glass: placeTile = glass; break;
+                        case Item.ItemType.Redstone: placeTile = redstone; break;
+                        default: placeTile = null; break;
                     }
-                    else if (inventory.EquippedItem != null && inventory.EquippedItem.itemType == Item.ItemType.Dirt)
+
+                    if (placeTile != null)
                     {
-                        inventory.RemoveItem(new Item { itemType = Item.ItemType.Dirt, amount = 1 });
-                        map.SetTile(cellPosition, placeDirt);
+                        inventory.RemoveItem(new Item { itemType = inventory.EquippedItem.itemType, amount = 1 });
+                        map.SetTile(cellPosition, placeTile);
                         AudioManager.instance.PlaceBlockSound();
                     }
                 }
