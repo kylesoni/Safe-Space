@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using static Item;
-using static UnityEditor.Progress;
 
 public class Crafting : MonoBehaviour
 {
