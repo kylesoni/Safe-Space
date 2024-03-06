@@ -9,8 +9,9 @@ public class Item
     {
         // Items
         Sword,
-        USword,
+        IronSword,
         Pickaxe,
+        IronPickaxe,
         HealthPotion,
         JumpPotion,
         GuardianPotion,
@@ -55,8 +56,9 @@ public class Item
         {
             // Items
             case ItemType.Sword: return ItemAssets.Instance.swordSprite;
-            case ItemType.USword: return ItemAssets.Instance.UswordSprite;
+            case ItemType.IronSword: return ItemAssets.Instance.UswordSprite;
             case ItemType.Pickaxe: return ItemAssets.Instance.pickaxeSprite;
+            case ItemType.IronPickaxe: return ItemAssets.Instance.UpickaxeSprite;
             case ItemType.HealthPotion: return ItemAssets.Instance.healthPotionSprite;
             case ItemType.JumpPotion: return ItemAssets.Instance.jumpPotionSprite;
             case ItemType.GuardianPotion: return ItemAssets.Instance.guardianPotionSprite;
@@ -118,8 +120,9 @@ public class Item
         switch (itemType)
         {
             case ItemType.Sword:    return false;
-            case ItemType.USword: return false;
+            case ItemType.IronSword: return false;
             case ItemType.Pickaxe: return false;
+            case ItemType.IronPickaxe: return false;
             case ItemType.Lantern: return false;
             case ItemType.Battery: return false;
             case ItemType.Thruster: return false;
@@ -136,10 +139,12 @@ public class Item
         {
             case ItemType.Sword:
                 return "Sword: Melee weapon for close combat";
-            case ItemType.USword:
+            case ItemType.IronSword:
                 return "Iron Sword: Faster and sharper melee weapon.";
             case ItemType.Pickaxe:
-                return "Pickaxe: Tool for mining and breaking blocks";
+                return "Iron Pickaxe: Tool for mining and breaking blocks";
+            case ItemType.IronPickaxe:
+                return "Pickaxe: Improved tool for mining and breaking blocks";
             case ItemType.HealthPotion:
                 return "Health Potion: Restores player's health";
             case ItemType.JumpPotion:
@@ -209,7 +214,7 @@ public class Item
                 Debug.Log("Trying to use " + itemType);
                 isActive = true;
                 break;
-            case ItemType.USword:
+            case ItemType.IronSword:
                 isActive = true;
                 break;
             default:

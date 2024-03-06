@@ -32,7 +32,7 @@ public class Attack : MonoBehaviour
     private void Update()
     {
         Item item = inventory.EquippedItem;
-        if (item != null && item.itemType == Item.ItemType.USword)
+        if (item != null && item.itemType == Item.ItemType.IronSword)
         {
             isUpgraded = true;
             sword.transform.localScale = new Vector2(0.1f, 0.1f);
@@ -69,7 +69,7 @@ public class Attack : MonoBehaviour
     private void FixedUpdate()
     {
         Item item = inventory.EquippedItem;
-        if (item != null && (item.itemType == Item.ItemType.Sword || item.itemType == Item.ItemType.USword))
+        if (item != null && (item.itemType == Item.ItemType.Sword || item.itemType == Item.ItemType.IronSword))
         {
             if (timeUntilMelee <= 0f)
             {

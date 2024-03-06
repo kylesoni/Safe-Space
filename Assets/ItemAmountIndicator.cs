@@ -18,7 +18,7 @@ public class ItemAmountIndicator : MonoBehaviour
             default:
             // Items
             case ItemType.Sword: return ItemAssets.Instance.swordSprite;
-            case ItemType.USword: return ItemAssets.Instance.UswordSprite;
+            case ItemType.IronSword: return ItemAssets.Instance.UswordSprite;
             case ItemType.Pickaxe: return ItemAssets.Instance.pickaxeSprite;
             case ItemType.HealthPotion: return ItemAssets.Instance.healthPotionSprite;
             case ItemType.JumpPotion: return ItemAssets.Instance.jumpPotionSprite;

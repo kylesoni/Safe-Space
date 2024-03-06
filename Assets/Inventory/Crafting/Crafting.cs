@@ -37,7 +37,7 @@ public class Crafting : MonoBehaviour
             { Item.ItemType.Stone, 3 }
         };
 
-        CraftingRecipes[Item.ItemType.USword] = new Dictionary<Item.ItemType, int>
+        CraftingRecipes[Item.ItemType.IronSword] = new Dictionary<Item.ItemType, int>
         {
             { Item.ItemType.Wood, 8 },
             { Item.ItemType.Stone, 5 },
