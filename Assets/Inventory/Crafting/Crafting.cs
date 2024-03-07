@@ -74,6 +74,7 @@ public class Crafting : MonoBehaviour
             return false;
 
         var inventory = playerInventory.inventory;
+        if (inventory == null) return false;
         foreach (var requirement in CraftingRecipes[itemToCraft])
         {
             if (!inventory.itemTypeToSlotIndex.ContainsKey(requirement.Key) ||

@@ -191,7 +191,7 @@ public class Item
             case ItemType.Redwood:
                 return "Redwood: Sturdy building material obtained from redwood trees";
             case ItemType.Brick:
-                return "A hard, solid block used for building houses and other structures.";
+                return "Brick: A hard, solid block used for building houses and other structures.";
 
             // Materials
             case ItemType.Iron:
