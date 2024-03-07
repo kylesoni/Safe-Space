@@ -137,7 +137,7 @@ public class UI_Inventory : MonoBehaviour
             if (slotIndex >= hotbarSlotCount && !isInventoryMode)
             {
                 itemRectTransform.gameObject.SetActive(false);
-                Debug.Log("Hide item " + item.itemType);
+                // Debug.Log("Hide item " + item.itemType);
             }
 
             itemRectTransforms.Add(slotIndex, itemRectTransform);
@@ -150,8 +150,8 @@ public class UI_Inventory : MonoBehaviour
         {
             var kvp = itemRectTransforms.ElementAt(i);
             int slotIndex = kvp.Key;
-            Debug.Log("slot index: " + slotIndex);
-            if (slotIndex < 10) // item with slot index < 10 should already be active
+            // Debug.Log("slot index: " + slotIndex);
+            if (slotIndex < 10) // item with slot index < 10 should already be active // debug
             {                
                 break;
             }
@@ -281,7 +281,7 @@ public class UI_Inventory : MonoBehaviour
         {
             if (inventory.EquippedItem != null)
             {
-                Debug.Log(inventory.EquippedItem.SetItemInfo());
+                // Debug.Log(inventory.EquippedItem.SetItemInfo());
                 switch (inventory.EquippedItem.itemType)
                 {
                     default: 
@@ -497,7 +497,7 @@ public class UI_Inventory : MonoBehaviour
     {
         if (isInventoryMode)
         {
-            Debug.Log("Slot " + clickedSlotIndex + " pressed");
+            // Debug.Log("Slot " + clickedSlotIndex + " pressed");
 
             // is dragging item
             if (draggedItem != null)
@@ -525,11 +525,7 @@ public class UI_Inventory : MonoBehaviour
                 {
                     // Add Item to the clickedSlotIndex slot
                     inventory.AddItem(draggedItem, clickedSlotIndex);
-                    if (clickedSlotIndex > 9)
-                    {
-                        inventory.ClearEquip();
-                    }
-                    Debug.Log("Put " + draggedItem.itemType + " in new slot");
+                    // Debug.Log("Put " + draggedItem.itemType + " in new slot");
                     draggedItem = null;
                     draggedItemUI.SetActive(false);
                 }
@@ -547,7 +543,7 @@ public class UI_Inventory : MonoBehaviour
                             Item duplicateItem = item.CreateDuplicateItem(item);
                             draggedItem = duplicateItem;
                             inventory.RemoveItem(item);
-                            Debug.Log("Pick up " + draggedItem.itemType);
+                            // Debug.Log("Pick up " + draggedItem.itemType);
                             draggedItemUI.SetActive(true);
                             draggedItemImage.sprite = draggedItem.SetSprite();
                             break;
