@@ -25,10 +25,13 @@ public class Attack : MonoBehaviour
 
     float timeUntilMelee = 0;
 
+    private AudioManager audioManager;
+
     private void Start()
     {
         OmeleeSpeed = meleeSpeed;
         Odamage = damage;
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     private void Update()
@@ -84,6 +87,7 @@ public class Attack : MonoBehaviour
             anim.SetTrigger("RightAttack");
             canAttack = false;
             timeUntilMelee = meleeSpeed;
+            audioManager.SwingSwordSound();
         }
     }
 
@@ -94,6 +98,7 @@ public class Attack : MonoBehaviour
             anim.SetTrigger("LeftAttack");
             canAttack = false;
             timeUntilMelee = meleeSpeed;
+            audioManager.SwingSwordSound();
         }
     }
 

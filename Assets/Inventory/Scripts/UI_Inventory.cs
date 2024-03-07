@@ -483,13 +483,13 @@ public class UI_Inventory : MonoBehaviour
             {
                 inventory.EquipItem(inventory.slotIndexToItemType[0]);
             }
-
             dimmingOverlay.gameObject.SetActive(false);
             draggedItemUI.SetActive(false);
             inventorySlots.SetActive(false);
             craftingPanel.SetActive(false);
             menuButton.SetActive(false);
             HideInventoryItem();
+            SetIsMouseOverHotbar(false);
         }
     }
 
