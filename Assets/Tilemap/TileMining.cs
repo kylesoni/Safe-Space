@@ -153,21 +153,23 @@ public class TileMining : MonoBehaviour
             {
                 if (map.GetTile(cellPosition) == null)
                 {
-                    Tile placeTile;
-                    switch (inventory.EquippedItem.itemType)
+                    Tile placeTile = null;
+                    if (inventory.EquippedItem != null)
                     {
-                        case Item.ItemType.Stone: placeTile = stoneTile; break;
-                        case Item.ItemType.Dirt: placeTile = dirtTile; break;
-                        case Item.ItemType.Sand: placeTile = sand; break;
-                        case Item.ItemType.Redsand: placeTile = redsand; break;
-                        case Item.ItemType.Wood: placeTile = wood[0]; break;
-                        case Item.ItemType.Glass: placeTile = glass; break;
-                        case Item.ItemType.Redstone: placeTile = redstone; break;
-                        case Item.ItemType.Redwood: placeTile = redwood; break;
-                        case Item.ItemType.Brick: placeTile = brick; break;
-                        default: placeTile = null; break;
+                        switch (inventory.EquippedItem.itemType)
+                        {
+                            case Item.ItemType.Stone: placeTile = stoneTile; break;
+                            case Item.ItemType.Dirt: placeTile = dirtTile; break;
+                            case Item.ItemType.Sand: placeTile = sand; break;
+                            case Item.ItemType.Redsand: placeTile = redsand; break;
+                            case Item.ItemType.Wood: placeTile = wood[0]; break;
+                            case Item.ItemType.Glass: placeTile = glass; break;
+                            case Item.ItemType.Redstone: placeTile = redstone; break;
+                            case Item.ItemType.Redwood: placeTile = redwood; break;
+                            case Item.ItemType.Brick: placeTile = brick; break;
+                            default: placeTile = null; break;
+                        }
                     }
-
                     if (placeTile != null)
                     {
                         inventory.RemoveItem(new Item { itemType = inventory.EquippedItem.itemType, amount = 1 });
