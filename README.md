@@ -4,7 +4,7 @@
 </p>
 Amazing 2D sandbox game based on Terraria
 
-Download and Play Our Game! https://github.com/kylesoni/Safe-Space/blob/main/Safe%20Space.exe
+Download and Play Our Game! https://github.com/kylesoni/Safe-Space/blob/main/SafeSpace.zip
 
 ## Instructions
 On the title screen, click on easy or hard to start the game (easy will keep items on death, hard resets the game on death).
